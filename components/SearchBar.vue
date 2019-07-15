@@ -1,0 +1,174 @@
+<template>
+  <div class="wrapper mx-5 my-4">
+    <div class="form shadow row" inline>
+      <div class="col-md-2 item-wrapper">
+        <b-form-input list="my-list-id" placeholder="What are you planning?" v-model="query.type"></b-form-input>
+        <datalist id="my-list-id">
+          <option v-for="(type, i) in types" :key="i">{{ type }}</option>
+        </datalist>
+      </div>
+      <div class="col-md-2 item-wrapper">
+        <b-form-input list="my-list-id2" placeholder="What are you planning?" v-model="query.what"></b-form-input>
+        <datalist id="my-list-id2">
+          <option v-for="(what, i) in whats" :key="i">{{ what }}</option>
+        </datalist>
+      </div>
+      <div class="col-md-2 item-wrapper">
+        <!-- <Datepicker
+            placeholder="When?"
+            :disabled-dates="disabledDates"
+            :bootstrap-styling="true"
+            v-model="query.when"
+        />-->
+      </div>
+      <div class="col-md-2 item-wrapper">
+        <b-input id="search" placeholder="Where?" v-model="query.where" />
+      </div>
+      <div class="col-md-2 item-wrapper last-tab">
+        <b-input id="capacity" placeholder="No. of Guests" v-model="query.count" />
+      </div>
+      <div class="col-md-2 item-wrapper">
+        <b-button @click="getSearchResults" squared class="search-button">SEARCH</b-button>
+      </div>
+    </div>
+  </div>
+</template>
+
+<script>
+import moment from "moment";
+import { RepositoryFactory } from "@/repository/RepositoryFactory";
+const SystemListRepository = RepositoryFactory.get("systemlist");
+
+export default {
+  props: {
+    search: {
+      type: String,
+      required: true
+    }
+  },
+  data() {
+    return {
+      disabledDates: {
+        to: new Date()
+      },
+      types: ["Wedding", "Party", "Corporate", "Sports", "Studio"],
+      query: {
+        type: null,
+        what: null,
+        when: null,
+        where: null,
+        count: null
+      },
+      list: []
+    };
+  },
+  created() {
+    this.updateOptions();
+    this.fetch();
+  },
+  methods: {
+    async fetch() {
+      const { data } = await SystemListRepository.get();
+      this.list = data;
+    },
+    getSearchResults() {
+      let path = "/search/type=" + this.query.type;
+      if (this.query.what) path = path + "&activity=" + this.query.what;
+      if (this.query.when) {
+        this.query.when = moment(this.query.when).format("YYYY-MM-DD");
+        path = path + "&when=" + this.query.when;
+      }
+      if (this.query.where) path = path + "&where=" + this.query.where;
+      if (this.query.count) path = path + "&capacity=" + this.query.count;
+      this.$router.push({ path: path });
+    },
+    updateOptions() {
+      let options = this.search.split("&");
+      options.forEach(option => {
+        if (option.includes("type")) {
+          let param = option.split("=");
+          this.query.type = param[1];
+        } else if (option.includes("activity")) {
+          let param = option.split("=");
+          this.query.what = param[1];
+        } else if (option.includes("when")) {
+          let param = option.split("=");
+          this.query.when = param[1];
+        } else if (option.includes("where")) {
+          let param = option.split("=");
+          this.query.where = param[1];
+        } else if (option.includes("capacity")) {
+          let param = option.split("=");
+          this.query.count = param[1];
+        }
+      });
+    },
+    getTypeId(type) {
+      switch (type) {
+        case "Wedding":
+          return 1;
+        case "Party":
+          return 2;
+        case "Corporate":
+          return 3;
+        case "Sports":
+          return 4;
+        case "Studio":
+          return 5;
+      }
+    }
+  },
+  computed: {
+    whats() {
+      if (this.query.type) {
+        let type = this.getTypeId(this.query.type);
+        let index = this.list.findIndex(item => item.type_id === type);
+        if (index > -1)
+          return this.list[index].list_values.map(item => item.value);
+      }
+      return ["Select type first"];
+    }
+  }
+};
+</script>
+
+<style scoped>
+.wrapper {
+  background: white;
+}
+.form-control {
+  border: none;
+  width: 100%;
+  height: 100%;
+  border-radius: 0px;
+  font-weight: 500;
+}
+.custom-select {
+  border: none;
+  width: 100%;
+  border-radius: 0px;
+  font-weight: 500;
+  height: 100%;
+}
+.form {
+  margin-top: -1px;
+  margin-left: 0px;
+  margin-right: 0px;
+  height: 50px;
+}
+.item-wrapper {
+  padding: 0px;
+  border-right: 1px solid rgba(170, 168, 168, 0.301);
+}
+.search-button {
+  background: linear-gradient(#ff4d78, #fa7649);
+  border: none;
+  font-weight: 600;
+  font-size: 14px;
+  width: 100%;
+  height: 100%;
+}
+.last-tab {
+  border-right: none !important;
+}
+</style>
