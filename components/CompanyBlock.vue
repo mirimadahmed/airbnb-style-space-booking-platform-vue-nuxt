@@ -1,18 +1,21 @@
 <template>
   <div class="company shadow">
-    <div class="row">
+    <div class="row image-area">
       <img class="col-md-12 px-3" :src="company.featured_image" />
     </div>
     <div class="row text-left p-3">
-      <h3 class="col-md-12 title">{{ company.name }}</h3>
-      <p class="col-md-12 address">{{ company.address }}</p>
-      <!-- <p class="col-md-12">
-        <StarRating v-model="company.rating"/>
-      </p>-->
-      <p class="col-md-6">
+      <h3 class="col-md-12 title mb-2">{{ company.name }}</h3>
+      <p class="col-md-12 address mb-2">{{ company.address }}</p>
+      <div class="col-md-12 mb-2">
+        <StarRating :value="70" :noOfRatings="40" />
+      </div>
+      <div class="col-md-6">
         <button class="details-button" @click="viewDetails">VIEW DETAILS</button>
-      </p>
-      <!-- <p class="col-md-6">{{ company.rate.amount }} per {{ company.rate.per }}</p> -->
+      </div>
+      <div class="col-md-6 row text-right mx-0 px-0">
+        <div class="col-md-12 amount">Rs. 500</div>
+        <div class="col-md-12 per">/ person</div>
+      </div>
     </div>
   </div>
 </template>
@@ -38,6 +41,18 @@ export default {
 </script>
 
 <style scoped>
+.amount {
+  font-weight: 600;
+  font-size: 18px;
+  color: #54a0ff;
+}
+.per {
+  font-weight: 400;
+  font-size: 14px;
+}
+.image-area {
+  height: 60%;
+}
 .company {
   width: 100%;
   height: 420px;
