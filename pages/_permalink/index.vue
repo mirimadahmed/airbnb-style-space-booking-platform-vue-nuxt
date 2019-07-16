@@ -35,7 +35,7 @@
                   <b-carousel-slide
                     v-for="(image, i) in entity.Entity.images"
                     :key="i"
-                    :img-src="`https://api.yenvoo.com/static/uploads/${image}`"
+                    :img-src="image"
                   ></b-carousel-slide>
                 </b-carousel>
               </div>
