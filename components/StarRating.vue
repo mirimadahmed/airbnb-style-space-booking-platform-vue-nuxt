@@ -1,13 +1,18 @@
 <template>
   <div>
-    <i v-for="i in fullStars" :key="i" class="fa fa-star" style="color:gold"/>
-    <i v-if="halfStars" class="fa fa-star-half" style="color:gold"/>
+    <font-awesome-icon v-for="i in fullStars" :key="i" icon="star" :style="{ color: '#54A0FF' }" />
+    <font-awesome-icon v-if="halfStars" icon="star-half" :style="{ color: '#54A0FF' }" />
+    <span class="count">({{ noOfRatings }})</span>
   </div>
 </template>
 
 <script>
 export default {
   props: {
+    noOfRatings: {
+      type: Number,
+      required: true
+    },
     numberOfStars: {
       required: false,
       default: 5,
@@ -41,5 +46,9 @@ export default {
 };
 </script>
 
-<style lang="scss" scoped>
+<style scoped>
+.count {
+  font-weight: 300;
+  font-size: 12px;
+}
 </style>
