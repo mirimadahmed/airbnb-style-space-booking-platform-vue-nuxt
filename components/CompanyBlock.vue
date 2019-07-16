@@ -1,7 +1,7 @@
 <template>
   <div class="company shadow">
     <div class="row">
-      <img :src="company.featured_image" />
+      <img class="col-md-12 px-3" :src="company.featured_image" />
     </div>
     <div class="row text-left p-3">
       <h3 class="col-md-12 title">{{ company.name }}</h3>
