@@ -26,6 +26,18 @@
           <b-nav-item href="#" class="ml-3 mr-3" v-if="isLoggedIn && isVendor">Listings</b-nav-item>
           <b-nav-item href="#" class="ml-3 mr-3" v-if="isLoggedIn">Bookings</b-nav-item>
           <b-nav-item href="#" class="ml-3 mr-3" v-if="isLoggedIn">Lists</b-nav-item>
+          <b-nav-item-dropdown
+            id="my-nav-dropdown"
+            v-if="isLoggedIn"
+            :text="user.name"
+            toggle-class="nav-link-custom"
+            right
+          >
+            <b-dropdown-item>Profile</b-dropdown-item>
+            <b-dropdown-item>Support</b-dropdown-item>
+            <b-dropdown-divider></b-dropdown-divider>
+            <b-dropdown-item>Logout</b-dropdown-item>
+          </b-nav-item-dropdown>
         </b-navbar-nav>
       </b-collapse>
     </b-navbar>
@@ -48,7 +60,7 @@ export default {
     };
   },
   computed: {
-    ...mapGetters(["isLoggedIn", "isVendor"])
+    ...mapGetters(["isLoggedIn", "isVendor", "user"])
   }
 };
 </script>
