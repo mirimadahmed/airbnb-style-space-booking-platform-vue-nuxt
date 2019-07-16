@@ -14,12 +14,12 @@
         </datalist>
       </div>
       <div class="col-md-2 item-wrapper">
-        <!-- <Datepicker
-            placeholder="When?"
-            :disabled-dates="disabledDates"
-            :bootstrap-styling="true"
-            v-model="query.when"
-        />-->
+        <date-picker
+          placeholder="When?"
+          :disabled-dates="disabledDates"
+          :bootstrap-styling="true"
+          v-model="query.when"
+        />
       </div>
       <div class="col-md-2 item-wrapper">
         <b-input id="search" placeholder="Where?" v-model="query.where" />

@@ -16,12 +16,12 @@
               </datalist>
             </div>
             <div class="col-md-2 item-wrapper">
-              <!-- <Datepicker
+              <date-picker
                 placeholder="When?"
                 v-model="query.when"
                 :disabled-dates="disabledDates"
                 :bootstrap-styling="true"
-              />-->
+              />
             </div>
             <div class="col-md-2 item-wrapper">
               <b-input id="search" placeholder="Where?" v-model="query.where" />
@@ -47,12 +47,12 @@
               </datalist>
             </div>
             <div class="col-md-2 item-wrapper">
-              <!-- <Datepicker
+              <date-picker
                 placeholder="When?"
                 :bootstrap-styling="true"
                 v-model="query.when"
                 :disabled-dates="disabledDates"
-              />-->
+              />
             </div>
             <div class="col-md-2 item-wrapper">
               <b-input id="search" placeholder="Where?" v-model="query.where" />
@@ -78,12 +78,12 @@
               </datalist>
             </div>
             <div class="col-md-2 item-wrapper">
-              <!-- <Datepicker
+              <date-picker
                 placeholder="When?"
                 :bootstrap-styling="true"
                 v-model="query.when"
                 :disabled-dates="disabledDates"
-              />-->
+              />
             </div>
             <div class="col-md-2 item-wrapper">
               <b-input id="search" placeholder="Where?" v-model="query.where" />
@@ -109,12 +109,12 @@
               </datalist>
             </div>
             <div class="col-md-2 item-wrapper">
-              <!-- <Datepicker
+              <date-picker
                 placeholder="When?"
                 :bootstrap-styling="true"
                 v-model="query.when"
                 :disabled-dates="disabledDates"
-              />-->
+              />
             </div>
             <div class="col-md-2 item-wrapper">
               <b-input id="search" placeholder="Where?" v-model="query.where" />
@@ -137,12 +137,12 @@
               </datalist>
             </div>
             <div class="col-md-2 item-wrapper">
-              <!-- <Datepicker
+              <date-picker
                 placeholder="When?"
                 :bootstrap-styling="true"
                 v-model="query.when"
                 :disabled-dates="disabledDates"
-              />-->
+              />
             </div>
             <div class="col-md-2 item-wrapper last-tab">
               <b-input id="search" placeholder="Where?" v-model="query.where" />
@@ -169,12 +169,14 @@
         </datalist>
       </div>
       <div class="col-sm-12 py-3 phone-item shadow-sm">
-        <!-- <Datepicker
-          placeholder="When?"
-          v-model="query.when"
-          :disabled-dates="disabledDates"
-          :bootstrap-styling="true"
-        />-->
+        <no-ssr>
+          <date-picker
+            placeholder="When?"
+            v-model="query.when"
+            :disabled-dates="disabledDates"
+            :bootstrap-styling="true"
+          />
+        </no-ssr>
       </div>
       <div class="col-sm-12 py-3 phone-item shadow-sm">
         <b-input id="search" placeholder="Where?" v-model="query.where" />
