@@ -10,27 +10,32 @@
       <b-collapse id="nav-collapse" is-nav>
         <b-navbar-nav class="ml-auto">
           <b-button class="signin-button my-2 my-sm-0 px-4 ml-4 mr-2">List your space</b-button>
-
-          <b-nav-item href="#" class="ml-3 mr-3">Shortlisted</b-nav-item>
           <b-nav-item
+            v-if="!isLoggedIn"
             href="#"
             class="ml-3 mr-3"
             @click.prevent="showAuth = true; viewType = 'signup'"
           >Signup</b-nav-item>
           <b-nav-item
+            v-if="!isLoggedIn"
             href="#"
             class="ml-3 mr-3"
             @click.prevent="showAuth = true; viewType = 'login'"
           >Login</b-nav-item>
+          <b-nav-item href="#" class="ml-3 mr-3" v-if="isLoggedIn && isVendor">Calendar</b-nav-item>
+          <b-nav-item href="#" class="ml-3 mr-3" v-if="isLoggedIn && isVendor">Listings</b-nav-item>
+          <b-nav-item href="#" class="ml-3 mr-3" v-if="isLoggedIn">Bookings</b-nav-item>
+          <b-nav-item href="#" class="ml-3 mr-3" v-if="isLoggedIn">Lists</b-nav-item>
         </b-navbar-nav>
       </b-collapse>
     </b-navbar>
-    <Auth :viewType="viewType" :view="showAuth" @closed="showAuth = false" />
+    <Auth v-if="!isLoggedIn" :viewType="viewType" :view="showAuth" @closed="showAuth = false" />
   </div>
 </template>
 
 
 <script>
+import { mapGetters } from "vuex";
 import Auth from "../components/Auth";
 export default {
   components: {
@@ -41,6 +46,9 @@ export default {
       showAuth: false,
       viewType: ""
     };
+  },
+  computed: {
+    ...mapGetters(["isLoggedIn", "isVendor"])
   }
 };
 </script>
