@@ -3,10 +3,10 @@
     <div class="row">
       <div class="col-md-3">
         <div class="col-md-12 p-0">
-          <img src="https://i.imgur.com/vqbioyw.png" width="120px" alt="Spacesly" />
+          <img src="/logo.png" width="120px" alt="Spacesly" />
         </div>
-        <div class="col-md-12 p-0 contact">Email: contact@spacesly.com</div>
-        <div class="col-md-12 p-0 contact">Mobile: +92 3135717756</div>
+        <div class="col-md-12 p-0 contact mt-3">Email: contact@spacesly.com</div>
+        <!-- <div class="col-md-12 p-0 contact">Mobile: +92 3135717756</div> -->
       </div>
       <div class="col-md-3">
         <h5 class="heading">Company</h5>

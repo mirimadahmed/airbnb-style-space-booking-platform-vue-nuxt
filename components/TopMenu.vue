@@ -2,7 +2,7 @@
   <div class="shadow-sm">
     <b-navbar toggleable="lg" type="light" variant="light">
       <b-navbar-brand href="/">
-        <img src="https://i.imgur.com/vqbioyw.png" width="120px" alt="Spacesly" />
+        <img src="/logo.png" width="120px" alt="Spacesly" />
       </b-navbar-brand>
 
       <b-navbar-toggle target="nav-collapse"></b-navbar-toggle>
