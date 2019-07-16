@@ -12,17 +12,37 @@
           <b-button class="signin-button my-2 my-sm-0 px-4 ml-4 mr-2">List your space</b-button>
 
           <b-nav-item href="#" class="ml-3 mr-3">Shortlisted</b-nav-item>
-          <b-nav-item href="#" class="ml-3 mr-3">Signup</b-nav-item>
-          <b-nav-item href="#" class="ml-3 mr-3">Login</b-nav-item>
+          <b-nav-item
+            href="#"
+            class="ml-3 mr-3"
+            @click.prevent="showAuth = true; viewType = 'signup'"
+          >Signup</b-nav-item>
+          <b-nav-item
+            href="#"
+            class="ml-3 mr-3"
+            @click.prevent="showAuth = true; viewType = 'login'"
+          >Login</b-nav-item>
         </b-navbar-nav>
       </b-collapse>
     </b-navbar>
+    <Auth :viewType="viewType" :view="showAuth" @closed="showAuth = false" />
   </div>
 </template>
 
 
 <script>
-export default {};
+import Auth from "../components/Auth";
+export default {
+  components: {
+    Auth
+  },
+  data() {
+    return {
+      showAuth: false,
+      viewType: ""
+    };
+  }
+};
 </script>
 
 
