@@ -78,6 +78,12 @@ export default {
 .signin-button:hover {
   border: 2px solid #ff4d78;
   background: linear-gradient(#ff4d78, #fa7649);
+  color: white;
+}
+.signin-button:active {
+  border: 2px solid #ff4d78;
+  background: linear-gradient(#ff4d78, #fa7649);
+  color: white;
 }
 </style>
 
