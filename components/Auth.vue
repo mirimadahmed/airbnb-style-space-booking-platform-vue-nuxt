@@ -30,7 +30,7 @@
             </b-form-group>
           </div>
           <div class="col-md-12" v-if="!isLoading">
-            <button class="apply-button">Login</button>
+            <button class="apply-button" @click="loginAction">Login</button>
           </div>
           <div class="col-md-12" v-else>
             <b-spinner variant="danger" type="grow" label="Spinning"></b-spinner>
@@ -80,7 +80,7 @@
             </b-form-group>
           </div>
           <div class="col-md-12" v-if="!isLoading">
-            <button class="apply-button">Create Account</button>
+            <button class="apply-button" @click="signupAction">Create Account</button>
           </div>
           <div class="col-md-12" v-else>
             <b-spinner variant="danger" type="grow" label="Spinning"></b-spinner>
@@ -130,6 +130,18 @@ export default {
       if (this.view) {
         this.$bvModal.show("modal");
       }
+    }
+  },
+  methods: {
+    loginAction() {
+      this.$store.dispatch("login", {
+        name: "imad",
+        isVendor: "True"
+      });
+      this.$bvModal.hide("modal");
+    },
+    signupAction() {
+      this.$bvModal.hide("modal");
     }
   }
 };

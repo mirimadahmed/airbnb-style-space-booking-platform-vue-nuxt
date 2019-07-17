@@ -22,10 +22,10 @@
             class="ml-3 mr-3"
             @click.prevent="showAuth = true; viewType = 'login'"
           >Login</b-nav-item>
-          <b-nav-item href="#" class="ml-3 mr-3" v-if="isLoggedIn && isVendor">Calendar</b-nav-item>
-          <b-nav-item href="#" class="ml-3 mr-3" v-if="isLoggedIn && isVendor">Listings</b-nav-item>
-          <b-nav-item href="#" class="ml-3 mr-3" v-if="isLoggedIn">Bookings</b-nav-item>
-          <b-nav-item href="#" class="ml-3 mr-3" v-if="isLoggedIn">Lists</b-nav-item>
+          <b-nav-item href="/calendar" class="ml-3 mr-3" v-if="isLoggedIn && isVendor">Calendar</b-nav-item>
+          <b-nav-item href="/listings" class="ml-3 mr-3" v-if="isLoggedIn && isVendor">Listings</b-nav-item>
+          <b-nav-item href="/bookings" class="ml-3 mr-3" v-if="isLoggedIn">Bookings</b-nav-item>
+          <b-nav-item href="/lists" class="ml-3 mr-3" v-if="isLoggedIn">Lists</b-nav-item>
           <b-nav-item-dropdown
             id="my-nav-dropdown"
             v-if="isLoggedIn"
@@ -33,15 +33,15 @@
             toggle-class="nav-link-custom"
             right
           >
-            <b-dropdown-item>Profile</b-dropdown-item>
-            <b-dropdown-item>Support</b-dropdown-item>
+            <b-dropdown-item href="/profile">Profile</b-dropdown-item>
+            <b-dropdown-item href="/support">Support</b-dropdown-item>
             <b-dropdown-divider></b-dropdown-divider>
-            <b-dropdown-item>Logout</b-dropdown-item>
+            <b-dropdown-item @click="logout">Logout</b-dropdown-item>
           </b-nav-item-dropdown>
         </b-navbar-nav>
       </b-collapse>
     </b-navbar>
-    <Auth v-if="!isLoggedIn" :viewType="viewType" :view="showAuth" @closed="showAuth = false" />
+    <Auth :viewType="viewType" :view="showAuth" @closed="showAuth = false" />
   </div>
 </template>
 
@@ -61,6 +61,11 @@ export default {
   },
   computed: {
     ...mapGetters(["isLoggedIn", "isVendor", "user"])
+  },
+  methods: {
+    logout() {
+      this.$store.dispatch("logout");
+    }
   }
 };
 </script>
