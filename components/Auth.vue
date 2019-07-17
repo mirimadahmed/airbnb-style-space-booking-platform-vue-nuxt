@@ -1,7 +1,7 @@
 <template>
   <div>
     <b-modal id="modal" size="sm" :hide-header="true" :hide-footer="true" @hidden="$emit('closed')">
-      <div v-if="viewType === 'login'" class="p-3 text-center">
+      <div v-if="type === 'login'" class="p-3 text-center">
         <div class="row">
           <div class="col-md-12">
             <p class="heading">Login to Spacesly.com</p>
@@ -34,6 +34,10 @@
           </div>
           <div class="col-md-12" v-else>
             <b-spinner variant="danger" type="grow" label="Spinning"></b-spinner>
+          </div>
+          <div class="col-md-12 py-4">
+            New here?
+            <a class="link" @click.prevent="type='signup'">Register</a>
           </div>
         </div>
       </div>
@@ -81,6 +85,10 @@
           <div class="col-md-12" v-else>
             <b-spinner variant="danger" type="grow" label="Spinning"></b-spinner>
           </div>
+          <div class="col-md-12 py-4">
+            Have an account?
+            <a class="link" @click.prevent="type='login'">Login</a>
+          </div>
         </div>
       </div>
     </b-modal>
@@ -101,7 +109,7 @@ export default {
   },
   data() {
     return {
-      type: this.viewType,
+      type: "login",
       login: {
         email: "",
         password: ""
@@ -115,6 +123,9 @@ export default {
     };
   },
   watch: {
+    viewType() {
+      this.type = this.viewType;
+    },
     view() {
       if (this.view) {
         this.$bvModal.show("modal");
@@ -142,5 +153,10 @@ export default {
   padding: 10px 30px;
   color: white;
   font-weight: 600;
+}
+.link {
+  font-weight: 500;
+  color: gray;
+  cursor: pointer;
 }
 </style>
