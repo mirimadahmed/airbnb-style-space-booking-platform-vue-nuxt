@@ -10,6 +10,7 @@ export default () => new Vuex.Store({
     listings: [],
     conversations: [],
     bookings: [],
+    myBookings: [],
     calendar: [],
     systemLists: []
   },
@@ -18,6 +19,8 @@ export default () => new Vuex.Store({
     isLoggedIn: state => state.user !== null,
     isVendor: state => state.user ? state.user.isVendor === 'True' : false,
     listings: state => state.listings,
+    bookings: state => state.bookings,
+    myBookings: state => state.myBookings,
   },
   actions: {
     login(context, payload) {
