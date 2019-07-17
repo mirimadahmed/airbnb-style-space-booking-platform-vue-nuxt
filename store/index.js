@@ -24,11 +24,11 @@ export default () => new Vuex.Store({
   },
   actions: {
     login(context, payload) {
-      localStorage.setItem('user', JSON.stringify(payload))
+      localStorage.setItem('spacesly-user', JSON.stringify(payload))
       context.commit('login', payload)
     },
     logout(context) {
-      localStorage.removeItem('user')
+      localStorage.removeItem('spacesly-user')
       context.commit('logout')
     },
     setSystemLists(context, payload) {

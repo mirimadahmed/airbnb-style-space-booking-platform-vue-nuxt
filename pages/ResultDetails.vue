@@ -174,6 +174,7 @@ const ListingRepository = RepositoryFactory.get("listings");
 const RequestRepository = RepositoryFactory.get("request");
 
 export default {
+  auth: false,
   components: {
     Datepicker,
     VueContentLoading,

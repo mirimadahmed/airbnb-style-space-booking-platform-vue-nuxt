@@ -96,6 +96,7 @@
 </template>
 
 <script>
+import axios from "axios";
 export default {
   props: {
     viewType: {
@@ -133,11 +134,16 @@ export default {
     }
   },
   methods: {
-    loginAction() {
-      this.$store.dispatch("login", {
-        name: "imad",
-        isVendor: "True"
+    async loginAction() {
+      this.isLoading = true;
+      const { data } = await axios.post("https://api.yenvoo.com/login/", {
+        data: {
+          email: this.login.email,
+          password: this.login.password
+        }
       });
+      this.isLoading = false;
+      this.$store.dispatch("login", data);
       this.$bvModal.hide("modal");
     },
     signupAction() {

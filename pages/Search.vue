@@ -37,6 +37,7 @@ import { RepositoryFactory } from "@/repository/RepositoryFactory";
 const SearchRepository = RepositoryFactory.get("search");
 
 export default {
+  auth: false,
   components: {
     SearchBar,
     Filters,
