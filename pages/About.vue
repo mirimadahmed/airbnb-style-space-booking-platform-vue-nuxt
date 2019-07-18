@@ -17,9 +17,7 @@
 </template>
 
 <script>
-export default {
-  auth: false
-};
+export default {};
 </script>
 
 <style lang="scss" scoped>

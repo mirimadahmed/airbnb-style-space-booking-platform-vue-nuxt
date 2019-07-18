@@ -39,9 +39,6 @@ export default {
     // Doc: https://bootstrap-vue.js.org/docs/
     'bootstrap-vue/nuxt',
   ],
-  router: {
-    middleware: ['auth']
-  },
   /*
   ** Build configuration
   */

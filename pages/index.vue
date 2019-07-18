@@ -11,7 +11,6 @@ import WhyChooseUs from "../components/WhyChooseUs.vue";
 import Subscribe from "../components/Subscribe.vue";
 
 export default {
-  auth: false,
   components: {
     Slider,
     WhyChooseUs,

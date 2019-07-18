@@ -239,6 +239,7 @@ export default {
       this.list = data;
     },
     getSearchResults() {
+      console.log("here");
       let type = "";
       switch (this.tabIndex) {
         case 0:
