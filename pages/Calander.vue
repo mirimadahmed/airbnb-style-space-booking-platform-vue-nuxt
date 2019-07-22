@@ -18,17 +18,25 @@
               </div>
             </div>
           </div>
-          <div class="col-md-6 border-left">
+          <div class="col-md-6 px-5">
+            <div class="row header">
+              <div class="col-md-6 text-left p-2">Timing</div>
+              <div class="col-md-6 text-right p-2">Status</div>
+            </div>
             <div class="row" v-for="(timeSlot, i) in slotsGenerated" :key="i">
-              <div class="col-md-6">From {{ timeSlot.from }} to {{ timeSlot.to }}</div>
-              <div class="col-md-6">
+              <div
+                class="col-md-6 slot-time p-2 text-left"
+              >From {{ timeSlot.from }} to {{ timeSlot.to }}</div>
+              <div class="col-md-6 p-2 text-right">
                 <b-form-checkbox
                   v-model="timeSlot.status"
                   :disabled="timeSlot.disabled"
                   name="check-button"
+                  class="slot-switch"
                   switch
                 />
               </div>
+              <hr class="col-md-12" />
             </div>
           </div>
         </div>
@@ -69,5 +77,13 @@ export default {
 };
 </script>
 
-<style lang="scss" scoped>
+<style scoped>
+.slot-time {
+  font-weight: 500;
+  font-size: 20px;
+}
+.header {
+  font-weight: 600;
+  font-size: 24px;
+}
 </style>
