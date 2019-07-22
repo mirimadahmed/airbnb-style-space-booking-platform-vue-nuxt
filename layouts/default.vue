@@ -42,13 +42,13 @@ export default {
 .full-height {
   height: 100%;
 }
-.vdp-datepicker {
+.mx-input-wrapper {
   height: 100%;
 }
-.vdp-datepicker .input-group {
+.input-group {
   height: 100%;
 }
-.vdp-datepicker .input-group .form-control {
+.mx-input-datepicker .input-group .form-control {
   background: white;
   border: none;
   border-radius: 0px;

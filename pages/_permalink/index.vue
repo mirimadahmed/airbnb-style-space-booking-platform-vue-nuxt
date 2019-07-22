@@ -91,13 +91,13 @@
                   <h1 class="heading">{{ msg }}</h1>
                 </div>
                 <div class="col-md-12 px-0">
-                  <Datepicker
+                  <!-- <Datepicker
                     placeholder="When?"
                     :disabled-dates="disabledDates"
                     :bootstrap-styling="true"
                     v-model="request.when"
                     :disabled="isRequestLoading"
-                  />
+                  />-->
                 </div>
                 <div class="col-md-12 px-0">
                   <b-form-input
@@ -166,7 +166,6 @@
 </template>
 <script>
 import moment from "moment";
-import Datepicker from "vuejs-datepicker";
 import VueContentLoading from "vue-content-loading";
 import { RepositoryFactory } from "@/repository/RepositoryFactory";
 import SocialSharing from "vue-social-sharing";
@@ -175,7 +174,6 @@ const RequestRepository = RepositoryFactory.get("request");
 
 export default {
   components: {
-    Datepicker,
     VueContentLoading,
     SocialSharing
   },

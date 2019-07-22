@@ -14,12 +14,16 @@
         </datalist>
       </div>
       <div class="col-md-2 item-wrapper">
-        <date-picker
-          placeholder="When?"
-          :disabled-dates="disabledDates"
-          :bootstrap-styling="true"
-          v-model="query.when"
-        />
+        <no-ssr>
+          <date-picker
+            placeholder="When?"
+            v-model="query.when"
+            input-class="form-control h-100 border-0 rounded-0"
+            class="form-control p-0"
+            :lang="lang"
+            :not-before="new Date()"
+          />
+        </no-ssr>
       </div>
       <div class="col-md-2 item-wrapper">
         <b-input id="search" placeholder="Where?" v-model="query.where" />
@@ -42,12 +46,39 @@ const SystemListRepository = RepositoryFactory.get("systemlist");
 export default {
   props: {
     search: {
-      type: String,
+      type: Object,
       required: true
     }
   },
   data() {
     return {
+      lang: {
+        days: ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"],
+        months: [
+          "Jan",
+          "Feb",
+          "Mar",
+          "Apr",
+          "May",
+          "Jun",
+          "Jul",
+          "Aug",
+          "Sep",
+          "Oct",
+          "Nov",
+          "Dec"
+        ],
+        pickers: [
+          "next 7 days",
+          "next 30 days",
+          "previous 7 days",
+          "previous 30 days"
+        ],
+        placeholder: {
+          date: "Select Date",
+          dateRange: "Select Date Range"
+        }
+      },
       disabledDates: {
         to: new Date()
       },
@@ -72,7 +103,7 @@ export default {
       this.list = data;
     },
     getSearchResults() {
-      let path = "/search/type=" + this.query.type;
+      let path = "/search?type=" + this.query.type;
       if (this.query.what) path = path + "&activity=" + this.query.what;
       if (this.query.when) {
         this.query.when = moment(this.query.when).format("YYYY-MM-DD");
@@ -83,25 +114,22 @@ export default {
       this.$router.push({ path: path });
     },
     updateOptions() {
-      let options = this.search.split("&");
-      options.forEach(option => {
-        if (option.includes("type")) {
-          let param = option.split("=");
-          this.query.type = param[1];
-        } else if (option.includes("activity")) {
-          let param = option.split("=");
-          this.query.what = param[1];
-        } else if (option.includes("when")) {
-          let param = option.split("=");
-          this.query.when = param[1];
-        } else if (option.includes("where")) {
-          let param = option.split("=");
-          this.query.where = param[1];
-        } else if (option.includes("capacity")) {
-          let param = option.split("=");
-          this.query.count = param[1];
-        }
-      });
+      let options = this.search;
+      if (options.type) {
+        this.query.type = options.type;
+      }
+      if (options.activity) {
+        this.query.what = options.activity;
+      }
+      if (options.when) {
+        this.query.when = options.when;
+      }
+      if (options.where) {
+        this.query.where = options.where;
+      }
+      if (options.capacity) {
+        this.query.count = options.capacity;
+      }
     },
     getTypeId(type) {
       switch (type) {

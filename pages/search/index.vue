@@ -66,32 +66,29 @@ export default {
     }
   },
   created() {
-    this.query = this.$route.params.query;
+    this.query = this.$route.query;
     this.fetch();
     this.scroll();
   },
   methods: {
-    search(updatedQuery) {
-      this.query = updatedQuery;
-      this.fetch();
-    },
     scroll() {
-      window.onscroll = async () => {
-        let bottomOfWindow =
-          document.documentElement.scrollTop + window.innerHeight ===
-          document.documentElement.offsetHeight;
-
-        if (bottomOfWindow && !this.isLoadingMore && this.nextLink) {
-          this.isLoadingMore = true;
-          const { data } = await SearchRepository.get(
-            this.nextLink.split("?")[1]
-          );
-          this.isLoadingMore = false;
-          this.nextLink = data.links.next;
-          this.total = data.count;
-          data.results.forEach(result => this.companies.push(result));
-        }
-      };
+      if (process.client) {
+        window.onscroll = async () => {
+          let bottomOfWindow =
+            document.documentElement.scrollTop + window.innerHeight ===
+            document.documentElement.offsetHeight;
+          if (bottomOfWindow && !this.isLoadingMore && this.nextLink) {
+            this.isLoadingMore = true;
+            const { data } = await SearchRepository.get(
+              this.nextLink.split("?")[1]
+            );
+            this.isLoadingMore = false;
+            this.nextLink = data.links.next;
+            this.total = data.count;
+            data.results.forEach(result => this.companies.push(result));
+          }
+        };
+      }
     },
     async fetch() {
       this.isLoading = true;

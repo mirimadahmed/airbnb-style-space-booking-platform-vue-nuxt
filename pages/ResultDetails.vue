@@ -72,14 +72,14 @@
             </div>
 
             <div class="col-md-12 shadow p-0 map-field" v-if="entity.Entity.latitude">
-              <GmapMap
+              <!-- <GmapMap
                 :center="{lat:entity.Entity.latitude, lng:entity.Entity.longitude}"
                 :zoom="17"
                 map-type-id="terrain"
                 class="col-md-12"
               >
                 <GmapMarker :position="{lat:entity.Entity.latitude, lng:entity.Entity.longitude}" />
-              </GmapMap>
+              </GmapMap>-->
             </div>
           </div>
         </div>
@@ -91,13 +91,20 @@
                   <h1 class="heading">{{ msg }}</h1>
                 </div>
                 <div class="col-md-12 px-0">
-                  <Datepicker
-                    placeholder="When?"
-                    :disabled-dates="disabledDates"
-                    :bootstrap-styling="true"
-                    v-model="request.when"
-                    :disabled="isRequestLoading"
-                  />
+                  <no-ssr>
+                    <!-- <date-picker
+                v-model="query.when"
+                :disabled-dates="disabledDates"
+                :bootstrap-styling="true"
+                    />-->
+                    <v-date-picker
+                      placeholder="When?"
+                      mode="range"
+                      v-model="request.when"
+                      :min-date="new Date()"
+                      show-caps
+                    />
+                  </no-ssr>
                 </div>
                 <div class="col-md-12 px-0">
                   <b-form-input
@@ -166,7 +173,6 @@
 </template>
 <script>
 import moment from "moment";
-import Datepicker from "vuejs-datepicker";
 import VueContentLoading from "vue-content-loading";
 import { RepositoryFactory } from "@/repository/RepositoryFactory";
 import SocialSharing from "vue-social-sharing";
@@ -175,7 +181,6 @@ const RequestRepository = RepositoryFactory.get("request");
 
 export default {
   components: {
-    Datepicker,
     VueContentLoading,
     SocialSharing
   },

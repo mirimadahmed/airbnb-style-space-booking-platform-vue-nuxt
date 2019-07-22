@@ -4,14 +4,15 @@ import { interopDefault } from './utils'
 
 const _4227bb6b = () => interopDefault(import('../pages/About.vue' /* webpackChunkName: "pages/About" */))
 const _0363374c = () => interopDefault(import('../pages/Bookings.vue' /* webpackChunkName: "pages/Bookings" */))
+const _31fa33c8 = () => interopDefault(import('../pages/Calander.vue' /* webpackChunkName: "pages/Calander" */))
 const _727932d2 = () => interopDefault(import('../pages/ChangeLog.vue' /* webpackChunkName: "pages/ChangeLog" */))
 const _4af5affe = () => interopDefault(import('../pages/Listings.vue' /* webpackChunkName: "pages/Listings" */))
 const _c8205f86 = () => interopDefault(import('../pages/Partners.vue' /* webpackChunkName: "pages/Partners" */))
 const _9e612734 = () => interopDefault(import('../pages/Privacy.vue' /* webpackChunkName: "pages/Privacy" */))
 const _52f49d43 = () => interopDefault(import('../pages/ResultDetails.vue' /* webpackChunkName: "pages/ResultDetails" */))
+const _8ace0fc6 = () => interopDefault(import('../pages/search/index.vue' /* webpackChunkName: "pages/search/index" */))
 const _f45bed8c = () => interopDefault(import('../pages/Search.vue' /* webpackChunkName: "pages/Search" */))
 const _0bdd5465 = () => interopDefault(import('../pages/Terms.vue' /* webpackChunkName: "pages/Terms" */))
-const _aba7fae4 = () => interopDefault(import('../pages/search/_query.vue' /* webpackChunkName: "pages/search/_query" */))
 const _2b251360 = () => interopDefault(import('../pages/index.vue' /* webpackChunkName: "pages/index" */))
 const _5426e5e1 = () => interopDefault(import('../pages/_permalink/index.vue' /* webpackChunkName: "pages/_permalink/index" */))
 
@@ -98,6 +99,10 @@ export function createRouter() {
       component: _0363374c,
       name: "Bookings"
     }, {
+      path: "/Calander",
+      component: _31fa33c8,
+      name: "Calander"
+    }, {
       path: "/ChangeLog",
       component: _727932d2,
       name: "ChangeLog"
@@ -118,6 +123,10 @@ export function createRouter() {
       component: _52f49d43,
       name: "ResultDetails"
     }, {
+      path: "/search",
+      component: _8ace0fc6,
+      name: "search"
+    }, {
       path: "/Search",
       component: _f45bed8c,
       name: "Search"
@@ -125,10 +134,6 @@ export function createRouter() {
       path: "/Terms",
       component: _0bdd5465,
       name: "Terms"
-    }, {
-      path: "/search/:query?",
-      component: _aba7fae4,
-      name: "search-query"
     }, {
       path: "/",
       component: _2b251360,

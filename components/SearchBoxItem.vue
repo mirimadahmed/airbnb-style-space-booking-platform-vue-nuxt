@@ -16,12 +16,16 @@
               </datalist>
             </div>
             <div class="col-md-2 item-wrapper">
-              <date-picker
-                placeholder="When?"
-                v-model="query.when"
-                :disabled-dates="disabledDates"
-                :bootstrap-styling="true"
-              />
+              <no-ssr>
+                <date-picker
+                  placeholder="When?"
+                  v-model="query.when"
+                  input-class="form-control h-100 border-0 rounded-0"
+                  class="form-control p-0"
+                  :lang="lang"
+                  :not-before="new Date()"
+                />
+              </no-ssr>
             </div>
             <div class="col-md-2 item-wrapper">
               <b-input id="search" placeholder="Where?" v-model="query.where" />
@@ -47,12 +51,16 @@
               </datalist>
             </div>
             <div class="col-md-2 item-wrapper">
-              <date-picker
-                placeholder="When?"
-                :bootstrap-styling="true"
-                v-model="query.when"
-                :disabled-dates="disabledDates"
-              />
+              <no-ssr>
+                <date-picker
+                  placeholder="When?"
+                  v-model="query.when"
+                  input-class="form-control h-100 border-0 rounded-0"
+                  class="form-control p-0"
+                  :lang="lang"
+                  :not-before="new Date()"
+                />
+              </no-ssr>
             </div>
             <div class="col-md-2 item-wrapper">
               <b-input id="search" placeholder="Where?" v-model="query.where" />
@@ -78,12 +86,16 @@
               </datalist>
             </div>
             <div class="col-md-2 item-wrapper">
-              <date-picker
-                placeholder="When?"
-                :bootstrap-styling="true"
-                v-model="query.when"
-                :disabled-dates="disabledDates"
-              />
+              <no-ssr>
+                <date-picker
+                  placeholder="When?"
+                  v-model="query.when"
+                  input-class="form-control h-100 border-0 rounded-0"
+                  class="form-control p-0"
+                  :lang="lang"
+                  :not-before="new Date()"
+                />
+              </no-ssr>
             </div>
             <div class="col-md-2 item-wrapper">
               <b-input id="search" placeholder="Where?" v-model="query.where" />
@@ -109,12 +121,16 @@
               </datalist>
             </div>
             <div class="col-md-2 item-wrapper">
-              <date-picker
-                placeholder="When?"
-                :bootstrap-styling="true"
-                v-model="query.when"
-                :disabled-dates="disabledDates"
-              />
+              <no-ssr>
+                <date-picker
+                  placeholder="When?"
+                  v-model="query.when"
+                  input-class="form-control h-100 border-0 rounded-0"
+                  class="form-control p-0"
+                  :lang="lang"
+                  :not-before="new Date()"
+                />
+              </no-ssr>
             </div>
             <div class="col-md-2 item-wrapper">
               <b-input id="search" placeholder="Where?" v-model="query.where" />
@@ -137,12 +153,16 @@
               </datalist>
             </div>
             <div class="col-md-2 item-wrapper">
-              <date-picker
-                placeholder="When?"
-                :bootstrap-styling="true"
-                v-model="query.when"
-                :disabled-dates="disabledDates"
-              />
+              <no-ssr>
+                <date-picker
+                  placeholder="When?"
+                  v-model="query.when"
+                  input-class="form-control h-100 border-0 rounded-0"
+                  class="form-control p-0"
+                  :lang="lang"
+                  :not-before="new Date()"
+                />
+              </no-ssr>
             </div>
             <div class="col-md-2 item-wrapper last-tab">
               <b-input id="search" placeholder="Where?" v-model="query.where" />
@@ -173,8 +193,10 @@
           <date-picker
             placeholder="When?"
             v-model="query.when"
-            :disabled-dates="disabledDates"
-            :bootstrap-styling="true"
+            input-class="form-control h-100 border-0 rounded-0"
+            class="form-control p-0"
+            :lang="lang"
+            :not-before="new Date()"
           />
         </no-ssr>
       </div>
@@ -192,16 +214,40 @@
 </template>
 <script>
 import moment from "moment";
-// import Datepicker from "vuejs-datepicker";
 import { RepositoryFactory } from "@/repository/RepositoryFactory";
 const SystemListRepository = RepositoryFactory.get("systemlist");
 
 export default {
-  components: {
-    // Datepicker
-  },
+  components: {},
   data() {
     return {
+      lang: {
+        days: ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"],
+        months: [
+          "Jan",
+          "Feb",
+          "Mar",
+          "Apr",
+          "May",
+          "Jun",
+          "Jul",
+          "Aug",
+          "Sep",
+          "Oct",
+          "Nov",
+          "Dec"
+        ],
+        pickers: [
+          "next 7 days",
+          "next 30 days",
+          "previous 7 days",
+          "previous 30 days"
+        ],
+        placeholder: {
+          date: "Select Date",
+          dateRange: "Select Date Range"
+        }
+      },
       disabledDates: {
         to: new Date()
       },
@@ -259,7 +305,7 @@ export default {
           break;
       }
       this.query.type = type;
-      let path = "/search/type=" + this.query.type;
+      let path = "/search?type=" + this.query.type;
       if (this.query.what) path = path + "&activity=" + this.query.what;
       if (this.query.when) {
         this.query.when = moment(this.query.when).format("YYYY-MM-DD");
