@@ -11,7 +11,11 @@
               <div class="col-md-12">
                 <b-form-select v-model="selectedSpace" :options="spaces"></b-form-select>
               </div>
-              <div class="col-md-12 mt-5">"Use Calander here"</div>
+              <div class="col-md-12 mt-5">
+                <no-ssr>
+                  <full-calendar :header="header" defaultView="month" @day-click="dateSelected" />
+                </no-ssr>
+              </div>
             </div>
           </div>
           <div class="col-md-6 border-left">
@@ -49,8 +53,18 @@ export default {
         { from: "12:00", to: "14:00", status: false, disabled: false },
         { from: "14:00", to: "16:00", status: false, disabled: true }
       ],
-      selectedDate: null
+      selectedDate: null,
+      header: {
+        left: "today prev,next",
+        center: "title",
+        right: ""
+      }
     };
+  },
+  methods: {
+    dateSelected(date) {
+      alert(date);
+    }
   }
 };
 </script>

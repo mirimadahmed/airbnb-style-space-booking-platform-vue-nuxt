@@ -21,6 +21,7 @@
     "moment": "^2.24.0",
     "nuxt": "^2.0.0",
     "vue-content-loading": "^1.6.0",
+    "vue-full-calendar": "^2.7.0",
     "vue-slider-component": "^3.0.33",
     "vue-social-sharing": "^2.4.5",
     "vue2-datepicker": "^2.12.0"

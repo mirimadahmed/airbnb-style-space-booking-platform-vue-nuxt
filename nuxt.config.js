@@ -24,13 +24,15 @@ export default {
   */
   css: [
     '@fortawesome/fontawesome-svg-core/styles.css',
+    'fullcalendar/dist/fullcalendar.css'
   ],
   /*
   ** Plugins to load before mounting the App
   */
   plugins: [
     '~/plugins/fontawesome.js',
-    { src: '~/plugins/datepicker', ssr: false }
+    { src: '~/plugins/datepicker', ssr: false },
+    { src: '~/plugins/vue-full-calendar', ssr: false },
   ],
   /*
   ** Nuxt.js modules

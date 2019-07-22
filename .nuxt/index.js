@@ -14,6 +14,7 @@ import { createStore } from './store.js'
 import nuxt_plugin_bootstrapvue_7421337d from 'nuxt_plugin_bootstrapvue_7421337d' // Source: ./bootstrap-vue.js (mode: 'all')
 import nuxt_plugin_fontawesome_b8db358e from 'nuxt_plugin_fontawesome_b8db358e' // Source: ../plugins/fontawesome.js (mode: 'all')
 import nuxt_plugin_datepicker_4a26849c from 'nuxt_plugin_datepicker_4a26849c' // Source: ../plugins/datepicker (mode: 'client')
+import nuxt_plugin_vuefullcalendar_4a313802 from 'nuxt_plugin_vuefullcalendar_4a313802' // Source: ../plugins/vue-full-calendar (mode: 'client')
 
 // Component: <NoSsr>
 Vue.component(NoSsr.name, NoSsr)
@@ -163,6 +164,10 @@ async function createApp(ssrContext) {
 
   if (process.client && typeof nuxt_plugin_datepicker_4a26849c === 'function') {
     await nuxt_plugin_datepicker_4a26849c(app.context, inject)
+  }
+
+  if (process.client && typeof nuxt_plugin_vuefullcalendar_4a313802 === 'function') {
+    await nuxt_plugin_vuefullcalendar_4a313802(app.context, inject)
   }
 
   // If server-side, wait for async component to be resolved first
