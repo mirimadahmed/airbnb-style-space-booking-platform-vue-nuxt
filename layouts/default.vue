@@ -39,6 +39,22 @@ export default {
   padding-left: 10px;
 }
 
+.button {
+  background: linear-gradient(#ff4d78, #fa7649);
+  border: 1px solid #ff4d78;
+  font-size: 12px;
+  padding: 10px 20px;
+  color: white;
+  font-weight: 600;
+}
+
+button:focus {
+  outline: none;
+  border-color: inherit;
+  -webkit-box-shadow: none;
+  box-shadow: none;
+}
+
 .full-height {
   height: 100%;
 }
