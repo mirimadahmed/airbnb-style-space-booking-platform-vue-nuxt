@@ -32,13 +32,13 @@
         <h5 class="heading">Discover</h5>
         <ul>
           <li>
-            <router-link to="/about">Spacesly</router-link>
+            <router-link to="/eventsia">Eventsia</router-link>
           </li>
           <li>
-            <router-link to="/about">Spacesly</router-link>
+            <a href="https://www.facebook.com/spacesly">Facebook</a>
           </li>
           <li>
-            <router-link to="/about">Spacesly</router-link>
+            <a href="https://www.instagram.com/web.spacesly/">Instagram</a>
           </li>
           <li>
             <router-link to="/about">Spacesly</router-link>

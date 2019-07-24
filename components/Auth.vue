@@ -96,7 +96,8 @@
 </template>
 
 <script>
-import axios from "axios";
+import { RepositoryFactory } from "~/repository/RepositoryFactory";
+const UserRepository = RepositoryFactory.get("user");
 export default {
   props: {
     viewType: {
@@ -136,15 +137,17 @@ export default {
   methods: {
     async loginAction() {
       this.isLoading = true;
-      const { data } = await axios.post("https://api.yenvoo.com/login/", {
-        data: {
-          email: this.login.email,
-          password: this.login.password
-        }
+      const { data } = await UserRepository.login({
+        email: this.login.email,
+        password: this.login.password
       });
       this.isLoading = false;
-      this.$store.dispatch("login", data);
-      this.$bvModal.hide("modal");
+      if (data.success) {
+        this.$bvModal.hide("modal");
+        this.$store.dispatch("login", data);
+      } else {
+        // show error here
+      }
     },
     signupAction() {
       this.$bvModal.hide("modal");

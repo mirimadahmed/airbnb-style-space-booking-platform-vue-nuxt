@@ -193,7 +193,7 @@ export default {
       isRequestLoading: false,
       msg: "Request to book",
       request: {
-        entity_id: 2,
+        entity_id: null,
         activity: null,
         when: null,
         name: null,
@@ -216,6 +216,7 @@ export default {
       );
       this.isLoading = false;
       this.entity = data;
+      this.request.entity_id = data.Entity.entity_id;
     },
     async send() {
       this.isRequestLoading = true;

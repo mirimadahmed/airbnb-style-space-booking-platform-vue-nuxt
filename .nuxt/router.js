@@ -6,6 +6,7 @@ const _4227bb6b = () => interopDefault(import('../pages/About.vue' /* webpackChu
 const _0363374c = () => interopDefault(import('../pages/Bookings.vue' /* webpackChunkName: "pages/Bookings" */))
 const _31fa33c8 = () => interopDefault(import('../pages/Calander.vue' /* webpackChunkName: "pages/Calander" */))
 const _727932d2 = () => interopDefault(import('../pages/ChangeLog.vue' /* webpackChunkName: "pages/ChangeLog" */))
+const _53168f3a = () => interopDefault(import('../pages/eventsia.vue' /* webpackChunkName: "pages/eventsia" */))
 const _4af5affe = () => interopDefault(import('../pages/Listings.vue' /* webpackChunkName: "pages/Listings" */))
 const _c8205f86 = () => interopDefault(import('../pages/Partners.vue' /* webpackChunkName: "pages/Partners" */))
 const _9e612734 = () => interopDefault(import('../pages/Privacy.vue' /* webpackChunkName: "pages/Privacy" */))
@@ -106,6 +107,10 @@ export function createRouter() {
       path: "/ChangeLog",
       component: _727932d2,
       name: "ChangeLog"
+    }, {
+      path: "/eventsia",
+      component: _53168f3a,
+      name: "eventsia"
     }, {
       path: "/Listings",
       component: _4af5affe,

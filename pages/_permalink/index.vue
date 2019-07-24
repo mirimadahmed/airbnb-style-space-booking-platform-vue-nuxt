@@ -72,14 +72,14 @@
             </div>
 
             <div class="col-md-12 shadow p-0 map-field" v-if="entity.Entity.latitude">
-              <GmapMap
+              <!-- <GmapMap
                 :center="{lat:entity.Entity.latitude, lng:entity.Entity.longitude}"
                 :zoom="17"
                 map-type-id="terrain"
                 class="col-md-12"
               >
                 <GmapMarker :position="{lat:entity.Entity.latitude, lng:entity.Entity.longitude}" />
-              </GmapMap>
+              </GmapMap>-->
             </div>
           </div>
         </div>
@@ -209,6 +209,7 @@ export default {
       );
       this.isLoading = false;
       this.entity = data;
+      this.request.entity_id = data.Entity.entity_id;
     },
     async send() {
       this.isRequestLoading = true;
