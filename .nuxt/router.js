@@ -14,6 +14,7 @@ const _52f49d43 = () => interopDefault(import('../pages/ResultDetails.vue' /* we
 const _8ace0fc6 = () => interopDefault(import('../pages/search/index.vue' /* webpackChunkName: "pages/search/index" */))
 const _f45bed8c = () => interopDefault(import('../pages/Search.vue' /* webpackChunkName: "pages/Search" */))
 const _0bdd5465 = () => interopDefault(import('../pages/Terms.vue' /* webpackChunkName: "pages/Terms" */))
+const _a6899a6e = () => interopDefault(import('../pages/listing/_permalink.vue' /* webpackChunkName: "pages/listing/_permalink" */))
 const _2b251360 = () => interopDefault(import('../pages/index.vue' /* webpackChunkName: "pages/index" */))
 const _5426e5e1 = () => interopDefault(import('../pages/_permalink/index.vue' /* webpackChunkName: "pages/_permalink/index" */))
 
@@ -139,6 +140,10 @@ export function createRouter() {
       path: "/Terms",
       component: _0bdd5465,
       name: "Terms"
+    }, {
+      path: "/listing/:permalink?",
+      component: _a6899a6e,
+      name: "listing-permalink"
     }, {
       path: "/",
       component: _2b251360,
