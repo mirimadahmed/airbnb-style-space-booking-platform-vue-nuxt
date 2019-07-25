@@ -146,7 +146,7 @@ export default {
         this.$bvModal.hide("modal");
         this.$store.dispatch("login", data);
       } else {
-        this.makeToast('danger',data.user_message)
+        this.openNotificationWithIcon('error',data.user_message)
       }
     },
     async signupAction() {
@@ -154,20 +154,21 @@ export default {
       const { data } = await UserRepository.register(this.signup);
       this.isLoading = false;
       if (data.success) {
-        this.makeToast('success',data.user_message)
+        this.openNotificationWithIcon('success',data.user_message)
         this.$bvModal.hide("modal");
       } else {
-        this.makeToast('danger',data.user_message)
+        this.openNotificationWithIcon('error',data.user_message)
+
       }
 
     },
-    makeToast(variant,message) {
-        this.$bvToast.toast(message, {
-          title: 'Notification',
-          variant: variant,
-          solid: true
-        })
+    openNotificationWithIcon (type,message) {
+      this.$notification[type]({
+        message: 'Notification',
+        description: message,
+      });
     }
+    
   }
 };
 </script>
