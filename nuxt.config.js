@@ -24,13 +24,17 @@ export default {
   */
   css: [
     '@fortawesome/fontawesome-svg-core/styles.css',
-    'fullcalendar/dist/fullcalendar.css'
+    'fullcalendar/dist/fullcalendar.css',
+    'vue-multiselect/dist/vue-multiselect.min.css',
+    'ant-design-vue/dist/antd.css'
   ],
   /*
   ** Plugins to load before mounting the App
   */
   plugins: [
     '~/plugins/fontawesome.js',
+    '~/plugins/vue-multiselect.js',
+    '~/plugins/antd.js',
     { src: '~/plugins/datepicker', ssr: false },
     { src: '~/plugins/vue-full-calendar', ssr: false },
   ],
