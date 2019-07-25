@@ -1,6 +1,9 @@
 <template>
   <div class="m-5 p-4 text-left">
-    <div>
+    <div class="example" v-if="isLoading">
+      <a-spin />
+    </div>
+    <div v-else>
       <a-steps :current="current">
         <a-step v-for="item in steps" :key="item.title" :title="item.title" />
       </a-steps>
@@ -9,15 +12,23 @@
           <h1 class="heading">About your space</h1>
           <div>
             <h1 class="second-heading">What's your space is for?</h1>
-            <a-radio-group v-model="listing.type" size="large">
-              <a-radio-button v-for="(type, i) in typeOptions" :value="type" :key="i">{{ type }}</a-radio-button>
+            <a-radio-group v-model="listing.type_id" size="large" @change="getCusotmFields">
+              <a-radio-button
+                v-for="(type, i) in typeOptions"
+                :value="type.value"
+                :key="i"
+              >{{ type.label }}</a-radio-button>
             </a-radio-group>
           </div>
           <div class="mt-4 col-md-8 px-0">
             <a-input placeholder="Give your listing a title" size="large" v-model="listing.title" />
           </div>
           <div class="mt-4 col-md-8 px-0">
-            <a-textarea placeholder="Give your listing a great description" :rows="4" />
+            <a-textarea
+              placeholder="Give your listing a great description"
+              :rows="4"
+              v-model="listing.description"
+            />
           </div>
           <div class="mt-4 col-md-8 px-0">
             <no-ssr>
@@ -25,14 +36,7 @@
                 <h1 class="second-heading">Locate your space</h1>
                 <gmap-autocomplete @place_changed="setPlace" class="ant-input ant-input-lg"></gmap-autocomplete>
               </div>
-              <gmap-map :center="center" :zoom="12" style="width:100%;  height: 400px;">
-                <gmap-marker
-                  :key="index"
-                  v-for="(m, index) in markers"
-                  :position="m.position"
-                  @click="center=m.position"
-                ></gmap-marker>
-              </gmap-map>
+              <gmap-map :center="center" :zoom="12" style="width:100%;  height: 400px;" />
             </no-ssr>
           </div>
         </div>
@@ -57,7 +61,38 @@
           </div>
         </div>
         <div v-else-if="current === 2">
-          <h1 class="heading">Features and amenities</h1>
+          <div v-for="(group, i) in Object.keys(customFields)" :key="i" class="row">
+            <h1 class="heading col-md-12 my-2">{{ group }}</h1>
+            <div v-for="(field, j) in customFields[group]" :key="j" class="col-md-6">
+              <div v-if="field.field_type === 'boolean'" class="row my-2">
+                <div
+                  class="col-md-6"
+                >{{ field.form_message || field.form_placeholder || field.form_name || field.name }}</div>
+                <div class="col-md-6">
+                  <a-switch v-model="field.value" size="large">
+                    <a-icon type="check" slot="checkedChildren" />
+                    <a-icon type="close" slot="unCheckedChildren" />
+                  </a-switch>
+                </div>
+              </div>
+              <div v-else-if="field.field_type === 'text'" class="row my-2">
+                <div
+                  class="col-md-6"
+                >{{ field.form_message || field.form_placeholder || field.form_name || field.name }}</div>
+                <div class="col-md-6">
+                  <a-input v-model="field.value" :placeholder="field.form_placeholder" />
+                </div>
+              </div>
+              <div v-else-if="field.field_type === 'number'" class="row my-2">
+                <div
+                  class="col-md-6"
+                >{{ field.form_message || field.form_placeholder || field.form_name || field.name }}</div>
+                <div class="col-md-6">
+                  <a-input-number v-model="field.value" :placeholder="field.form_placeholder" />
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
         <div v-else-if="current === 3">
           <h1 class="heading">Timings and pricing</h1>
@@ -86,6 +121,7 @@ const ListingRepository = RepositoryFactory.get("listings");
 export default {
   data() {
     return {
+      isLoading: false,
       steps: [
         {
           title: "About",
@@ -120,24 +156,76 @@ export default {
         }
       ],
       current: 0,
-      typeOptions: ["Wedding", "Party", "Corporate", "Sports", "Production"],
+      typeOptions: [
+        {
+          label: "Wedding",
+          value: 1
+        },
+        {
+          label: "Party",
+          value: 2
+        },
+        {
+          label: "Corporate",
+          value: 3
+        },
+        {
+          label: "Sports",
+          value: 4
+        },
+        {
+          label: "Production",
+          value: 5
+        }
+      ],
       listing: {
         title: "",
-        type: null
+        type_id: null,
+        description: "",
+        address: null
       },
       permalink: null,
       center: { lat: 45.508, lng: -73.587 },
-      markers: [],
-      places: [],
-      currentPlace: null
+      currentPlace: null,
+      customFields: null
     };
   },
-  watch: {
-    $route(to) {
-      this.permalink = to.params.permalink;
+  created() {
+    this.permalink = this.$route.params.permalink;
+    if (this.permalink) {
+      this.fetch();
     }
   },
   methods: {
+    async fetch() {
+      this.isLoading = true;
+      const { data } = await ListingRepository.get(this.permalink);
+      this.listing.title = data.Entity.name;
+      this.listing.description = data.Entity.description;
+      this.listing.address = data.Entity.address;
+      this.listing.type_id = data.Entity.type_id;
+      this.currentPlace = {
+        lat: data.Entity.latitude,
+        lng: data.Entity.longitude
+      };
+      this.center = this.currentPlace;
+      this.fileList = data.Entity.images.map((image, i) => ({
+        uid: i,
+        name: image,
+        status: "done",
+        url: image
+      }));
+      this.customFields = data.CustomFields;
+      this.isLoading = false;
+    },
+    async getCusotmFields() {
+      this.isLoading = true;
+      const { data } = await ListingRepository.getCustomFields(
+        this.listing.type_id
+      );
+      this.isLoading = false;
+      this.customFields = data;
+    },
     startListing() {
       let permalink = this.listing.title.split(" ").join("-");
       this.$router.push("/listing/" + permalink);
