@@ -49,7 +49,7 @@
           <div class="col-md-12">
             <b-form-group label="Name:">
               <b-form-input
-                v-model="signup.email"
+                v-model="signup.name"
                 type="text"
                 required
                 placeholder="Enter name"
@@ -146,11 +146,27 @@ export default {
         this.$bvModal.hide("modal");
         this.$store.dispatch("login", data);
       } else {
-        // show error here
+        this.makeToast('danger',data.user_message)
       }
     },
-    signupAction() {
-      this.$bvModal.hide("modal");
+    async signupAction() {
+      this.isLoading = true;
+      const { data } = await UserRepository.register(this.signup);
+      this.isLoading = false;
+      if (data.success) {
+        this.makeToast('success',data.user_message)
+        this.$bvModal.hide("modal");
+      } else {
+        this.makeToast('danger',data.user_message)
+      }
+
+    },
+    makeToast(variant,message) {
+        this.$bvToast.toast(message, {
+          title: 'Notification',
+          variant: variant,
+          solid: true
+        })
     }
   }
 };
