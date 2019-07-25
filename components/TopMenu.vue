@@ -9,10 +9,7 @@
 
       <b-collapse id="nav-collapse" is-nav>
         <b-navbar-nav class="ml-auto">
-          <b-button
-            class="signin-button my-2 my-sm-0 px-4 ml-4 mr-2"
-            href="/listing"
-          >List your space</b-button>
+          <b-button class="signin-button my-2 my-sm-0 px-4 ml-4 mr-2">List your space</b-button>
           <b-nav-item
             v-if="!isLoggedIn"
             href="#"
@@ -79,6 +76,7 @@ export default {
   color: black;
 }
 .signin-button {
+  border-radius: 0rem;
   border: 2px solid #ff4d78;
   background: white;
   color: black;
