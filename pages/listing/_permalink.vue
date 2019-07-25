@@ -38,6 +38,23 @@
         </div>
         <div v-else-if="current === 1">
           <h1 class="heading">Photos of your space</h1>
+          <div class="clearfix">
+            <a-upload
+              action="https://www.mocky.io/v2/5cc8019d300000980a055e76"
+              listType="picture-card"
+              :fileList="fileList"
+              @preview="handlePreview"
+              @change="handleChange"
+            >
+              <div v-if="fileList.length < 3">
+                <a-icon type="plus" />
+                <div class="ant-upload-text">Upload</div>
+              </div>
+            </a-upload>
+            <a-modal :visible="previewVisible" :footer="null" @cancel="handleCancel">
+              <img alt="example" style="width: 100%" :src="previewImage" />
+            </a-modal>
+          </div>
         </div>
         <div v-else-if="current === 2">
           <h1 class="heading">Features and amenities</h1>
@@ -50,7 +67,6 @@
         </div>
       </div>
       <div class="steps-action col-md-8 text-right">
-        <button class="button" v-if="current < steps.length - 1" type="primary" @click="next">Next</button>
         <button
           class="button"
           v-if="current == steps.length - 1"
@@ -58,12 +74,15 @@
           @click="$message.success('Processing complete!')"
         >Done</button>
         <button class="button" v-if="current>0" style="margin-left: 8px" @click="prev">Previous</button>
+        <button class="button" v-if="current < steps.length - 1" type="primary" @click="next">Next</button>
       </div>
     </div>
   </div>
 </template>
 
 <script>
+import { RepositoryFactory } from "@/repository/RepositoryFactory";
+const ListingRepository = RepositoryFactory.get("listings");
 export default {
   data() {
     return {
@@ -87,6 +106,17 @@ export default {
         {
           title: "Done",
           content: "Last-content"
+        }
+      ],
+      previewVisible: false,
+      previewImage: "",
+      fileList: [
+        {
+          uid: "-1",
+          name: "xxx.png",
+          status: "done",
+          url:
+            "https://zos.alipayobjects.com/rmsportal/jkjgkEfvpUPVyRjUImniVslZfWPnJuuZ.png"
         }
       ],
       current: 0,
@@ -128,6 +158,16 @@ export default {
           lng: position.coords.longitude
         };
       });
+    },
+    handleCancel() {
+      this.previewVisible = false;
+    },
+    handlePreview(file) {
+      this.previewImage = file.url || file.thumbUrl;
+      this.previewVisible = true;
+    },
+    handleChange({ fileList }) {
+      this.fileList = fileList;
     }
   },
   mounted() {
@@ -169,5 +209,14 @@ export default {
 
 .steps-action {
   margin-top: 24px;
+}
+.ant-upload-select-picture-card i {
+  font-size: 32px;
+  color: #999;
+}
+
+.ant-upload-select-picture-card .ant-upload-text {
+  margin-top: 8px;
+  color: #666;
 }
 </style>
