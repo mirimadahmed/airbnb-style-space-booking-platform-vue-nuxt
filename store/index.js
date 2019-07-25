@@ -35,9 +35,11 @@ export default () => new Vuex.Store({
       context.commit('setSystemLists', payload)
     },
     setListings(context, payload) {
-      payload.forEach(element => {
-        context.commit('addListing', element)
-      });
+      context.commit('setListings', payload)
+    },
+    deleteListing(context, payload) {
+      const index = context.state.listings.findIndex(listing => listing.Entity.permalink === payload)
+      context.commit('deleteListing', index)
     }
   },
   mutations: {
@@ -50,8 +52,11 @@ export default () => new Vuex.Store({
     setSystemLists(state, payload) {
       state.systemLists = payload
     },
-    addListing(state, payload) {
-      state.listings.push(payload)
+    setListings(state, payload) {
+      state.listings = payload
+    },
+    deleteListing(state, payload) {
+      state.listings.splice(payload, 1)
     }
   },
 });
