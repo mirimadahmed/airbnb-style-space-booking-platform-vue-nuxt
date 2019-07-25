@@ -10,10 +10,7 @@
           <div>
             <h1 class="second-heading">What's your space is for?</h1>
             <a-radio-group v-model="listing.type" size="large">
-              <a-radio-button value="a">Hangzhou</a-radio-button>
-              <a-radio-button value="b">Shanghai</a-radio-button>
-              <a-radio-button value="c">Beijing</a-radio-button>
-              <a-radio-button value="d">Chengdu</a-radio-button>
+              <a-radio-button v-for="(type, i) in typeOptions" :value="type" :key="i">{{ type }}</a-radio-button>
             </a-radio-group>
           </div>
           <div class="mt-4 col-md-8 px-0">
@@ -21,6 +18,22 @@
           </div>
           <div class="mt-4 col-md-8 px-0">
             <a-textarea placeholder="Give your listing a great description" :rows="4" />
+          </div>
+          <div class="mt-4 col-md-8 px-0">
+            <no-ssr>
+              <div class="mb-4">
+                <h1 class="second-heading">Locate your space</h1>
+                <gmap-autocomplete @place_changed="setPlace" class="ant-input ant-input-lg"></gmap-autocomplete>
+              </div>
+              <gmap-map :center="center" :zoom="12" style="width:100%;  height: 400px;">
+                <gmap-marker
+                  :key="index"
+                  v-for="(m, index) in markers"
+                  :position="m.position"
+                  @click="center=m.position"
+                ></gmap-marker>
+              </gmap-map>
+            </no-ssr>
           </div>
         </div>
         <div v-else-if="current === 1">
@@ -36,7 +49,7 @@
           <h1 class="heading">Finally</h1>
         </div>
       </div>
-      <div class="steps-action">
+      <div class="steps-action col-md-8 text-right">
         <button class="button" v-if="current < steps.length - 1" type="primary" @click="next">Next</button>
         <button
           class="button"
@@ -45,50 +58,6 @@
           @click="$message.success('Processing complete!')"
         >Done</button>
         <button class="button" v-if="current>0" style="margin-left: 8px" @click="prev">Previous</button>
-      </div>
-    </div>
-    <div class="row">
-      <div class="col-md-12">
-        <div class="col-md-10 mx-auto">
-          <div class="row">
-            <div class="col-md-12 py-4">
-              <h1 class="heading">List your space at spacesly.com and earn monthly income</h1>
-            </div>
-          </div>
-          <div class="row">
-            <div class="col-md-12">
-              <b-form-input
-                v-model="listing.title"
-                placeholder="Title here"
-                class="input-element"
-                autocomplete="false"
-              />
-            </div>
-            <div class="col-md-12 text-center">
-              <h1 class="second-heading py-3">Lets start by giving your listing a title</h1>
-            </div>
-          </div>
-          <div class="row mt-4" v-if="listing.title.length > 0">
-            <div class="col-md-12">
-              <multiselect
-                v-model="listing.type"
-                :options="typeOptions"
-                :searchable="false"
-                :show-labels="false"
-                class="text-center"
-                placeholder="Listing type"
-              ></multiselect>
-            </div>
-            <div class="col-md-12 text-center">
-              <h1 class="second-heading py-3">Select your listing type</h1>
-            </div>
-          </div>
-          <div class="row" v-if="listing.title.length > 0 && listing.type">
-            <div class="col-md-12">
-              <button class="button" @click="startListing">Start</button>
-            </div>
-          </div>
-        </div>
       </div>
     </div>
   </div>
@@ -126,7 +95,11 @@ export default {
         title: "",
         type: null
       },
-      permalink: null
+      permalink: null,
+      center: { lat: 45.508, lng: -73.587 },
+      markers: [],
+      places: [],
+      currentPlace: null
     };
   },
   watch: {
@@ -144,7 +117,21 @@ export default {
     },
     prev() {
       this.current--;
+    },
+    setPlace(place) {
+      this.currentPlace = place;
+    },
+    geolocate: function() {
+      navigator.geolocation.getCurrentPosition(position => {
+        this.center = {
+          lat: position.coords.latitude,
+          lng: position.coords.longitude
+        };
+      });
     }
+  },
+  mounted() {
+    this.geolocate();
   }
 };
 </script>
@@ -175,12 +162,9 @@ export default {
 }
 .steps-content {
   margin-top: 16px;
-  border: 1px dashed #e9e9e9;
-  border-radius: 6px;
-  background-color: #fafafa;
   min-height: 200px;
   text-align: left;
-  padding: 20px;
+  padding-top: 20px;
 }
 
 .steps-action {

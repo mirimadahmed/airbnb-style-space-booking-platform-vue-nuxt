@@ -13,6 +13,7 @@ import { createStore } from './store.js'
 
 import nuxt_plugin_bootstrapvue_7421337d from 'nuxt_plugin_bootstrapvue_7421337d' // Source: ./bootstrap-vue.js (mode: 'all')
 import nuxt_plugin_fontawesome_b8db358e from 'nuxt_plugin_fontawesome_b8db358e' // Source: ../plugins/fontawesome.js (mode: 'all')
+import nuxt_plugin_vue2googlemaps_51da65b7 from 'nuxt_plugin_vue2googlemaps_51da65b7' // Source: ../plugins/vue2-google-maps.js (mode: 'client')
 import nuxt_plugin_vuemultiselect_7aa8df7f from 'nuxt_plugin_vuemultiselect_7aa8df7f' // Source: ../plugins/vue-multiselect.js (mode: 'all')
 import nuxt_plugin_antd_975cdd78 from 'nuxt_plugin_antd_975cdd78' // Source: ../plugins/antd.js (mode: 'all')
 import nuxt_plugin_datepicker_4a26849c from 'nuxt_plugin_datepicker_4a26849c' // Source: ../plugins/datepicker (mode: 'client')
@@ -162,6 +163,10 @@ async function createApp(ssrContext) {
 
   if (typeof nuxt_plugin_fontawesome_b8db358e === 'function') {
     await nuxt_plugin_fontawesome_b8db358e(app.context, inject)
+  }
+
+  if (process.client && typeof nuxt_plugin_vue2googlemaps_51da65b7 === 'function') {
+    await nuxt_plugin_vue2googlemaps_51da65b7(app.context, inject)
   }
 
   if (typeof nuxt_plugin_vuemultiselect_7aa8df7f === 'function') {
