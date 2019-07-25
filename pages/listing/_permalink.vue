@@ -101,7 +101,7 @@
           <h1 class="heading">Finally</h1>
         </div>
       </div>
-      <div class="steps-action col-md-8 text-right">
+      <div class="steps-action col-md-10 text-right">
         <button
           class="button"
           v-if="current == steps.length - 1"
