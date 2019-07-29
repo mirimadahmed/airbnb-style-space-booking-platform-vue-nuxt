@@ -32,7 +32,7 @@
               >From {{ timeSlot.slot_start }} to {{ timeSlot.slot_end }}</div>
               <div class="col-md-6 p-2 text-right">
                 <b-form-checkbox
-                  @change="toggleIndeterminate()"
+                  @change="modifySlots(timeSlot.slot_id,!timeSlot.dnr,timeSlot.dnr_id)"
                   v-model="timeSlot.dnr"
                   name="check-button"
                   class="slot-switch"
@@ -53,6 +53,7 @@
 <script>
 import { RepositoryFactory } from "~/repository/RepositoryFactory"
 const ListingRepository = RepositoryFactory.get("listings");
+import moment from "moment";
 
 import {mapGetters} from 'vuex'
 export default {
@@ -73,13 +74,18 @@ export default {
     };
   },
   methods: {
-    toggleIndeterminate () {
-      console.log("swiss")
+    async modifySlots (slot_id,dnr,dnr_id) {
+      if(dnr) {
+      const { data } = await ListingRepository.modifyEntitySlots({dnr:dnr,entity_id:this.selectedSpace,slot_id:slot_id,selectedDate:this.selectedDate});
+      }
+      else {
+      const { data } = await ListingRepository.modifyEntitySlots({dnr_id:dnr_id,dnr:dnr,entity_id:this.selectedSpace,slot_id:slot_id,selectedDate:this.selectedDate});
+      }
     },
     async dateSelected(date) {
-      this.selectedDate=date;
+      this.selectedDate=moment(date).format("YYYY/MM/DD");
       this.isLoading = true;
-      const { data } = await ListingRepository.getEntitySlots({company_id:this.selectedSpace,selectedDate:this.selectedDate});
+      const { data } = await ListingRepository.getEntitySlots({entity_id:this.selectedSpace,selectedDate:this.selectedDate});
       this.slotsGenerated=data
       this.isLoading = false;
     },
