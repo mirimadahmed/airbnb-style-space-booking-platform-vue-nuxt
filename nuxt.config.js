@@ -1,6 +1,5 @@
-
 export default {
-  mode: 'universal',
+  mode: 'spa',
   /*
   ** Headers of the page
   */
@@ -13,6 +12,10 @@ export default {
     ],
     link: [
       { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' }
+    ],
+    script: [
+      {src: '/json-serilization.js'},
+      {src: '/session.js'}
     ]
   },
   /*
@@ -37,13 +40,15 @@ export default {
     '~/plugins/antd.js',
     { src: '~/plugins/datepicker', ssr: false },
     { src: '~/plugins/vue-full-calendar', ssr: false },
+    { src: '~/plugins/runner', ssr: false },
+
   ],
   /*
   ** Nuxt.js modules
   */
   modules: [
     // Doc: https://bootstrap-vue.js.org/docs/
-    'bootstrap-vue/nuxt',
+    'bootstrap-vue/nuxt'
   ],
   /*
   ** Build configuration
