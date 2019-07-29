@@ -36,6 +36,7 @@ export default {
   */
   plugins: [
     '~/plugins/fontawesome.js',
+    { src: '~/plugins/vue2-google-maps.js', ssr: false },
     '~/plugins/vue-multiselect.js',
     '~/plugins/antd.js',
     { src: '~/plugins/datepicker', ssr: false },

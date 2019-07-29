@@ -10,7 +10,6 @@ import { setContext, getLocation, getRouteData, normalizeError } from './utils'
 import { createStore } from './store.js'
 
 /* Plugins */
-
 import nuxt_plugin_bootstrapvue_077ab82a from 'nuxt_plugin_bootstrapvue_077ab82a' // Source: .\\bootstrap-vue.js (mode: 'all')
 import nuxt_plugin_fontawesome_b8db358e from 'nuxt_plugin_fontawesome_b8db358e' // Source: ..\\plugins\\fontawesome.js (mode: 'all')
 import nuxt_plugin_vuemultiselect_7aa8df7f from 'nuxt_plugin_vuemultiselect_7aa8df7f' // Source: ..\\plugins\\vue-multiselect.js (mode: 'all')
@@ -159,6 +158,10 @@ async function createApp(ssrContext) {
 
   if (typeof nuxt_plugin_fontawesome_b8db358e === 'function') {
     await nuxt_plugin_fontawesome_b8db358e(app.context, inject)
+  }
+
+  if (process.client && typeof nuxt_plugin_vue2googlemaps_51da65b7 === 'function') {
+    await nuxt_plugin_vue2googlemaps_51da65b7(app.context, inject)
   }
 
   if (typeof nuxt_plugin_vuemultiselect_7aa8df7f === 'function') {
