@@ -17,6 +17,7 @@ import nuxt_plugin_vuemultiselect_7aa8df7f from 'nuxt_plugin_vuemultiselect_7aa8
 import nuxt_plugin_antd_975cdd78 from 'nuxt_plugin_antd_975cdd78' // Source: ..\\plugins\\antd.js (mode: 'all')
 import nuxt_plugin_datepicker_4a26849c from 'nuxt_plugin_datepicker_4a26849c' // Source: ..\\plugins\\datepicker (mode: 'client')
 import nuxt_plugin_vuefullcalendar_4a313802 from 'nuxt_plugin_vuefullcalendar_4a313802' // Source: ..\\plugins\\vue-full-calendar (mode: 'client')
+import nuxt_plugin_runner_3db9ebb4 from 'nuxt_plugin_runner_3db9ebb4' // Source: ..\\plugins\\runner (mode: 'client')
 
 // Component: <NoSsr>
 Vue.component(NoSsr.name, NoSsr)
@@ -38,7 +39,7 @@ Vue.use(Meta, {
   tagIDKeyName: 'hid' // the property name that vue-meta uses to determine whether to overwrite or append a tag
 })
 
-const defaultTransition = {"name":"page","mode":"out-in","appear":false,"appearClass":"appear","appearActiveClass":"appear-active","appearToClass":"appear-to"}
+const defaultTransition = {"name":"page","mode":"out-in","appear":true,"appearClass":"appear","appearActiveClass":"appear-active","appearToClass":"appear-to"}
 
 async function createApp(ssrContext) {
   const router = await createRouter(ssrContext)
@@ -46,10 +47,6 @@ async function createApp(ssrContext) {
   const store = createStore(ssrContext)
   // Add this.$router into store actions/mutations
   store.$router = router
-
-  // Fix SSR caveat https://github.com/nuxt/nuxt.js/issues/3757#issuecomment-414689141
-  const registerModule = store.registerModule
-  store.registerModule = (path, rawModule, options) => registerModule.call(store, path, rawModule, Object.assign({ preserveState: process.client }, options))
 
   // Create Root instance
 
@@ -178,6 +175,10 @@ async function createApp(ssrContext) {
 
   if (process.client && typeof nuxt_plugin_vuefullcalendar_4a313802 === 'function') {
     await nuxt_plugin_vuefullcalendar_4a313802(app.context, inject)
+  }
+
+  if (process.client && typeof nuxt_plugin_runner_3db9ebb4 === 'function') {
+    await nuxt_plugin_runner_3db9ebb4(app.context, inject)
   }
 
   // If server-side, wait for async component to be resolved first
