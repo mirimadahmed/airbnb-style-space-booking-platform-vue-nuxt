@@ -11,14 +11,14 @@
               <div class="col-md-12">
                 <b-form-select v-model="selectedSpace" :disabled="isLoading" :options="spaceOptions"></b-form-select>
               </div>
-              <div class="col-md-12 mt-5">
+              <div v-if="selectedSpace!=null" class="col-md-12 mt-5">
                 <no-ssr>
                   <full-calendar :header="header" defaultView="month" @day-click="dateSelected" />
                 </no-ssr>
               </div>
             </div>
           </div>
-          <div class="col-md-6 px-5">
+          <div v-if="slotsGenerated.length>0 && isLoading==false" class="col-md-6 px-5">
             <div class="row header">
               <div class="col-md-6 text-left p-2">Timing</div>
               <div class="col-md-6 text-right p-2">Status</div>
@@ -26,16 +26,17 @@
             <div class="row" v-for="(timeSlot, i) in slotsGenerated" :key="i">
               <div
                 class="col-md-6 slot-time p-2 text-left"
-              >From {{ timeSlot.from }} to {{ timeSlot.to }}</div>
+              >From {{ timeSlot.slot_start }} to {{ timeSlot.slot_end }}</div>
               <div class="col-md-6 p-2 text-right">
                 <b-form-checkbox
-                  v-model="timeSlot.status"
-                  :disabled="timeSlot.disabled"
+                  v-model="timeSlot.dnr"
                   name="check-button"
                   class="slot-switch"
                   switch
                 />
               </div>
+               <!-- :disabled="timeSlot.disabled" -->
+                 
               <hr class="col-md-12" />
             </div>
           </div>
@@ -54,20 +55,11 @@ export default {
   middleware: 'auth',
   data() {
     return {
-      vendor_entities:[],
+      vendor_entity_slots:[],
+      spaces:[],
       isLoading: false,
       selectedSpace: null,
-      spaces: [
-        { value: null, text: "Please select an option" },
-        { value: "a", text: "Venue 1" },
-        { value: "b", text: "Venue 2" },
-        { value: "c", text: "Venue 3" }
-      ],
-      slotsGenerated: [
-        { from: "10:00", to: "12:00", status: false, disabled: false },
-        { from: "12:00", to: "14:00", status: false, disabled: false },
-        { from: "14:00", to: "16:00", status: false, disabled: true }
-      ],
+      slotsGenerated: [],
       selectedDate: null,
       header: {
         left: "today prev,next",
@@ -77,24 +69,24 @@ export default {
     };
   },
   methods: {
-    dateSelected(date) {
-      alert(date);
+    async dateSelected(date) {
+      this.selectedDate=date;
+      this.isLoading = true;
+      const { data } = await ListingRepository.getEntitySlots(this.selectedSpace);
+      this.slotsGenerated=data
+      this.isLoading = false;
     },
     async fetchEntities() {
       this.isLoading = true;
       const { data } = await ListingRepository.getAll(this.user.company_id);
-      this.vendor_entities=data
+      this.spaces=data
       this.isLoading = false;
-      if (data.success) {
-         console.log(data)
-      }
-  
     }
   },
   computed : {
     ...mapGetters(['user']),
     spaceOptions () {
-			return this.vendor_entities.map(vendor_entity_item => {
+			return this.spaces.map(vendor_entity_item => {
 				return {
 					value: vendor_entity_item.Entity.entity_id,
 					text: vendor_entity_item.Entity.name
