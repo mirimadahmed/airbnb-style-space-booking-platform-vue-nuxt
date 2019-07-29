@@ -8,6 +8,9 @@ export default {
   getAll(company_id) {
     return Repository.get(`${resource}company/${company_id}`)
   },
+  getEntitySlots(company_id) {
+    return Repository.get(`entity_slots/${company_id}`)
+  },
   newListing(company_id, type, title, description, address, lat, lng) {
     return Repository.post(`${resource}`, {
       company_id, type, title, description, address, latitude: lat, longitude: lng
