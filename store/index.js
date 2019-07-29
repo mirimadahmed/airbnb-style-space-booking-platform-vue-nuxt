@@ -1,4 +1,3 @@
-/* eslint-disable */
 import Vuex from 'vuex';
 import Vue from 'vue';
 
@@ -23,7 +22,7 @@ export default () => new Vuex.Store({
     myBookings: state => state.myBookings,
   },
   actions: {
-    login(context, payload) {
+    login(context,payload) {
       localStorage.setItem('spacesly-user', JSON.stringify(payload))
       context.commit('login', payload)
     },
@@ -41,11 +40,13 @@ export default () => new Vuex.Store({
     }
   },
   mutations: {
-    login(state, payload) {
+    login(state,payload) {
       state.user = payload
+      Session.set('spacesly-user', payload)
     },
     logout(state) {
       state.user = null
+      Session.clear();
     },
     setSystemLists(state, payload) {
       state.systemLists = payload
