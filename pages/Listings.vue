@@ -19,7 +19,10 @@ import { mapGetters } from "vuex";
 export default {
   computed: {
     ...mapGetters(["listings"])
-  }
+  },
+  middleware: 'auth'
+
+
 };
 </script>
 
