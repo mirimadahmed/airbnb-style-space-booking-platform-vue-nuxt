@@ -9,7 +9,7 @@
           <div class="col-md-6">
             <div class="row">
               <div class="col-md-12">
-                <b-form-select v-model="selectedSpace"  :options="spaces"></b-form-select>
+                <b-form-select v-model="selectedSpace" :disabled="isLoading" :options="spaceOptions"></b-form-select>
               </div>
               <div class="col-md-12 mt-5">
                 <no-ssr>
@@ -54,6 +54,7 @@ export default {
   middleware: 'auth',
   data() {
     return {
+      vendor_entities:[],
       isLoading: false,
       selectedSpace: null,
       spaces: [
@@ -82,7 +83,7 @@ export default {
     async fetchEntities() {
       this.isLoading = true;
       const { data } = await ListingRepository.getAll(this.user.company_id);
-      console.log(data)
+      this.vendor_entities=data
       this.isLoading = false;
       if (data.success) {
          console.log(data)
@@ -91,7 +92,15 @@ export default {
     }
   },
   computed : {
-    ...mapGetters(['user'])
+    ...mapGetters(['user']),
+    spaceOptions () {
+			return this.vendor_entities.map(vendor_entity_item => {
+				return {
+					value: vendor_entity_item.Entity.entity_id,
+					text: vendor_entity_item.Entity.name
+				}
+			})
+    }
   },
   created () {
    this.fetchEntities()
