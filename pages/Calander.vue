@@ -9,7 +9,7 @@
           <div class="col-md-6">
             <div class="row">
               <div class="col-md-12">
-                <b-form-select v-model="selectedSpace" :options="spaces"></b-form-select>
+                <b-form-select v-model="selectedSpace"  :options="spaces"></b-form-select>
               </div>
               <div class="col-md-12 mt-5">
                 <no-ssr>
@@ -46,10 +46,15 @@
 </template>
 
 <script>
+import { RepositoryFactory } from "~/repository/RepositoryFactory"
+const ListingRepository = RepositoryFactory.get("listings");
+
+import {mapGetters} from 'vuex'
 export default {
   middleware: 'auth',
   data() {
     return {
+      isLoading: false,
       selectedSpace: null,
       spaces: [
         { value: null, text: "Please select an option" },
@@ -73,7 +78,23 @@ export default {
   methods: {
     dateSelected(date) {
       alert(date);
+    },
+    async fetchEntities() {
+      this.isLoading = true;
+      const { data } = await ListingRepository.getAll(this.user.company_id);
+      console.log(data)
+      this.isLoading = false;
+      if (data.success) {
+         console.log(data)
+      }
+  
     }
+  },
+  computed : {
+    ...mapGetters(['user'])
+  },
+  created () {
+   this.fetchEntities()
   }
 };
 </script>
