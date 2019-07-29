@@ -149,6 +149,7 @@ import moment from "moment";
 import { RepositoryFactory } from "@/repository/RepositoryFactory";
 const ListingRepository = RepositoryFactory.get("listings");
 export default {
+  middleware: 'auth',
   data() {
     return {
       isLoading: false,

@@ -4,15 +4,13 @@
       <b-navbar-brand href="/">
         <img src="/logo.png" width="120px" alt="Spacesly" />
       </b-navbar-brand>
+            <!-- href="/listing" -->
 
       <b-navbar-toggle target="nav-collapse"></b-navbar-toggle>
 
       <b-collapse id="nav-collapse" is-nav>
         <b-navbar-nav class="ml-auto">
-          <b-button
-            class="signin-button my-2 my-sm-0 px-4 ml-4 mr-2"
-            href="/listing"
-          >List your space</b-button>
+          <b-button @click="ListSpaceAction()" class="signin-button my-2 my-sm-0 px-4 ml-4 mr-2">List your space</b-button>
           <b-nav-item
             v-if="!isLoggedIn"
             href="#"
@@ -68,6 +66,17 @@ export default {
   methods: {
     logout() {
       this.$store.dispatch("logout");
+      this.$router.push({ path: "/"  });
+
+    },
+    ListSpaceAction () {
+      if(this.isLoggedIn) {
+            this.$router.push({ path: "/listings"  });
+      }
+      else {
+        this.showAuth = true; 
+        this.viewType = 'login'
+      }
     }
   }
 };
@@ -79,6 +88,7 @@ export default {
   color: black;
 }
 .signin-button {
+  border-radius: 0rem;
   border: 2px solid #ff4d78;
   background: white;
   color: black;

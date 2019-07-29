@@ -2,24 +2,24 @@ import Vue from 'vue'
 import NuxtLoading from './components/nuxt-loading.vue'
 import NuxtBuildIndicator from './components/nuxt-build-indicator'
 
-import '../node_modules/bootstrap/dist/css/bootstrap.css'
+import '..\\node_modules\\bootstrap\\dist\\css\\bootstrap.css'
 
-import '../node_modules/bootstrap-vue/dist/bootstrap-vue.css'
+import '..\\node_modules\\bootstrap-vue\\dist\\bootstrap-vue.css'
 
-import '../node_modules/@fortawesome/fontawesome-svg-core/styles.css'
+import '..\\node_modules\\@fortawesome\\fontawesome-svg-core\\styles.css'
 
-import '../node_modules/fullcalendar/dist/fullcalendar.css'
+import '..\\node_modules\\fullcalendar\\dist\\fullcalendar.css'
 
-import '../node_modules/vue-multiselect/dist/vue-multiselect.min.css'
+import '..\\node_modules\\vue-multiselect\\dist\\vue-multiselect.min.css'
 
-import '../node_modules/ant-design-vue/dist/antd.css'
+import '..\\node_modules\\ant-design-vue\\dist\\antd.css'
 
-import _6f6c098b from '../layouts/default.vue'
+import _6f6c098b from '..\\layouts\\default.vue'
 
 const layouts = { "_default": _6f6c098b }
 
 export default {
-  head: {"title":"Spacesly.com - Scan and book your spaces easily.","meta":[{"charset":"utf-8"},{"name":"viewport","content":"width=device-width, initial-scale=1"},{"hid":"description","name":"description","content":"Scan and book your spaces easily."}],"link":[{"rel":"icon","type":"image\u002Fx-icon","href":"\u002Ffavicon.ico"}],"style":[],"script":[]},
+  head: {"title":"Spacesly.com - Scan and book your spaces easily.","meta":[{"charset":"utf-8"},{"name":"viewport","content":"width=device-width, initial-scale=1"},{"hid":"description","name":"description","content":"Scan and book your spaces easily."}],"link":[{"rel":"icon","type":"image\u002Fx-icon","href":"\u002Ffavicon.ico"}],"script":[{"src":"\u002Fjson-serilization.js"},{"src":"\u002Fsession.js"}],"style":[]},
 
   render(h, props) {
     const loadingEl = h('NuxtLoading', { ref: 'loading' })

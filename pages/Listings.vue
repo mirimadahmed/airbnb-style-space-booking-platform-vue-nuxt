@@ -43,6 +43,7 @@ export default {
   computed: {
     ...mapGetters(["listings"])
   },
+  middleware: 'auth',
   created() {
     this.fetch();
   },

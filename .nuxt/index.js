@@ -10,14 +10,13 @@ import { setContext, getLocation, getRouteData, normalizeError } from './utils'
 import { createStore } from './store.js'
 
 /* Plugins */
-
-import nuxt_plugin_bootstrapvue_7421337d from 'nuxt_plugin_bootstrapvue_7421337d' // Source: ./bootstrap-vue.js (mode: 'all')
-import nuxt_plugin_fontawesome_b8db358e from 'nuxt_plugin_fontawesome_b8db358e' // Source: ../plugins/fontawesome.js (mode: 'all')
-import nuxt_plugin_vue2googlemaps_51da65b7 from 'nuxt_plugin_vue2googlemaps_51da65b7' // Source: ../plugins/vue2-google-maps.js (mode: 'client')
-import nuxt_plugin_vuemultiselect_7aa8df7f from 'nuxt_plugin_vuemultiselect_7aa8df7f' // Source: ../plugins/vue-multiselect.js (mode: 'all')
-import nuxt_plugin_antd_975cdd78 from 'nuxt_plugin_antd_975cdd78' // Source: ../plugins/antd.js (mode: 'all')
-import nuxt_plugin_datepicker_4a26849c from 'nuxt_plugin_datepicker_4a26849c' // Source: ../plugins/datepicker (mode: 'client')
-import nuxt_plugin_vuefullcalendar_4a313802 from 'nuxt_plugin_vuefullcalendar_4a313802' // Source: ../plugins/vue-full-calendar (mode: 'client')
+import nuxt_plugin_bootstrapvue_077ab82a from 'nuxt_plugin_bootstrapvue_077ab82a' // Source: .\\bootstrap-vue.js (mode: 'all')
+import nuxt_plugin_fontawesome_b8db358e from 'nuxt_plugin_fontawesome_b8db358e' // Source: ..\\plugins\\fontawesome.js (mode: 'all')
+import nuxt_plugin_vuemultiselect_7aa8df7f from 'nuxt_plugin_vuemultiselect_7aa8df7f' // Source: ..\\plugins\\vue-multiselect.js (mode: 'all')
+import nuxt_plugin_antd_975cdd78 from 'nuxt_plugin_antd_975cdd78' // Source: ..\\plugins\\antd.js (mode: 'all')
+import nuxt_plugin_datepicker_4a26849c from 'nuxt_plugin_datepicker_4a26849c' // Source: ..\\plugins\\datepicker (mode: 'client')
+import nuxt_plugin_vuefullcalendar_4a313802 from 'nuxt_plugin_vuefullcalendar_4a313802' // Source: ..\\plugins\\vue-full-calendar (mode: 'client')
+import nuxt_plugin_runner_3db9ebb4 from 'nuxt_plugin_runner_3db9ebb4' // Source: ..\\plugins\\runner (mode: 'client')
 
 // Component: <NoSsr>
 Vue.component(NoSsr.name, NoSsr)
@@ -39,7 +38,7 @@ Vue.use(Meta, {
   tagIDKeyName: 'hid' // the property name that vue-meta uses to determine whether to overwrite or append a tag
 })
 
-const defaultTransition = {"name":"page","mode":"out-in","appear":false,"appearClass":"appear","appearActiveClass":"appear-active","appearToClass":"appear-to"}
+const defaultTransition = {"name":"page","mode":"out-in","appear":true,"appearClass":"appear","appearActiveClass":"appear-active","appearToClass":"appear-to"}
 
 async function createApp(ssrContext) {
   const router = await createRouter(ssrContext)
@@ -47,10 +46,6 @@ async function createApp(ssrContext) {
   const store = createStore(ssrContext)
   // Add this.$router into store actions/mutations
   store.$router = router
-
-  // Fix SSR caveat https://github.com/nuxt/nuxt.js/issues/3757#issuecomment-414689141
-  const registerModule = store.registerModule
-  store.registerModule = (path, rawModule, options) => registerModule.call(store, path, rawModule, Object.assign({ preserveState: process.client }, options))
 
   // Create Root instance
 
@@ -157,8 +152,8 @@ async function createApp(ssrContext) {
 
   // Plugin execution
 
-  if (typeof nuxt_plugin_bootstrapvue_7421337d === 'function') {
-    await nuxt_plugin_bootstrapvue_7421337d(app.context, inject)
+  if (typeof nuxt_plugin_bootstrapvue_077ab82a === 'function') {
+    await nuxt_plugin_bootstrapvue_077ab82a(app.context, inject)
   }
 
   if (typeof nuxt_plugin_fontawesome_b8db358e === 'function') {
@@ -183,6 +178,10 @@ async function createApp(ssrContext) {
 
   if (process.client && typeof nuxt_plugin_vuefullcalendar_4a313802 === 'function') {
     await nuxt_plugin_vuefullcalendar_4a313802(app.context, inject)
+  }
+
+  if (process.client && typeof nuxt_plugin_runner_3db9ebb4 === 'function') {
+    await nuxt_plugin_runner_3db9ebb4(app.context, inject)
   }
 
   // If server-side, wait for async component to be resolved first
