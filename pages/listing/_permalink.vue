@@ -95,7 +95,36 @@
           </div>
         </div>
         <div v-else-if="current === 3">
-          <h1 class="heading">Timings and pricing</h1>
+          <h1 class="heading">Timings</h1>
+          <div class="clearfix">
+            <a-list
+              class="demo-loadmore-list"
+              :loading="isLoading"
+              itemLayout="horizontal"
+              :dataSource="pricings"
+            >
+              <a-list-item slot="renderItem" slot-scope="item, index">
+                <a slot="actions" v-if="!item.isActive">activate</a>
+                <div>
+                  <a-time-picker :minuteStep="15" :secondStep="10" v-model="item.time_start" />
+                  <a-time-picker :minuteStep="15" :secondStep="10" v-model="item.time_end" />
+                  <a-date-picker v-model="item.effective_date" />
+                  <a-radio-group v-model="item.slot">
+                    <a-radio-button value="per_day">Per day</a-radio-button>
+                    <a-radio-button value="per_shift">Per shift</a-radio-button>
+                    <a-radio-button value="per_hour">Per hour</a-radio-button>
+                  </a-radio-group>
+                  <a-input-number
+                    v-if="item.slot === 'per_shift'"
+                    :min="2"
+                    :max="10"
+                    v-model="item.hours_per_shift"
+                  />
+                </div>
+              </a-list-item>
+            </a-list>
+          </div>
+          <h1 class="heading mt-4">Pricing</h1>
         </div>
         <div v-else-if="current === 4">
           <h1 class="heading">Finally</h1>
@@ -116,12 +145,39 @@
 </template>
 
 <script>
+import moment from "moment";
 import { RepositoryFactory } from "@/repository/RepositoryFactory";
 const ListingRepository = RepositoryFactory.get("listings");
 export default {
   data() {
     return {
       isLoading: false,
+      pricings: [
+        {
+          slot: "per_hour",
+          hours_per_shift: "1",
+          time_start: moment("20:00"),
+          time_end: moment("10:00"),
+          effective_date: moment("10/10/2019"),
+          isActive: false
+        },
+        {
+          slot: "per_shift",
+          hours_per_shift: "4",
+          time_start: moment("9:00"),
+          time_end: moment("17:00"),
+          effective_date: moment("10/10/2019"),
+          isActive: false
+        },
+        {
+          slot: "per_day",
+          hours_per_shift: "13",
+          time_start: moment("9:00"),
+          time_end: moment("22:00"),
+          effective_date: moment("10/10/2019"),
+          isActive: true
+        }
+      ],
       steps: [
         {
           title: "About",
