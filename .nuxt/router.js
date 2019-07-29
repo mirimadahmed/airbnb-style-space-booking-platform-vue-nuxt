@@ -2,21 +2,21 @@ import Vue from 'vue'
 import Router from 'vue-router'
 import { interopDefault } from './utils'
 
-const _59e3c1d8 = () => interopDefault(import('..\\pages\\About.vue' /* webpackChunkName: "pages_About" */))
-const _0512fdbf = () => interopDefault(import('..\\pages\\Bookings.vue' /* webpackChunkName: "pages_Bookings" */))
-const _33a9fa3b = () => interopDefault(import('..\\pages\\Calander.vue' /* webpackChunkName: "pages_Calander" */))
-const _b27b8a82 = () => interopDefault(import('..\\pages\\ChangeLog.vue' /* webpackChunkName: "pages_ChangeLog" */))
-const _4fb70254 = () => interopDefault(import('..\\pages\\eventsia.vue' /* webpackChunkName: "pages_eventsia" */))
-const _47962318 = () => interopDefault(import('..\\pages\\Listings.vue' /* webpackChunkName: "pages_Listings" */))
-const _c4c0d2a0 = () => interopDefault(import('..\\pages\\Partners.vue' /* webpackChunkName: "pages_Partners" */))
-const _6cb8e8da = () => interopDefault(import('..\\pages\\Privacy.vue' /* webpackChunkName: "pages_Privacy" */))
-const _ab2432a0 = () => interopDefault(import('..\\pages\\ResultDetails.vue' /* webpackChunkName: "pages_ResultDetails" */))
-const _e6e540d6 = () => interopDefault(import('..\\pages\\search\\index.vue' /* webpackChunkName: "pages_search_index" */))
-const _6596d06d = () => interopDefault(import('..\\pages\\Search.vue' /* webpackChunkName: "pages_Search" */))
-const _23995ad2 = () => interopDefault(import('..\\pages\\Terms.vue' /* webpackChunkName: "pages_Terms" */))
-const _4c8c05ca = () => interopDefault(import('..\\pages\\listing\\_permalink.vue' /* webpackChunkName: "pages_listing__permalink" */))
-const _02297cbd = () => interopDefault(import('..\\pages\\index.vue' /* webpackChunkName: "pages_index" */))
-const _6a1ea85e = () => interopDefault(import('..\\pages\\_permalink\\index.vue' /* webpackChunkName: "pages__permalink_index" */))
+const _4227bb6b = () => interopDefault(import('../pages/About.vue' /* webpackChunkName: "pages/About" */))
+const _0363374c = () => interopDefault(import('../pages/Bookings.vue' /* webpackChunkName: "pages/Bookings" */))
+const _31fa33c8 = () => interopDefault(import('../pages/Calander.vue' /* webpackChunkName: "pages/Calander" */))
+const _727932d2 = () => interopDefault(import('../pages/ChangeLog.vue' /* webpackChunkName: "pages/ChangeLog" */))
+const _53168f3a = () => interopDefault(import('../pages/eventsia.vue' /* webpackChunkName: "pages/eventsia" */))
+const _4af5affe = () => interopDefault(import('../pages/Listings.vue' /* webpackChunkName: "pages/Listings" */))
+const _c8205f86 = () => interopDefault(import('../pages/Partners.vue' /* webpackChunkName: "pages/Partners" */))
+const _9e612734 = () => interopDefault(import('../pages/Privacy.vue' /* webpackChunkName: "pages/Privacy" */))
+const _52f49d43 = () => interopDefault(import('../pages/ResultDetails.vue' /* webpackChunkName: "pages/ResultDetails" */))
+const _8ace0fc6 = () => interopDefault(import('../pages/search/index.vue' /* webpackChunkName: "pages/search/index" */))
+const _f45bed8c = () => interopDefault(import('../pages/Search.vue' /* webpackChunkName: "pages/Search" */))
+const _0bdd5465 = () => interopDefault(import('../pages/Terms.vue' /* webpackChunkName: "pages/Terms" */))
+const _a6899a6e = () => interopDefault(import('../pages/listing/_permalink.vue' /* webpackChunkName: "pages/listing/_permalink" */))
+const _2b251360 = () => interopDefault(import('../pages/index.vue' /* webpackChunkName: "pages/index" */))
+const _5426e5e1 = () => interopDefault(import('../pages/_permalink/index.vue' /* webpackChunkName: "pages/_permalink/index" */))
 
 Vue.use(Router)
 
@@ -94,63 +94,63 @@ export function createRouter() {
 
     routes: [{
       path: "/About",
-      component: _59e3c1d8,
+      component: _4227bb6b,
       name: "About"
     }, {
       path: "/Bookings",
-      component: _0512fdbf,
+      component: _0363374c,
       name: "Bookings"
     }, {
       path: "/Calander",
-      component: _33a9fa3b,
+      component: _31fa33c8,
       name: "Calander"
     }, {
       path: "/ChangeLog",
-      component: _b27b8a82,
+      component: _727932d2,
       name: "ChangeLog"
     }, {
       path: "/eventsia",
-      component: _4fb70254,
+      component: _53168f3a,
       name: "eventsia"
     }, {
       path: "/Listings",
-      component: _47962318,
+      component: _4af5affe,
       name: "Listings"
     }, {
       path: "/Partners",
-      component: _c4c0d2a0,
+      component: _c8205f86,
       name: "Partners"
     }, {
       path: "/Privacy",
-      component: _6cb8e8da,
+      component: _9e612734,
       name: "Privacy"
     }, {
       path: "/ResultDetails",
-      component: _ab2432a0,
+      component: _52f49d43,
       name: "ResultDetails"
     }, {
       path: "/search",
-      component: _e6e540d6,
+      component: _8ace0fc6,
       name: "search"
     }, {
       path: "/Search",
-      component: _6596d06d,
+      component: _f45bed8c,
       name: "Search"
     }, {
       path: "/Terms",
-      component: _23995ad2,
+      component: _0bdd5465,
       name: "Terms"
     }, {
       path: "/listing/:permalink?",
-      component: _4c8c05ca,
+      component: _a6899a6e,
       name: "listing-permalink"
     }, {
       path: "/",
-      component: _02297cbd,
+      component: _2b251360,
       name: "index"
     }, {
       path: "/:permalink",
-      component: _6a1ea85e,
+      component: _5426e5e1,
       name: "permalink"
     }],
 
