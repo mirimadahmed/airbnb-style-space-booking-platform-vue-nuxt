@@ -42,6 +42,7 @@ export default {
     { src: '~/plugins/datepicker', ssr: false },
     { src: '~/plugins/vue-full-calendar', ssr: false },
     { src: '~/plugins/runner', ssr: false },
+    { src: '~plugins/ga.js', ssr: false }
 
   ],
   /*
