@@ -9,7 +9,7 @@ export default {
     return Repository.get(`${resource}company/${company_id}`)
   },
   getEntitySlots(payload) {
-    return Repository.get(`entity_slots/${payload.entity_id}?dnr_rate=`+payload.selectedDate)
+    return Repository.get(`entity_slots/${payload.entity_id}?date_dnr=`+payload.selectedDate)
   },
   modifyEntitySlots(payload) {
     if(payload.dnr){
