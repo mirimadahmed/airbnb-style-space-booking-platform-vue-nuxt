@@ -8,10 +8,8 @@ export default {
   getAll(company_id) {
     return Repository.get(`${resource}company/${company_id}`)
   },
-  newListing(company_id, type, title, description, address, lat, lng) {
-    return Repository.post(`${resource}`, {
-      company_id, type, title, description, address, latitude: lat, longitude: lng
-    })
+  newListing(new_entity) {
+    return Repository.post(`${resource}`, new_entity)
   },
   getCustomFields(type_id) {
     return Repository.get(`custom_fields/entity_type/${type_id}`)
