@@ -23,6 +23,9 @@
           </div>
           <div v-if="slotsGenerated.length>0 && isLoading==false" class="col-md-6 px-5">
             <div class="row header">
+              <div class="col-md-12 "><p>Change Availability of your slots on {{selectedDate}}</p></div>
+            </div>
+            <div class="row header">
               <div class="col-md-6 text-left p-2">Timing</div>
               <div class="col-md-6 text-right p-2">Status</div>
             </div>
@@ -86,10 +89,23 @@ export default {
       if(dnr) {
       const { data } = await ListingRepository.modifyEntitySlots({dnr:dnr,entity_id:this.selectedSpace,slot_id:slot_id,selectedDate:this.selectedDate});
       console.log(data)
+      if (data.success) {
+        this.openNotificationWithIcon('success',data.user_message)
+        this.$bvModal.hide("modal");
+      } else {
+        this.openNotificationWithIcon('error',data.user_message)
+      }
       this.fetchSlots()
       }
       else {
       const { data } = await ListingRepository.modifyEntitySlots({dnr_id:dnr_id});
+      if (data.success) {
+        this.openNotificationWithIcon('success',data.user_message)
+        this.$bvModal.hide("modal");
+      } else {
+        this.openNotificationWithIcon('error',data.user_message)
+
+      }
       this.fetchSlots()
 
       }
@@ -111,6 +127,12 @@ export default {
       const { data } = await ListingRepository.getAll(this.user.company_id);
       this.spaces=data
       this.isLoading = false;
+    },
+    openNotificationWithIcon (type,message) {
+      this.$notification[type]({
+        message: 'Notification',
+        description: message,
+      });
     }
   },
   computed : {
