@@ -10,7 +10,7 @@
       <div class="steps-content">
         <div v-if="current === 0">
           <h1 class="heading">About your space</h1>
-          <div>
+          <div v-if="isNew">
             <h1 class="second-heading">What's your space is for?</h1>
             <a-radio-group v-model="listing.type_id" size="large" @change="getCusotmFields">
               <a-radio-button
@@ -130,7 +130,7 @@
           <h1 class="heading">Finally</h1>
         </div>
       </div>
-      <div class="steps-action col-md-10 text-right">
+      <div class="steps-action col-md-8 text-right">
         <button
           class="button"
           v-if="current == steps.length - 1"
@@ -138,7 +138,12 @@
           @click="$message.success('Processing complete!')"
         >Done</button>
         <button class="button" v-if="current>0" style="margin-left: 8px" @click="prev">Previous</button>
-        <button class="button" v-if="current < steps.length - 1" type="primary" @click="next">Next</button>
+        <button
+          class="button"
+          v-if="current < steps.length - 1"
+          type="primary"
+          @click="next"
+        >{{ current === 0 && isNew ? 'Start' : 'Next'}}</button>
       </div>
     </div>
   </div>
@@ -147,9 +152,10 @@
 <script>
 import moment from "moment";
 import { RepositoryFactory } from "@/repository/RepositoryFactory";
+import { mapGetters } from "vuex";
 const ListingRepository = RepositoryFactory.get("listings");
 export default {
-  middleware: 'auth',
+  middleware: "auth",
   data() {
     return {
       isLoading: false,
@@ -253,6 +259,12 @@ export default {
       this.fetch();
     }
   },
+  computed: {
+    ...mapGetters["user"],
+    isNew() {
+      return this.permalink === undefined;
+    }
+  },
   methods: {
     async fetch() {
       this.isLoading = true;
@@ -283,11 +295,34 @@ export default {
       this.isLoading = false;
       this.customFields = data;
     },
+    isAboutValid() {
+      return (
+        this.listing.type_id !== null &&
+        this.listing.title.length > 10 &&
+        this.listing.description.length > 50 &&
+        this.listing.address !== null
+      );
+    },
     startListing() {
-      let permalink = this.listing.title.split(" ").join("-");
-      this.$router.push("/listing/" + permalink);
+      if (this.isAboutValid()) {
+        // its valid
+      } else {
+        // show message here
+      }
+    },
+    updateAbout() {
+      if (this.isAboutValid()) {
+        // its valid
+      } else {
+        // show message here
+      }
     },
     next() {
+      if (this.current === 0) {
+        if (this.isNew) this.startListing();
+        else this.updateAbout();
+        return;
+      }
       this.current++;
     },
     prev() {
