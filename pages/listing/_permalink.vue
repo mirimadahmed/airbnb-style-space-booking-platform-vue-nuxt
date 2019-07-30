@@ -152,7 +152,8 @@
 <script>
 import moment from "moment";
 import { RepositoryFactory } from "@/repository/RepositoryFactory";
-import { mapGetters } from "vuex";
+import { mapGetters,mapState } from "vuex";
+
 const ListingRepository = RepositoryFactory.get("listings");
 export default {
   middleware: "auth",
@@ -260,7 +261,7 @@ export default {
     }
   },
   computed: {
-    ...mapGetters["user"],
+   ...mapGetters(["user"]),
     isNew() {
       return this.permalink === undefined;
     }
@@ -298,16 +299,26 @@ export default {
     isAboutValid() {
       return (
         this.listing.type_id !== null &&
-        this.listing.title.length > 10 &&
-        this.listing.description.length > 50 &&
+        this.listing.title.length > 5 &&  
+        this.listing.description.length > 5 &&
         this.listing.address !== null
       );
     },
-    startListing() {
+    async startListing() {
       if (this.isAboutValid()) {
-        // its valid
+        let obj = {}
+        this.$set(obj,'name',this.listing.title)
+        this.$set(obj,'company_id',this.user.company_id)
+        this.$set(obj,'address',this.listing.address)
+        this.$set(obj,'description',this.listing.description)
+        this.$set(obj,'type_id',this.listing.type_id)
+        this.$set(obj,'longitude',this.center.lng)
+        this.$set(obj,'latitude',this.center.lat)
+        const { data } = await ListingRepository.newListing({Entity:obj});
+        console.log(data)
       } else {
         // show message here
+        console.log("yess")
       }
     },
     updateAbout() {
@@ -330,6 +341,7 @@ export default {
     },
     setPlace(place) {
       this.currentPlace = place;
+      this.listing.address=place.formatted_address
     },
     geolocate: function() {
       navigator.geolocation.getCurrentPosition(position => {
