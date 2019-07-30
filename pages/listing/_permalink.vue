@@ -267,6 +267,12 @@ export default {
     }
   },
   methods: {
+    openNotificationWithIcon (type,message) {
+      this.$notification[type]({
+        message: 'Notification',
+        description: message,
+      });
+    },
     async fetch() {
       this.isLoading = true;
       const { data } = await ListingRepository.get(this.permalink);
@@ -299,8 +305,8 @@ export default {
     isAboutValid() {
       return (
         this.listing.type_id !== null &&
-        this.listing.title.length > 5 &&  
-        this.listing.description.length > 5 &&
+        this.listing.title.length > 10 &&  
+        this.listing.description.length > 50 &&
         this.listing.address !== null
       );
     },
@@ -317,8 +323,8 @@ export default {
         const { data } = await ListingRepository.newListing({Entity:obj});
         console.log(data)
       } else {
-        // show message here
-        console.log("yess")
+        this.openNotificationWithIcon('error',"Listing title should be 11 characters"+
+        " Description should be 50 characters long")
       }
     },
     updateAbout() {
