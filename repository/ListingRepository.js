@@ -15,7 +15,7 @@ export default {
     return Repository.get(`custom_fields/entity_type/${type_id}`)
   },
   updateListing(listing) {
-    return Repository.put(`${resource}${listing.permalink}/`, listing)
+    return Repository.put(`${resource}${listing.Entity.permalink}/`, listing)
   },
   deleteListing(permalink) {
     return Repository.delete(`${resource}${permalink}/`)
