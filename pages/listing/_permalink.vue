@@ -34,7 +34,7 @@
             <no-ssr>
               <div class="mb-4">
                 <h1 class="second-heading">Locate your space</h1>
-                <gmap-autocomplete @place_changed="setPlace" class="ant-input ant-input-lg"></gmap-autocomplete>
+                <gmap-autocomplete @place_changed="setPlace" v-model="listing.address" class="ant-input ant-input-lg"></gmap-autocomplete>
               </div>
               <gmap-map :center="center" :zoom="12" style="width:100%;  height: 400px;" />
             </no-ssr>
@@ -321,23 +321,45 @@ export default {
         this.$set(obj,'longitude',this.center.lng)
         this.$set(obj,'latitude',this.center.lat)
         const { data } = await ListingRepository.newListing({Entity:obj});
-        console.log(data)
       } else {
         this.openNotificationWithIcon('error',"Listing title should be 11 characters"+
         " Description should be 50 characters long")
       }
     },
-    updateAbout() {
+    async updateAbout() {
       if (this.isAboutValid()) {
-        // its valid
+        let obj = {}
+        this.$set(obj,'name',this.listing.title)
+        this.$set(obj,'company_id',this.user.company_id)
+        this.$set(obj,'address',this.listing.address)
+        this.$set(obj,'description',this.listing.description)
+        this.$set(obj,'type_id',this.listing.type_id)
+        this.$set(obj,'longitude',this.center.lng)
+        this.$set(obj,'latitude',this.center.lat)
+        this.$set(obj,'permalink',this.permalink)
+        const { data } = await ListingRepository.updateListing({Entity:obj});        // its valid
+        console.log(data)
+        if(data.success){
+           this.openNotificationWithIcon('success',data.user_message)
+           this.current++
+        }
+        else {
+           this.openNotificationWithIcon('error',data.user_message)
+        }
+
       } else {
-        // show message here
+        this.openNotificationWithIcon('error',"Listing title should be 11 characters"+
+        " Description should be 50 characters long")
       }
     },
     next() {
       if (this.current === 0) {
-        if (this.isNew) this.startListing();
-        else this.updateAbout();
+        if (this.isNew){
+          this.startListing();
+        } 
+        else{
+           this.updateAbout();
+        }
         return;
       }
       this.current++;
