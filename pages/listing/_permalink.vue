@@ -7,7 +7,7 @@
       <a-steps :current="current">
         <a-step v-for="item in steps" :key="item.title" :title="item.title" />
       </a-steps>
-      <div class="steps-content">
+      <div  class="steps-content">
         <div v-if="current === 0">
           <h1 class="heading">About your space</h1>
           <div v-if="isNew">
@@ -314,15 +314,26 @@ export default {
     },
     async startListing() {
       if (this.isAboutValid()) {
-        let obj = {}
-        this.$set(obj,'name',this.listing.title)
-        this.$set(obj,'company_id',this.user.company_id)
-        this.$set(obj,'address',this.listing.address)
-        this.$set(obj,'description',this.listing.description)
-        this.$set(obj,'type_id',this.listing.type_id)
-        this.$set(obj,'longitude',this.center.lng)
-        this.$set(obj,'latitude',this.center.lat)
+        this.isLoading=true;
+        let obj = {
+          name:this.listing.title,
+          company_id:this.user.company_id,
+          address:this.listing.address,
+          description:this.listing.description,
+          type_id:this.listing.type_id,
+          longitude:this.center.lng,
+          latitude:this.center.lat}
         const { data } = await ListingRepository.newListing({Entity:obj});
+        if(data.success){
+           this.openNotificationWithIcon('success',data.user_message)
+           this.current++
+        }
+        else {
+           this.openNotificationWithIcon('error',data.user_message)
+        }
+        this.isLoading=false
+        
+
       } else {
         this.openNotificationWithIcon('error',"Listing title should be 11 characters"+
         " Description should be 50 characters long")
