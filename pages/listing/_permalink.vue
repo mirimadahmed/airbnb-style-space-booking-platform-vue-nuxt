@@ -34,7 +34,7 @@
             <no-ssr>
               <div class="mb-4">
                 <h1 class="second-heading">Locate your space</h1>
-                <gmap-autocomplete @place_changed="setPlace" v-model="listing.address" class="ant-input ant-input-lg"></gmap-autocomplete>
+                <gmap-autocomplete @place_changed="setPlace" class="ant-input ant-input-lg"></gmap-autocomplete>
               </div>
               <gmap-map :center="center" :zoom="12" style="width:100%;  height: 400px;" />
             </no-ssr>
