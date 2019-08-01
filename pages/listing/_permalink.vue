@@ -1,6 +1,6 @@
 <template>
   <div class="m-5 p-4 text-left">
-    <div class="example" v-if="isLoading">
+    <div class="text-center" v-if="isLoading">
       <a-spin />
     </div>
     <div v-else>
@@ -36,7 +36,14 @@
                 <h1 class="second-heading">Locate your space</h1>
                 <gmap-autocomplete @place_changed="setPlace" class="ant-input ant-input-lg"></gmap-autocomplete>
               </div>
-              <gmap-map :center="center" :zoom="12" style="width:100%;  height: 400px;" />
+              <gmap-map :center="center" :zoom="12" style="width:100%;  height: 400px;" >
+                <gmap-marker
+                  v-if="currentPlace"
+                  :position="currentPlace"
+                  :clickable="false"
+                  :draggable="false"
+                />
+              </gmap-map>
             </no-ssr>
           </div>
         </div>
@@ -324,14 +331,14 @@ export default {
           longitude:this.center.lng,
           latitude:this.center.lat}
         const { data } = await ListingRepository.newListing({Entity:obj});
-        if(data.success){
+        this.isLoading=false
+        if(data.success) {
            this.openNotificationWithIcon('success',data.user_message)
            this.current++
         }
         else {
            this.openNotificationWithIcon('error',data.user_message)
         }
-        this.isLoading=false
         
 
       } else {
@@ -402,7 +409,10 @@ export default {
       this.current--;
     },
     setPlace(place) {
-      this.currentPlace = place;
+
+      this.currentPlace = {lat:place.geometry.location.lat(),lng:place.geometry.location.lng()};
+      this.center.lat=place.geometry.location.lat()
+      this.center.lng=place.geometry.location.lng()
       this.listing.address=place.formatted_address
     },
     geolocate: function() {
