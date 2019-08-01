@@ -34,10 +34,12 @@
             <no-ssr>
               <div class="mb-4">
                 <h1 class="second-heading">Locate your space</h1>
-                <gmap-autocomplete @place_changed="setPlace" class="ant-input ant-input-lg"></gmap-autocomplete>
+                <gmap-autocomplete @place_changed="setPlace"  class="ant-input ant-input-lg"></gmap-autocomplete>
               </div>
-              <gmap-map :center="center" :zoom="12" style="width:100%;  height: 400px;" >
+              <gmap-map :center="center" :zoom="20" style="width:100%;  height: 400px;" >
                 <gmap-marker
+                  @drag="updateCoordinates"
+                  @dragend="updateCoordinates"
                   v-if="currentPlace"
                   :position="currentPlace"
                   :clickable="false"
@@ -398,14 +400,19 @@ export default {
             this.uploadGalleryImages()
             this.current++;
           }
-
         } 
+    },
+    updateCoordinates (location) {
+      this.center = {
+          lat: location.latLng.lat(),
+          lng: location.latLng.lng()
+        };
+      this.currentPlace = {lat:location.latLng.lat(),lng:location.latLng.lng()};
     },
     prev() {
       this.current--;
     },
     setPlace(place) {
-      console.log("cominggg")
       this.currentPlace = {lat:place.geometry.location.lat(),lng:place.geometry.location.lng()};
       this.center.lat=place.geometry.location.lat()
       this.center.lng=place.geometry.location.lng()
