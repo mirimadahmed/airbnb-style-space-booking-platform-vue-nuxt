@@ -23,7 +23,7 @@
           </div>
           <div v-if="slotsGenerated.length>0 && isLoading==false" class="col-md-6 px-5">
             <div class="row header">
-              <div class="col-md-12 "><p>Change Availability of your slots on {{selectedDate}}</p></div>
+              <div class="col-md-12 "><p>Change Availability for {{selectedDate}}</p></div>
             </div>
             <div class="row header">
               <div class="col-md-6 text-left p-2">Timing</div>
@@ -45,7 +45,7 @@
               <hr class="col-md-12" />
             </div>
           </div>
-          <div v-else-if="isLoading || slotsGenerated.length==0 && selectedDate!=null" class="col-md-6 p-2 text-right">
+          <div v-else-if="isLoading && selectedDate!=null" class="col-md-6 p-2 text-center">
                 <b-spinner variant="danger" type="grow" label="Spinning"></b-spinner>
           </div>
                  
