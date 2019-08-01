@@ -51,13 +51,13 @@
           <h1 class="heading">Photos of your space</h1>
           <div class="clearfix">
             <a-upload
-              action="https://www.mocky.io/v2/5cc8019d300000980a055e76"
               listType="picture-card"
               :fileList="fileList"
+              :multiple="true"
+              :customRequest="uploadGalleryImages"	
               @preview="handlePreview"
-              @change="handleChange"
             >
-              <div v-if="fileList.length < 3">
+              <div>
                 <a-icon type="plus" />
                 <div class="ant-upload-text">Upload</div>
               </div>
@@ -339,21 +339,16 @@ export default {
         else {
            this.openNotificationWithIcon('error',data.user_message)
         }
-        
-
       } else {
         this.openNotificationWithIcon('error',"Listing title should be 11 characters"+
         " Description should be 50 characters long")
       }
     },
-    async uploadGalleryImages() {
+    async uploadGalleryImages(file) {
       let img_obj={}
-      this.$set(img_obj, "files", this.fileList);
+      this.$set(img_obj, "files", file.file);
       this.$set(img_obj, "entity_id", this.listing.entity_id);
       this.$set(img_obj, "file_type", "images");
-
-      console.log(this.listing.entity_id)
-
       let { data } = await ListingRepository.uploadEntityGalleryImages(img_obj);
       console.log(data)
     },
@@ -410,7 +405,7 @@ export default {
       this.current--;
     },
     setPlace(place) {
-
+      console.log("cominggg")
       this.currentPlace = {lat:place.geometry.location.lat(),lng:place.geometry.location.lng()};
       this.center.lat=place.geometry.location.lat()
       this.center.lng=place.geometry.location.lng()
@@ -430,9 +425,6 @@ export default {
     handlePreview(file) {
       this.previewImage = file.url || file.thumbUrl;
       this.previewVisible = true;
-    },
-    handleChange({ fileList }) {
-      this.fileList = fileList;
     }
   },
   mounted() {
