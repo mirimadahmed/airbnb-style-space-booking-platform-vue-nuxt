@@ -246,7 +246,8 @@ export default {
         title: "",
         type_id: null,
         description: "",
-        address: null
+        address: null,
+        entity_id:null
       },
       permalink: null,
       center: { lat: 45.508, lng: -73.587 },
@@ -280,6 +281,7 @@ export default {
       this.listing.description = data.Entity.description;
       this.listing.address = data.Entity.address;
       this.listing.type_id = data.Entity.type_id;
+      this.listing.entity_id=data.Entity.entity_id
       this.currentPlace = {
         lat: data.Entity.latitude,
         lng: data.Entity.longitude
@@ -326,6 +328,17 @@ export default {
         " Description should be 50 characters long")
       }
     },
+    async uploadGalleryImages() {
+      let img_obj={}
+      this.$set(img_obj, "files", this.fileList);
+      this.$set(img_obj, "entity_id", this.listing.entity_id);
+      this.$set(img_obj, "file_type", "images");
+
+      console.log(this.listing.entity_id)
+
+      let { data } = await ListingRepository.uploadEntityGalleryImages(img_obj);
+      console.log(data)
+    },
     async updateAbout() {
       if (this.isAboutValid()) {
         let obj = {}
@@ -353,16 +366,26 @@ export default {
       }
     },
     next() {
-      if (this.current === 0) {
+      // if (this.current === 0) {
         if (this.isNew){
+          if(this.current==0){
           this.startListing();
-        } 
-        else{
-           this.updateAbout();
+          }
+          else if(this.current==1) {
+            this.uploadGalleryImages()
+
+          }  
         }
-        return;
-      }
-      this.current++;
+        else{
+          if(this.current==0){
+           this.updateAbout();
+          }
+          else if(this.current==1) {
+            this.uploadGalleryImages()
+            this.current++;
+          }
+
+        } 
     },
     prev() {
       this.current--;
