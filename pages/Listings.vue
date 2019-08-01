@@ -1,11 +1,13 @@
 <template>
   <div class="m-5 p-4">
     <div class="row">
-      <h3>My Listings</h3>
+      <div class="col-md-6">
+        <h3>My Listings</h3>
+      </div>
+      <div class="col-md-6">
+        <a-button type="primary" href="/listing">New listing</a-button>
+      </div>
       <div class="col-md-12 px-0">
-        <div class="row" v-if="!isLoading && listings.length === 0">
-          <div class="col-md-12 my-2">Create a listing now.</div>
-        </div>
         <a-list
           class="demo-loadmore-list text-left col-md-6 px-0"
           :loading="isLoading"
@@ -41,16 +43,16 @@ export default {
     };
   },
   computed: {
-    ...mapGetters(["listings"])
+    ...mapGetters(["listings", "user"])
   },
-  middleware: 'auth',
+  middleware: "auth",
   created() {
     this.fetch();
   },
   methods: {
     async fetch() {
       this.isLoading = true;
-      const { data } = await ListingRepository.getAll(1);
+      const { data } = await ListingRepository.getAll(this.user.company_id);
       this.$store.dispatch("setListings", data);
       this.isLoading = false;
     },

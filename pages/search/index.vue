@@ -92,7 +92,10 @@ export default {
     },
     async fetch() {
       this.isLoading = true;
-      const { data } = await SearchRepository.get(this.query);
+      const queryStr = Object.keys(this.query)
+        .map(key => key + "=" + this.query[key])
+        .join("&");
+      const { data } = await SearchRepository.get(queryStr);
       this.isLoading = false;
       this.companies = data.results;
       this.nextLink = data.links.next;
