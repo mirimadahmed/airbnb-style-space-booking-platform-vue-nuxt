@@ -41,7 +41,7 @@
                   v-if="currentPlace"
                   :position="currentPlace"
                   :clickable="false"
-                  :draggable="false"
+                  :draggable="true"
                 />
               </gmap-map>
             </no-ssr>
@@ -359,16 +359,17 @@ export default {
     },
     async updateAbout() {
       if (this.isAboutValid()) {
-        let obj = {}
-        this.$set(obj,'name',this.listing.title)
-        this.$set(obj,'company_id',this.user.company_id)
-        this.$set(obj,'address',this.listing.address)
-        this.$set(obj,'description',this.listing.description)
-        this.$set(obj,'type_id',this.listing.type_id)
-        this.$set(obj,'longitude',this.center.lng)
-        this.$set(obj,'latitude',this.center.lat)
-        this.$set(obj,'permalink',this.permalink)
-        const { data } = await ListingRepository.updateListing({Entity:obj});        // its valid
+        let obj = {
+          name:this.listing.title,
+          company_id:this.user.company_id,
+          address:this.listing.address,
+          description:this.listing.description,
+          type_id:this.listing.type_id,
+          longitude:this.center.lng,
+          latitude:this.center.lat,
+          permalink:this.permalink
+          }
+        const { data } = await ListingRepository.updateListing({Entity:obj})
         console.log(data)
         if(data.success){
            this.openNotificationWithIcon('success',data.user_message)
