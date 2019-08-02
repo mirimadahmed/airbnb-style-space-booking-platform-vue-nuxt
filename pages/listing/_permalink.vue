@@ -56,9 +56,11 @@
               listType="picture-card"
               :fileList="fileList"
               :multiple="true"
-              :customRequest="uploadGalleryImages"	
               @preview="handlePreview"
-            >
+              :beforeUpload="beforeUpload">
+              <!--  @preview="handlePreview"
+                :customRequest="uploadGalleryImages"	 -->
+
               <div>
                 <a-icon type="plus" />
                 <div class="ant-upload-text">Upload</div>
@@ -104,36 +106,43 @@
           </div>
         </div>
         <div v-else-if="current === 3">
-          <h1 class="heading">Timings</h1>
-          <div class="clearfix">
-            <a-list
-              class="demo-loadmore-list"
-              :loading="isLoading"
-              itemLayout="horizontal"
-              :dataSource="pricings"
-            >
-              <a-list-item slot="renderItem" slot-scope="item, index">
-                <a slot="actions" v-if="!item.isActive">activate</a>
-                <div>
-                  <a-time-picker :minuteStep="15" :secondStep="10" v-model="item.time_start" />
-                  <a-time-picker :minuteStep="15" :secondStep="10" v-model="item.time_end" />
-                  <a-date-picker v-model="item.effective_date" />
-                  <a-radio-group v-model="item.slot">
-                    <a-radio-button value="per_day">Per day</a-radio-button>
-                    <a-radio-button value="per_shift">Per shift</a-radio-button>
-                    <a-radio-button value="per_hour">Per hour</a-radio-button>
-                  </a-radio-group>
-                  <a-input-number
-                    v-if="item.slot === 'per_shift'"
-                    :min="2"
-                    :max="10"
-                    v-model="item.hours_per_shift"
-                  />
+           <div class="row">
+                <div class="col-md-6">
+                  <h1 class="heading">Timings</h1>
+              </div>
+                <div class="col-md-6">
+                  <button class="button" @click="showModal" style="margin-left: 8px" >Add New</button>
                 </div>
-              </a-list-item>
-            </a-list>
-          </div>
-          <h1 class="heading mt-4">Pricing</h1>
+            </div>
+              <div class="clearfix">
+                <a-list
+                  class="demo-loadmore-list"
+                  :loading="isLoading"
+                  itemLayout="horizontal"
+                  :dataSource="pricings"
+                >
+                  <a-list-item slot="renderItem" slot-scope="item, index">
+                    <a slot="actions" v-if="!item.isActive">activate</a>
+                    <div>
+                      <a-time-picker :minuteStep="15" :secondStep="10" v-model="item.time_start" />
+                      <a-time-picker :minuteStep="15" :secondStep="10" v-model="item.time_end" />
+                      <a-date-picker v-model="item.effective_date" />
+                      <a-radio-group v-model="item.slot">
+                        <a-radio-button value="per_day">Per day</a-radio-button>
+                        <a-radio-button value="per_shift">Per shift</a-radio-button>
+                        <a-radio-button value="per_hour">Per hour</a-radio-button>
+                      </a-radio-group>
+                      <a-input-number
+                        v-if="item.slot === 'per_shift'"
+                        :min="2"
+                        :max="10"
+                        v-model="item.hours_per_shift"
+                      />
+                    </div>
+                  </a-list-item>
+                </a-list>
+              </div>
+              <h1 class="heading mt-4">Pricing</h1>
         </div>
         <div v-else-if="current === 4">
           <h1 class="heading">Finally</h1>
@@ -154,6 +163,70 @@
           @click="next"
         >{{ current === 0 && isNew ? 'Start' : 'Next'}}</button>
       </div>
+        <a-modal @ok="newTiming"
+        :width="620"
+        title="New Timing"
+        v-model="visible">
+            <div class="row new-time">
+              <div class="col-md-6">
+                <h6 >Opening Time</h6>
+              </div>
+              <div class="col-md-6">
+                <a-time-picker :minuteStep="15" :secondStep="10"/>
+               </div>
+            </div>
+            <div class="row new-time">
+              <div class="col-md-6">
+                <h6>Close time</h6>
+               </div>
+              <div class="col-md-6">
+                <a-time-picker :minuteStep="15" :secondStep="10"  />
+              </div>
+            </div>
+            <div class="row new-time">
+              <div class="col-md-6">
+                <h6>Date</h6>
+              </div>
+              <div class="col-md-6">
+                <a-date-picker  />
+              </div>
+            </div>
+            <div class="row new-time">
+              <div class="col-md-3 .no-pad">
+                <h6>Space Allocation</h6>
+              </div>
+              <div class="col-md-7 .no-pad">
+                  <a-radio-group v-model="selected_slot">
+                    <a-radio-button value="per_day">Per day</a-radio-button>
+                    <a-radio-button value="per_shift">Per shift</a-radio-button>
+                    <a-radio-button value="per_hour">Per hour</a-radio-button>
+                  </a-radio-group>
+              </div>
+              <div class="col-md-2 no-pad">
+                <a-input-number
+                v-if="selected_slot === 'per_shift'"
+                :min="2"
+                placeholder="Capacity"
+                :max="10"
+              />
+              </div>
+            </div>
+            
+
+              <!-- <a-time-picker :minuteStep="15" :secondStep="10"  />
+              <a-time-picker :minuteStep="15" :secondStep="10"  />
+              <a-date-picker  />
+              <a-radio-group >
+                <a-radio-button value="per_day">Per day</a-radio-button>
+                <a-radio-button value="per_shift">Per shift</a-radio-button>
+                <a-radio-button value="per_hour">Per hour</a-radio-button>
+              </a-radio-group>
+              <a-input-number
+                v-if="item.slot === 'per_shift'"
+                :min="2"
+                :max="10"
+              /> -->
+        </a-modal>
     </div>
   </div>
 </template>
@@ -168,6 +241,8 @@ export default {
   middleware: "auth",
   data() {
     return {
+      selected_slot:'per_shift',
+      visible: false,
       isLoading: false,
       pricings: [
         {
@@ -261,7 +336,8 @@ export default {
       permalink: null,
       center: { lat: 45.508, lng: -73.587 },
       currentPlace: null,
-      customFields: null
+      customFields: null,
+      previous_length:null
     };
   },
   created() {
@@ -277,6 +353,17 @@ export default {
     }
   },
   methods: {
+    newTiming() {
+      
+
+    },
+    showModal() {
+      this.visible = true
+    },
+    handleOk(e) {
+      console.log(e);
+      this.visible = false
+    },
     openNotificationWithIcon (type,message) {
       this.$notification[type]({
         message: 'Notification',
@@ -302,6 +389,7 @@ export default {
         status: "done",
         url: image
       }));
+      this.previous_length=data.Entity.images.length
       this.customFields = data.CustomFields;
       this.isLoading = false;
     },
@@ -349,20 +437,36 @@ export default {
         " Description should be 50 characters long")
       }
     },
-    async uploadGalleryImages(file) {
-      let img_obj={}
-      this.$set(img_obj, "files", file.file);
-      this.$set(img_obj, "entity_id", this.listing.entity_id);
-      this.$set(img_obj, "file_type", "images");
-      let { data } = await ListingRepository.uploadEntityGalleryImages(img_obj);
-      this.fileList.push( {uid: this.fileList.length,name: "xxx.png",status: "done",url:
-            data.file_names[0]
+    beforeUpload(file) {
+      this.fileList = [...this.fileList, file]
+      return false;
+    },
+    async handleUpload() {
+      if(this.previous_length<this.fileList.length){
+        let temp_arr=[]
+        for(var i=this.previous_length;i<this.fileList.length;i++) {
+          temp_arr.push(this.fileList[i])
         }
-      )
-      console.log(data)
-      return {
-        abort(){}
+        let img_obj={}
+        this.$set(img_obj, "files", temp_arr);
+        this.$set(img_obj, "entity_id", this.listing.entity_id);
+        this.$set(img_obj, "file_type", "images");
+        let { data } = await ListingRepository.uploadEntityGalleryImages(img_obj);
+        console.log(data)
+        if(data.success) {
+          this.openNotificationWithIcon('success',data.user_message)
+          this.current++;
+        }
+        else {
+          this.openNotificationWithIcon('error',data.user_message)
+
+        }
       }
+      else {
+          this.current++;
+      }
+      
+
     },
     async updateCustomFields () {
       let obj = {
@@ -408,18 +512,10 @@ export default {
       }
     },
     next() {
-      // if (this.current === 0) {
-        if (this.isNew){
+        if (this.isNew) {
           if(this.current==0){
           this.startListing();
           }
-          // else if(this.current==1) {
-          //   this.current++
-          // }
-          // else if(this.current==2) {
-          //   this.updateCustomFields()
-          // }
-
             
         }
         else{
@@ -427,8 +523,7 @@ export default {
            this.updateAbout();
           }
           else if(this.current==1) {
-            console.log("op")
-            this.current++;
+            this.handleUpload()
           }
           else if(this.current==2) {
             this.updateCustomFields()
@@ -515,5 +610,14 @@ export default {
 .ant-upload-select-picture-card .ant-upload-text {
   margin-top: 8px;
   color: #666;
+}
+
+.new-time{
+  margin-top:10px;
+}
+
+.no-pad{
+  padding-right:0;
+  padding-left:0;
 }
 </style>
