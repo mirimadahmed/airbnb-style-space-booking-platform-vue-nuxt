@@ -14,7 +14,9 @@ export default {
   },
   uploadEntityGalleryImages(payload) {
     const form = new FormData();
-    form.append('files', payload.files); 
+    payload.files.forEach(i=>{
+      form.append('files', i); 
+    })
     form.append('entity_id', payload.entity_id);
     form.append('file_type', payload.file_type);
     return FileRepository.post('file_upload/', form);
