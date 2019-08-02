@@ -9,6 +9,9 @@ export default {
   getAll(company_id) {
     return Repository.get(`${resource}company/${company_id}`)
   },
+  update_entity (payload) {
+    return Repository.put(`${resource}`+payload.Entity.permalink+'/',payload);
+  },
   uploadEntityGalleryImages(payload) {
     const form = new FormData();
     form.append('files', payload.files); 
