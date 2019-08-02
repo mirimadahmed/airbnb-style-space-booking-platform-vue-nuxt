@@ -356,6 +356,22 @@ export default {
       let { data } = await ListingRepository.uploadEntityGalleryImages(img_obj);
       console.log(data)
     },
+    async updateCustomFields () {
+      let obj = {
+          name:this.listing.title,
+          company_id:this.user.company_id,
+          address:this.listing.address,
+          description:this.listing.description,
+          type_id:this.listing.type_id,
+          longitude:this.center.lng,
+          permalink:this.permalink,
+          latitude:this.center.lat}
+          let { data } = await ListingRepository.update_entity({Entity:obj,CustomFields:this.customFields});
+          if(data.success) {
+           this.openNotificationWithIcon('success',data.user_message)
+            this.current++;
+          }
+    },
     async updateAbout() {
       if (this.isAboutValid()) {
         let obj = {
@@ -399,11 +415,10 @@ export default {
            this.updateAbout();
           }
           else if(this.current==1) {
-
             this.current++;
           }
           else if(this.current==2) {
-            this.current++;
+            this.updateCustomFields()
           }
         } 
     },
