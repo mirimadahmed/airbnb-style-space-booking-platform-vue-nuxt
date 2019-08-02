@@ -335,6 +335,7 @@ export default {
         const { data } = await ListingRepository.newListing({Entity:obj});
         this.isLoading=false
         this.listing.entity_id=data.entity_id
+        this.permalink=data.permalink
         console.log(data)
         if(data.success) {
            this.openNotificationWithIcon('success',data.user_message)
@@ -354,7 +355,14 @@ export default {
       this.$set(img_obj, "entity_id", this.listing.entity_id);
       this.$set(img_obj, "file_type", "images");
       let { data } = await ListingRepository.uploadEntityGalleryImages(img_obj);
+      this.fileList.push( {uid: this.fileList.length,name: "xxx.png",status: "done",url:
+            data.file_names[0]
+        }
+      )
       console.log(data)
+      return {
+        abort(){}
+      }
     },
     async updateCustomFields () {
       let obj = {
@@ -405,16 +413,21 @@ export default {
           if(this.current==0){
           this.startListing();
           }
-          else if(this.current==1) {
-            this.uploadGalleryImages()
-          }
+          // else if(this.current==1) {
+          //   this.current++
+          // }
+          // else if(this.current==2) {
+          //   this.updateCustomFields()
+          // }
+
             
         }
         else{
-          if(this.current==0){
+          if(this.current==0) {
            this.updateAbout();
           }
           else if(this.current==1) {
+            console.log("op")
             this.current++;
           }
           else if(this.current==2) {
