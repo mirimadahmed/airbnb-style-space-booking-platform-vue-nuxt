@@ -34,7 +34,7 @@
             <no-ssr>
               <div class="mb-4">
                 <h1 class="second-heading">Locate your space</h1>
-                <gmap-autocomplete @place_changed="setPlace"  class="ant-input ant-input-lg"></gmap-autocomplete>
+                <gmap-autocomplete @place_changed="setPlace"   class="ant-input ant-input-lg"></gmap-autocomplete>
               </div>
               <gmap-map :center="center" :zoom="20" style="width:100%;  height: 400px;" >
                 <gmap-marker
@@ -220,13 +220,13 @@ export default {
       previewVisible: false,
       previewImage: "",
       fileList: [
-        {
-          uid: "-1",
-          name: "xxx.png",
-          status: "done",
-          url:
-            "https://zos.alipayobjects.com/rmsportal/jkjgkEfvpUPVyRjUImniVslZfWPnJuuZ.png"
-        }
+        // {
+        //   uid: "-1",
+        //   name: "xxx.png",
+        //   status: "done",
+        //   url:
+        //     "https://zos.alipayobjects.com/rmsportal/jkjgkEfvpUPVyRjUImniVslZfWPnJuuZ.png"
+        // }
       ],
       current: 0,
       typeOptions: [
@@ -334,6 +334,8 @@ export default {
           latitude:this.center.lat}
         const { data } = await ListingRepository.newListing({Entity:obj});
         this.isLoading=false
+        this.listing.entity_id=data.entity_id
+        console.log(data)
         if(data.success) {
            this.openNotificationWithIcon('success',data.user_message)
            this.current++
@@ -389,15 +391,18 @@ export default {
           }
           else if(this.current==1) {
             this.uploadGalleryImages()
-
-          }  
+          }
+            
         }
         else{
           if(this.current==0){
            this.updateAbout();
           }
           else if(this.current==1) {
-            this.uploadGalleryImages()
+
+            this.current++;
+          }
+          else if(this.current==2) {
             this.current++;
           }
         } 
