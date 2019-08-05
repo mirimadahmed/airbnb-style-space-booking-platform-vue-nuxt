@@ -387,6 +387,8 @@ export default {
         const { data } = await ListingRepository.savePricing(obj);
         if(data.success){
         this.openNotificationWithIcon('success',data.user_message)
+        this.fetch();
+
         }
         else{
         this.openNotificationWithIcon('error',data.user_message)
