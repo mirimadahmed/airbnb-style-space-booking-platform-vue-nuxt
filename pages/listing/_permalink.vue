@@ -119,7 +119,7 @@
                   :dataSource="pricings"
                 >
                   <a-list-item slot="renderItem" slot-scope="item, index">
-                    <a slot="actions" v-if="!item.isActive">activate</a>
+                    <a slot="actions" @click="activateSlots(item.timings_conf_id)" v-if="!item.is_active">activate</a>
                     <div>
                       <a-time-picker :minuteStep="15" :secondStep="10" v-model="item.time_start" />
                       <a-time-picker :minuteStep="15" :secondStep="10" v-model="item.time_end" />
@@ -357,8 +357,11 @@ export default {
     }
   },
   methods: {
+    async activateSlots (config_id) {
+       const { data } = await ListingRepository.changeTimeSlots({config_id:config_id,entity_id:this.listing.entity_id});
+       this.fetch()
+    },
     async newTiming() {
-
         if (this.newTime.slot == "per_hour") {
           this.newTime.hours_per_shift = 1;
         }
@@ -384,7 +387,7 @@ export default {
         slot:this.newTime.slot,
         hours_per_shift:this.newTime.hours_per_shift,
         entity_id:this.listing.entity_id}
-        const { data } = await ListingRepository.savePricing(obj);
+        const { data } = await ListingRepository.createTimeSlots(obj);
         if(data.success){
         this.openNotificationWithIcon('success',data.user_message)
         this.fetch();
@@ -416,6 +419,7 @@ export default {
       this.isLoading = true;
       const { data } = await ListingRepository.get(this.permalink);
       this.pricings=data.Entity.timings_conf
+      console.log(this.pricings)
       this.listing.title = data.Entity.name;
       this.listing.description = data.Entity.description;
       this.listing.address = data.Entity.address;
