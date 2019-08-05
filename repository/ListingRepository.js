@@ -21,8 +21,11 @@ export default {
     form.append('file_type', payload.file_type);
     return FileRepository.post('file_upload/', form);
   },
-  savePricing(pricing) {
-    return Repository.post(`${resource}/${pricing.entity_id}/timings_conf/`, pricing)
+  createTimeSlots(timeslot) {
+    return Repository.post(`${resource}/${timeslot.entity_id}/timings_conf/`, timeslot)
+  },
+  changeTimeSlots(timeslot) {
+    return Repository.put(`${resource}/${timeslot.entity_id}/timings_conf/`+timeslot.config_id)
   },
   newListing(new_entity) {
     return Repository.post(`${resource}`, new_entity)
