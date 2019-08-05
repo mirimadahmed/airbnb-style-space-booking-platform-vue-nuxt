@@ -21,6 +21,9 @@ export default {
     form.append('file_type', payload.file_type);
     return FileRepository.post('file_upload/', form);
   },
+  savePricing(pricing) {
+    return Repository.post(`${resource}/${pricing.entity_id}/timings_conf/`, pricing)
+  },
   newListing(new_entity) {
     return Repository.post(`${resource}`, new_entity)
   },
