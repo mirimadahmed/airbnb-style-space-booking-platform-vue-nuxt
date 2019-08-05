@@ -172,7 +172,7 @@
                 <h6 >Opening Time</h6>
               </div>
               <div class="col-md-6">
-                <a-time-picker :minuteStep="15" :secondStep="10"/>
+                <a-time-picker v-model="newTime.time_start" :minuteStep="15" :secondStep="10"/>
                </div>
             </div>
             <div class="row new-time">
@@ -180,7 +180,7 @@
                 <h6>Close time</h6>
                </div>
               <div class="col-md-6">
-                <a-time-picker :minuteStep="15" :secondStep="10"  />
+                <a-time-picker v-model="newTime.time_end" :minuteStep="15" :secondStep="10"  />
               </div>
             </div>
             <div class="row new-time">
@@ -196,7 +196,7 @@
                 <h6>Space Allocation</h6>
               </div>
               <div class="col-md-7 .no-pad">
-                  <a-radio-group v-model="selected_slot">
+                  <a-radio-group v-model="newTime.slot">
                     <a-radio-button value="per_day">Per day</a-radio-button>
                     <a-radio-button value="per_shift">Per shift</a-radio-button>
                     <a-radio-button value="per_hour">Per hour</a-radio-button>
@@ -204,8 +204,9 @@
               </div>
               <div class="col-md-2 no-pad">
                 <a-input-number
-                v-if="selected_slot === 'per_shift'"
+                v-if="newTime.slot === 'per_shift'"
                 :min="2"
+                v-model="newTime.hours_per_shift"
                 placeholder="Capacity"
                 :max="10"
               />
@@ -241,7 +242,12 @@ export default {
   middleware: "auth",
   data() {
     return {
-      selected_slot:'per_shift',
+      newTime:{
+        slot:'per_shift',
+        time_start:null,
+        time_end:null,
+        hours_per_shift:null
+      },
       visible: false,
       isLoading: false,
       pricings: [
@@ -353,8 +359,11 @@ export default {
     }
   },
   methods: {
-    newTiming() {
-      
+    async newTiming() {
+      console.log(moment.format(this.newTime.time_start,'HH:mm'))
+      this.newTime={...this.newTime,entity_id:this.listing.entity_id}
+      // const { data } = await ListingRepository.savePricing(this.newTime);
+      console.log(this.newTime)
 
     },
     showModal() {
