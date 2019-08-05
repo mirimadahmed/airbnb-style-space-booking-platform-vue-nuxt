@@ -206,7 +206,7 @@
                 <a-input-number
                 v-if="newTime.slot === 'per_shift'"
                 :min="2"
-                v-model="newTime.hours_per_shift"
+                v-model="newTime.no_of_shift"
                 placeholder="Capacity"
                 :max="10"
               />
@@ -243,10 +243,11 @@ export default {
   data() {
     return {
       newTime:{
-        slot:'per_shift',
+        slot:'per_hour',
         time_start:null,
         time_end:null,
-        hours_per_shift:null
+        hours_per_shift:null,
+        no_of_shift:null
       },
       visible: false,
       isLoading: false,
@@ -360,14 +361,48 @@ export default {
   },
   methods: {
     async newTiming() {
-      console.log(moment.format(this.newTime.time_start,'HH:mm'))
-      this.newTime={...this.newTime,entity_id:this.listing.entity_id}
-      // const { data } = await ListingRepository.savePricing(this.newTime);
-      console.log(this.newTime)
+
+        if (this.newTime.slot == "per_hour") {
+          this.newTime.hours_per_shift = 1;
+        }
+        else if (this.newTime.slot == "per_day") {
+        var res = moment(this.newTime.time_start).format("HH:mm:ss").split(":",2)//this.open_time_hour.split(":",2);
+        var start_hour=res[0]
+        var res = moment(this.newTime.time_end).format("HH:mm:ss").split(":",2)//this.close_time_hour.split(":",2);
+        var end_hour=res[0]
+        var workinghours=end_hour-start_hour
+        this.newTime.hours_per_shift = workinghours
+        } 
+        else if (this.newTime.slot == "per_shift") {
+          var res = moment(this.newTime.time_start).format("HH:mm:ss").split(":",2)//this.open_time_hour.split(":",2);
+          var start_hour=res[0]
+          var res = moment(this.newTime.time_end).format("HH:mm:ss").split(":",2)//this.close_time_hour.split(":",2);
+          var end_hour=res[0]
+          var workinghours=end_hour-start_hour
+          var totalshifts=this.newTime.no_of_shift
+          this.newTime.hours_per_shift = workinghours/totalshifts;
+        }
+        let obj={time_start:moment(this.newTime.time_start).format("HH:mm:ss")+'.00',
+        time_end:moment(this.newTime.time_end).format("HH:mm:ss")+'.00',
+        slot:this.newTime.slot,
+        hours_per_shift:this.newTime.hours_per_shift,
+        entity_id:this.listing.entity_id}
+        const { data } = await ListingRepository.savePricing(obj);
+        if(data.success){
+        this.openNotificationWithIcon('success',data.user_message)
+        }
+        else{
+        this.openNotificationWithIcon('error',data.user_message)
+        }
+        this.hideModal()
+
 
     },
     showModal() {
       this.visible = true
+    },
+    hideModal(){
+      this.visible = false
     },
     handleOk(e) {
       console.log(e);
