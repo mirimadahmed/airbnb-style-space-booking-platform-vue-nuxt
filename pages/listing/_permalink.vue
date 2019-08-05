@@ -58,9 +58,6 @@
               :multiple="true"
               @preview="handlePreview"
               :beforeUpload="beforeUpload">
-              <!--  @preview="handlePreview"
-                :customRequest="uploadGalleryImages"	 -->
-
               <div>
                 <a-icon type="plus" />
                 <div class="ant-upload-text">Upload</div>
@@ -126,7 +123,7 @@
                     <div>
                       <a-time-picker :minuteStep="15" :secondStep="10" v-model="item.time_start" />
                       <a-time-picker :minuteStep="15" :secondStep="10" v-model="item.time_end" />
-                      <a-date-picker v-model="item.effective_date" />
+                      <!-- <a-date-picker v-model="item.effective_date" /> -->
                       <a-radio-group v-model="item.slot">
                         <a-radio-button value="per_day">Per day</a-radio-button>
                         <a-radio-button value="per_shift">Per shift</a-radio-button>
@@ -252,30 +249,30 @@ export default {
       visible: false,
       isLoading: false,
       pricings: [
-        {
-          slot: "per_hour",
-          hours_per_shift: "1",
-          time_start: moment("20:00"),
-          time_end: moment("10:00"),
-          effective_date: moment("10/10/2019"),
-          isActive: false
-        },
-        {
-          slot: "per_shift",
-          hours_per_shift: "4",
-          time_start: moment("9:00"),
-          time_end: moment("17:00"),
-          effective_date: moment("10/10/2019"),
-          isActive: false
-        },
-        {
-          slot: "per_day",
-          hours_per_shift: "13",
-          time_start: moment("9:00"),
-          time_end: moment("22:00"),
-          effective_date: moment("10/10/2019"),
-          isActive: true
-        }
+        // {
+        //   slot: "per_hour",
+        //   hours_per_shift: "1",
+        //   time_start: moment("20:00"),
+        //   time_end: moment("10:00"),
+        //   effective_date: moment("10/10/2019"),
+        //   isActive: false
+        // },
+        // {
+        //   slot: "per_shift",
+        //   hours_per_shift: "4",
+        //   time_start: moment("9:00"),
+        //   time_end: moment("17:00"),
+        //   effective_date: moment("10/10/2019"),
+        //   isActive: false
+        // },
+        // {
+        //   slot: "per_day",
+        //   hours_per_shift: "13",
+        //   time_start: moment("9:00"),
+        //   time_end: moment("22:00"),
+        //   effective_date: moment("10/10/2019"),
+        //   isActive: true
+        // }
       ],
       steps: [
         {
@@ -405,7 +402,6 @@ export default {
       this.visible = false
     },
     handleOk(e) {
-      console.log(e);
       this.visible = false
     },
     openNotificationWithIcon (type,message) {
@@ -417,6 +413,7 @@ export default {
     async fetch() {
       this.isLoading = true;
       const { data } = await ListingRepository.get(this.permalink);
+      this.pricings=data.Entity.timings_conf
       this.listing.title = data.Entity.name;
       this.listing.description = data.Entity.description;
       this.listing.address = data.Entity.address;
@@ -435,6 +432,11 @@ export default {
       }));
       this.previous_length=data.Entity.images.length
       this.customFields = data.CustomFields;
+      for(var i=0;i<this.pricings.length;i++){
+        this.pricings[i].time_start=moment(this.pricings[i].time_start,'HH:mm:ss')
+        this.pricings[i].time_end=moment(this.pricings[i].time_end,'HH:mm:ss')
+
+      }
       this.isLoading = false;
     },
     async getCusotmFields() {
@@ -468,7 +470,6 @@ export default {
         this.isLoading=false
         this.listing.entity_id=data.entity_id
         this.permalink=data.permalink
-        console.log(data)
         if(data.success) {
            this.openNotificationWithIcon('success',data.user_message)
            this.current++
@@ -496,7 +497,6 @@ export default {
         this.$set(img_obj, "entity_id", this.listing.entity_id);
         this.$set(img_obj, "file_type", "images");
         let { data } = await ListingRepository.uploadEntityGalleryImages(img_obj);
-        console.log(data)
         if(data.success) {
           this.openNotificationWithIcon('success',data.user_message)
           this.current++;
@@ -541,7 +541,6 @@ export default {
           permalink:this.permalink
           }
         const { data } = await ListingRepository.updateListing({Entity:obj})
-        console.log(data)
         if(data.success){
            this.openNotificationWithIcon('success',data.user_message)
            this.current++
