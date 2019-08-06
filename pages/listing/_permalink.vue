@@ -206,26 +206,28 @@
                   <b-card  class="mb-4" title="Add New Menus">
                      <div class="row">
                         <div v-for="menus in menuFields" v-bind:key="menus.key" class="col-md-4">
-                           <b-card class="mb-4" title="$t(menus.menu_title)">
+                           <b-card class="mb-4" :title="menus.menu_title">
                               <div class="row">
                                  <div class="col-md-12">
-                                    <b-form-group label="$t('Menu Items')">
-                                       <b-button style="margin-left:5px;" v-for="menu_list_item in menus.menu_items" v-bind:key="menu_list_item.key" class="mb-2" size="xs" variant="primary"> {{menu_list_item}}</b-button>
+                                    <b-form-group label="Menu Items">
+                                        <b-badge variant="info" style="margin-left:5px;" v-for="menu_list_item in menus.menu_items" v-bind:key="menu_list_item.key">{{menu_list_item}}</b-badge>
+                                       <!-- <b-button style="margin-left:5px;" v-for="menu_list_item in menus.menu_items" v-bind:key="menu_list_item.key" class="mb-2" size="xs" variant="primary"> {{menu_list_item}}</b-button> -->
                                     </b-form-group>
                                  </div>
                               </div>
                               <div class="row">
                                  <div class="col-md-12">
-                                    <b-form-group label="$t('Menu Price')">
-                                       <b-button  class="mb-2" size="xs" variant="warning"> {{menus.menu_price_pp}} per person</b-button>
+                                    <b-form-group label="Menu Price">
+                                        <b-badge variant="success" class="mb-2" style="color:white;" >{{menus.menu_price_pp}}</b-badge>
+                                       <!-- <b-button  class="mb-2" size="xs" variant="warning"> {{menus}} per person</b-button> -->
                                     </b-form-group>
                                  </div>
                               </div>
                               <div class="row">
                                  <div  class="col-md-12">
-                                    <b-form-group label="$t('Action')">
-                                       <b-button  class="mb-2" size="xs" @click="removeMenu(menus)"  variant="danger">Remove</b-button>
-                                       <b-button  class="mb-2" size="xs" @click="setSelectedMenu(menus)" variant="info">Update</b-button>
+                                    <b-form-group label="Action">
+                                       <b-button  class="mb-2" size="sm" @click="removeMenu(menus)"  variant="danger">Remove</b-button>
+                                       <b-button  class="mb-2" size="sm" @click="setSelectedMenu(menus)" variant="info">Update</b-button>
                                     </b-form-group>
                                  </div>
                               </div>
@@ -318,7 +320,7 @@
                </div>
             </div>
          </a-modal>
-         <a-modal @ok="newTiming"
+         <a-modal @ok="adddMenus"
             :width="620"
             title="New Menu"
             v-model="menu_visible">
@@ -327,7 +329,7 @@
                   <h6 >Menu Title</h6>
                </div>
                <div class="col-md-6">
-                  <a-input placeholder="Buffet Storm"/>
+                  <a-input v-model="menu_title" placeholder="Buffet Storm"/>
                </div>
              </div>  
             <div class="row new-time">
@@ -366,7 +368,7 @@
                   <h6 >Price per Person</h6>
                </div>
                <div class="col-md-6">
-                <a-input type="number" placeholder="200"/>
+                <a-input type="number" v-model="menu_price_pp" placeholder="200"/>
                </div>
             </div>
          </a-modal>
@@ -385,7 +387,11 @@ export default {
   middleware: "auth",
   data() {
     return {
+      update:false,
+      menu_title: null,
+      menu_price_pp: null,
       tags: [],
+
       inputVisible: false,
       inputValue: '',
       menuFields: [],
@@ -609,6 +615,27 @@ export default {
 
       }
       this.isLoading = false;
+    },
+    adddMenus() {
+      if (this.update == true) {
+        let oldmenuitem = this.menuFields.find(
+          menu => menu.menu_title == this.old_title
+        );
+        oldmenuitem.menu_title = this.menu_title;
+        oldmenuitem.menu_items = this.tags;
+        oldmenuitem.menu_price_pp = this.menu_price_pp;
+        this.update = false;
+      } else {
+        this.menuFields.push({
+          menu_title: this.menu_title,
+          menu_items: this.tags,
+          menu_price_pp: this.menu_price_pp
+        });
+      }
+      this.menu_title = null;
+      this.tags = [];
+      this.menu_price_pp = null;
+      this.menu_visible=false
     },
     async getCusotmFields() {
       this.isLoading = true;
