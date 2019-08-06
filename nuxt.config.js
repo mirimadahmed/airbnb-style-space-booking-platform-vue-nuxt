@@ -4,7 +4,7 @@ export default {
   ** Headers of the page
   */
   head: {
-    title: 'Spacesly.com - Scan and book your spaces easily.',
+    title: 'Spacesly.com - Book spaces easily.',
     meta: [
       { charset: 'utf-8' },
       { name: 'viewport', content: 'width=device-width, initial-scale=1' },
@@ -14,8 +14,8 @@ export default {
       { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' }
     ],
     script: [
-      {src: '/json-serilization.js'},
-      {src: '/session.js'}
+      { src: '/json-serilization.js' },
+      { src: '/session.js' }
     ]
   },
   /*
