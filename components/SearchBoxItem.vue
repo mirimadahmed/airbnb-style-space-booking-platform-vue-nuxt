@@ -1,7 +1,10 @@
 <template>
   <div>
     <div class="middle-wrapper col-md-12">
-      <h1 class="heading d-none d-md-block">Scan and Book Spaces, easily!</h1>
+      <h1 class="heading d-none d-md-block">
+        Book Spaces
+        <span style="color: #54A0FF;">Easily!</span>
+      </h1>
       <b-tabs class="text-center col-md-10 search d-none d-md-block" v-model="tabIndex">
         <b-tab title="Wedding" :title-link-class="linkClass(0)" class="tab-item" active>
           <div class="form row" inline>
@@ -357,7 +360,7 @@ export default {
   text-align: left;
   margin: 100px auto;
   width: 80%;
-  color: white;
+  color: #e84c3c;
   font-weight: 600;
   font-size: 50px;
 }
