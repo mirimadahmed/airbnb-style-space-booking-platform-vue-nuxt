@@ -1,234 +1,380 @@
 <template>
-  <div class="m-5 p-4 text-left">
-    <div class="text-center" v-if="isLoading">
+   <div class="m-5 p-4 text-left">
+   <div class="text-center" v-if="isLoading">
       <a-spin />
-    </div>
-    <div v-else>
+   </div>
+   <div v-else>
       <a-steps :current="current">
-        <a-step v-for="item in steps" :key="item.title" :title="item.title" />
+         <a-step v-for="item in steps" :key="item.title" :title="item.title" />
       </a-steps>
       <div  class="steps-content">
-        <div v-if="current === 0">
-          <h1 class="heading">About your space</h1>
-          <div v-if="isNew">
-            <h1 class="second-heading">What's your space is for?</h1>
-            <a-radio-group v-model="listing.type_id" size="large" @change="getCusotmFields">
-              <a-radio-button
-                v-for="(type, i) in typeOptions"
-                :value="type.value"
-                :key="i"
-              >{{ type.label }}</a-radio-button>
-            </a-radio-group>
-          </div>
-          <div class="mt-4 col-md-8 px-0">
-            <a-input placeholder="Give your listing a title" size="large" v-model="listing.title" />
-          </div>
-          <div class="mt-4 col-md-8 px-0">
-            <a-textarea
-              placeholder="Give your listing a great description"
-              :rows="4"
-              v-model="listing.description"
-            />
-          </div>
-          <div class="mt-4 col-md-8 px-0">
-            <no-ssr>
-              <div class="mb-4">
-                <h1 class="second-heading">Locate your space</h1>
-                <gmap-autocomplete @place_changed="setPlace"   class="ant-input ant-input-lg"></gmap-autocomplete>
-              </div>
-              <gmap-map :center="center" :zoom="20" style="width:100%;  height: 400px;" >
-                <gmap-marker
-                  @drag="updateCoordinates"
-                  @dragend="updateCoordinates"
-                  v-if="currentPlace"
-                  :position="currentPlace"
-                  :clickable="false"
-                  :draggable="true"
-                />
-              </gmap-map>
-            </no-ssr>
-          </div>
-        </div>
-        <div v-else-if="current === 1">
-          <h1 class="heading">Photos of your space</h1>
-          <div class="clearfix">
-            <a-upload
-              listType="picture-card"
-              :fileList="fileList"
-              :multiple="true"
-              @preview="handlePreview"
-              :beforeUpload="beforeUpload">
-              <div>
-                <a-icon type="plus" />
-                <div class="ant-upload-text">Upload</div>
-              </div>
-            </a-upload>
-            <a-modal :visible="previewVisible" :footer="null" @cancel="handleCancel">
-              <img alt="example" style="width: 100%" :src="previewImage" />
-            </a-modal>
-          </div>
-        </div>
-        <div v-else-if="current === 2">
-          <div v-for="(group, i) in Object.keys(customFields)" :key="i" class="row">
-            <h1 class="heading col-md-12 my-2">{{ group }}</h1>
-            <div v-for="(field, j) in customFields[group]" :key="j" class="col-md-6">
-              <div v-if="field.field_type === 'boolean'" class="row my-2">
-                <div
-                  class="col-md-6"
-                >{{ field.form_message || field.form_placeholder || field.form_name || field.name }}</div>
-                <div class="col-md-6">
-                  <a-switch v-model="field.value" size="large">
-                    <a-icon type="check" slot="checkedChildren" />
-                    <a-icon type="close" slot="unCheckedChildren" />
-                  </a-switch>
-                </div>
-              </div>
-              <div v-else-if="field.field_type === 'text'" class="row my-2">
-                <div
-                  class="col-md-6"
-                >{{ field.form_message || field.form_placeholder || field.form_name || field.name }}</div>
-                <div class="col-md-6">
-                  <a-input v-model="field.value" :placeholder="field.form_placeholder" />
-                </div>
-              </div>
-              <div v-else-if="field.field_type === 'number'" class="row my-2">
-                <div
-                  class="col-md-6"
-                >{{ field.form_message || field.form_placeholder || field.form_name || field.name }}</div>
-                <div class="col-md-6">
-                  <a-input-number v-model="field.value" :placeholder="field.form_placeholder" />
-                </div>
-              </div>
+         <div v-if="current === 0">
+            <h1 class="heading">About your space</h1>
+            <div v-if="isNew">
+               <h1 class="second-heading">What's your space is for?</h1>
+               <a-radio-group v-model="listing.type_id" size="large" @change="getCusotmFields">
+                  <a-radio-button
+                     v-for="(type, i) in typeOptions"
+                     :value="type.value"
+                     :key="i"
+                     >{{ type.label }}</a-radio-button>
+               </a-radio-group>
             </div>
-          </div>
-        </div>
-        <div v-else-if="current === 3">
-           <div class="row">
-                <div class="col-md-6">
+            <div class="mt-4 col-md-8 px-0">
+               <a-input placeholder="Give your listing a title" size="large" v-model="listing.title" />
+            </div>
+            <div class="mt-4 col-md-8 px-0">
+               <a-textarea
+                  placeholder="Give your listing a great description"
+                  :rows="4"
+                  v-model="listing.description"
+                  />
+            </div>
+            <div class="mt-4 col-md-8 px-0">
+               <no-ssr>
+                  <div class="mb-4">
+                     <h1 class="second-heading">Locate your space</h1>
+                     <gmap-autocomplete @place_changed="setPlace"   class="ant-input ant-input-lg"></gmap-autocomplete>
+                  </div>
+                  <gmap-map :center="center" :zoom="20" style="width:100%;  height: 400px;" >
+                     <gmap-marker
+                        @drag="updateCoordinates"
+                        @dragend="updateCoordinates"
+                        v-if="currentPlace"
+                        :position="currentPlace"
+                        :clickable="false"
+                        :draggable="true"
+                        />
+                  </gmap-map>
+               </no-ssr>
+            </div>
+         </div>
+         <div v-else-if="current === 1">
+            <h1 class="heading">Photos of your space</h1>
+            <div class="clearfix">
+               <a-upload
+                  listType="picture-card"
+                  :fileList="fileList"
+                  :multiple="true"
+                  @preview="handlePreview"
+                  :beforeUpload="beforeUpload">
+                  <div>
+                     <a-icon type="plus" />
+                     <div class="ant-upload-text">Upload</div>
+                  </div>
+               </a-upload>
+               <a-modal :visible="previewVisible" :footer="null" @cancel="handleCancel">
+                  <img alt="example" style="width: 100%" :src="previewImage" />
+               </a-modal>
+            </div>
+         </div>
+         <div v-else-if="current === 2">
+            <div v-for="(group, i) in Object.keys(customFields)" :key="i" class="row">
+               <h1 class="heading col-md-12 my-2">{{ group }}</h1>
+               <div v-for="(field, j) in customFields[group]" :key="j" class="col-md-6">
+                  <div v-if="field.field_type === 'boolean'" class="row my-2">
+                     <div
+                        class="col-md-6"
+                        >{{ field.form_message || field.form_placeholder || field.form_name || field.name }}</div>
+                     <div class="col-md-6">
+                        <a-switch v-model="field.value" size="large">
+                           <a-icon type="check" slot="checkedChildren" />
+                           <a-icon type="close" slot="unCheckedChildren" />
+                        </a-switch>
+                     </div>
+                  </div>
+                  <div v-else-if="field.field_type === 'text'" class="row my-2">
+                     <div
+                        class="col-md-6"
+                        >{{ field.form_message || field.form_placeholder || field.form_name || field.name }}</div>
+                     <div class="col-md-6">
+                        <a-input v-model="field.value" :placeholder="field.form_placeholder" />
+                     </div>
+                  </div>
+                  <div v-else-if="field.field_type === 'number'" class="row my-2">
+                     <div
+                        class="col-md-6"
+                        >{{ field.form_message || field.form_placeholder || field.form_name || field.name }}</div>
+                     <div class="col-md-6">
+                        <a-input-number v-model="field.value" :placeholder="field.form_placeholder" />
+                     </div>
+                  </div>
+               </div>
+            </div>
+         </div>
+         <div v-else-if="current === 3">
+            <div class="row">
+               <div class="col-md-6">
                   <h1 class="heading">Timings</h1>
-              </div>
-                <div class="col-md-6">
+               </div>
+               <div class="col-md-6">
                   <button class="button" @click="showModal" style="margin-left: 8px" >Add New</button>
-                </div>
+               </div>
             </div>
-              <div class="clearfix">
-                <a-list
+            <div class="clearfix">
+               <a-list
                   class="demo-loadmore-list"
                   :loading="isLoading"
                   itemLayout="horizontal"
                   :dataSource="pricings"
-                >
+                  >
                   <a-list-item slot="renderItem" slot-scope="item, index">
-                    <a slot="actions" @click="activateSlots(item.timings_conf_id)" v-if="!item.is_active">activate</a>
-                    <div>
-                      <a-time-picker :minuteStep="15" :secondStep="10" v-model="item.time_start" />
-                      <a-time-picker :minuteStep="15" :secondStep="10" v-model="item.time_end" />
-                      <!-- <a-date-picker v-model="item.effective_date" /> -->
-                      <a-radio-group v-model="item.slot">
-                        <a-radio-button value="per_day">Per day</a-radio-button>
-                        <a-radio-button value="per_shift">Per shift</a-radio-button>
-                        <a-radio-button value="per_hour">Per hour</a-radio-button>
-                      </a-radio-group>
-                      <a-input-number
-                        v-if="item.slot === 'per_shift'"
-                        :min="2"
-                        :max="10"
-                        v-model="item.hours_per_shift"
-                      />
-                    </div>
+                     <a slot="actions" @click="activateSlots(item.timings_conf_id)" v-if="!item.is_active">activate</a>
+                     <div>
+                        <a-time-picker :minuteStep="15" :secondStep="10" v-model="item.time_start" />
+                        <a-time-picker :minuteStep="15" :secondStep="10" v-model="item.time_end" />
+                        <!-- <a-date-picker v-model="item.effective_date" /> -->
+                        <a-radio-group v-model="item.slot">
+                           <a-radio-button value="per_day">Per day</a-radio-button>
+                           <a-radio-button value="per_shift">Per shift</a-radio-button>
+                           <a-radio-button value="per_hour">Per hour</a-radio-button>
+                        </a-radio-group>
+                        <a-input-number
+                           v-if="item.slot === 'per_shift'"
+                           :min="2"
+                           :max="10"
+                           v-model="item.hours_per_shift"
+                           />
+                     </div>
                   </a-list-item>
-                </a-list>
-              </div>
-              <h1 class="heading mt-4">Pricing</h1>
-        </div>
-        <div v-else-if="current === 4">
-          <h1 class="heading">Finally</h1>
-        </div>
-      </div>
-      <div class="steps-action col-md-8 text-right">
-        <button
-          class="button"
-          v-if="current == steps.length - 1"
-          type="primary"
-          @click="$message.success('Processing complete!')"
-        >Done</button>
-        <button class="button" v-if="current>0" style="margin-left: 8px" @click="prev">Previous</button>
-        <button
-          class="button"
-          v-if="current < steps.length - 1"
-          type="primary"
-          @click="next"
-        >{{ current === 0 && isNew ? 'Start' : 'Next'}}</button>
-      </div>
-        <a-modal @ok="newTiming"
-        :width="620"
-        title="New Timing"
-        v-model="visible">
+               </a-list>
+            </div>
+            <h1 class="heading mt-4">Pricing</h1>
+            <div class="row">
+               <div class="col-md-12">
+                  <b-card class="mb-4" title="AddOns">
+                     <b-card class="mb-4" title="Create AddOns">
+                        <div class="row">
+                           <div class="col-md-6">
+                              <b-form-group label="Add More AddOns">
+                                 <b-button @click="fillAddOnFields('Heating',null,0)" class="mb-2" size="sm" variant="primary">Heating</b-button>
+                                 <b-button @click="fillAddOnFields('AC',null,0)" class="mb-2" size="sm" variant="secondary">AC</b-button>
+                                 <b-button @click="fillAddOnFields('Demo',null,0)" class="mb-2" size="sm" variant="warning">
+                                    <font-awesome-icon icon="plus" :style="{ color: 'white' }"  />
+                                 </b-button>
+                              </b-form-group>
+                           </div>
+                        </div>
+                        <div class="row" v-for="addon_field_item in addonFields" v-bind:key="addon_field_item.key">
+                           <div class="col-md-12">
+                              <b-card class="mb-12" :title="addon_field_item.title">
+                                 <div class="row">
+                                    <div class="col-md-2">
+                                       <b-form-group label="AddOn Title">
+                                          <b-form-input v-model="addon_field_item.title" type="text" />
+                                       </b-form-group>
+                                    </div>
+                                    <div class="col-md-2">
+                                       <b-form-group label="Base Rent">
+                                          <b-form-input v-model="addon_field_item.price" type="number" />
+                                       </b-form-group>
+                                    </div>
+                                    <div class="col-md-2">
+                                       <b-form-group   label="Is waivable">
+                                          <b-form-checkbox v-model="addon_field_item.isWaivable" name="check-button" switch></b-form-checkbox >
+                                       </b-form-group>
+                                    </div>
+                                    <div class="col-md-2">
+                                       <b-form-group  label="Is Required">
+                                          <b-form-checkbox v-model="addon_field_item.isRequired" name="check-button" switch></b-form-checkbox >
+                                       </b-form-group>
+                                    </div>
+                                    <div class="col-md-2" v-if="addon_field_item.isWaivable==true">
+                                       <b-form-group label="Waive of people at">
+                                          <b-form-input v-model="addon_field_item.waiveOffat" type="number" />
+                                       </b-form-group>
+                                    </div>
+                                    <div class="col-md-2">
+                                       <b-form-group>
+                                          <b-button style="margin-top:35px;" size="sm" @click="removeAddons(addon_field_item)" class="mb-2"  variant="danger">Remove</b-button>
+                                       </b-form-group>
+                                    </div>
+                                 </div>
+                              </b-card>
+                           </div>
+                        </div>
+                        <div class="row">
+                           <div  class="col-md-12">
+                              <!-- @click="saveAddOns()" -->
+                              <b-button  style="margin-left:10px;" size="sm" variant="primary" class="mt-4 pull-right">Save Price</b-button>
+                           </div>
+                        </div>
+                     </b-card>
+                  </b-card>
+               </div>
+               <div class="col-md-12">
+                  <b-card  class="mb-4" title="Add New Menus">
+                     <div class="row">
+                        <div v-for="menus in menuFields" v-bind:key="menus.key" class="col-md-4">
+                           <b-card class="mb-4" title="$t(menus.menu_title)">
+                              <div class="row">
+                                 <div class="col-md-12">
+                                    <b-form-group label="$t('Menu Items')">
+                                       <b-button style="margin-left:5px;" v-for="menu_list_item in menus.menu_items" v-bind:key="menu_list_item.key" class="mb-2" size="xs" variant="primary"> {{menu_list_item}}</b-button>
+                                    </b-form-group>
+                                 </div>
+                              </div>
+                              <div class="row">
+                                 <div class="col-md-12">
+                                    <b-form-group label="$t('Menu Price')">
+                                       <b-button  class="mb-2" size="xs" variant="warning"> {{menus.menu_price_pp}} per person</b-button>
+                                    </b-form-group>
+                                 </div>
+                              </div>
+                              <div class="row">
+                                 <div  class="col-md-12">
+                                    <b-form-group label="$t('Action')">
+                                       <b-button  class="mb-2" size="xs" @click="removeMenu(menus)"  variant="danger">Remove</b-button>
+                                       <b-button  class="mb-2" size="xs" @click="setSelectedMenu(menus)" variant="info">Update</b-button>
+                                    </b-form-group>
+                                 </div>
+                              </div>
+                           </b-card>
+                        </div>
+                        <div class="col-md-4">
+                           <b-card  @click="menu_visible=true"  class="mb-4" title="Add New">
+                              <div style="margin-left:45%;" class="simple-line-icons">
+                                  <font-awesome-icon icon="plus" :style="{ color: 'black' }"  />
+                              </div>
+                           </b-card>
+                           </div>
+                        </div>
+                        <div class="row">
+                           <div  class="col-md-12">
+                             <!-- @click="SaveMenus()" -->
+                              <b-button  style="margin-left:10px;"  variant="primary" class="mt-4 pull-right">Save</b-button>
+                           </div>
+                        </div>
+                  </b-card>
+                  </div>
+               </div>
+            </div>
+            <div v-else-if="current === 4">
+               <h1 class="heading">Finally</h1>
+            </div>
+         </div>
+         <div class="steps-action col-md-8 text-right">
+            <button
+               class="button"
+               v-if="current == steps.length - 1"
+               type="primary"
+               @click="$message.success('Processing complete!')"
+               >Done</button>
+            <button class="button" v-if="current>0" style="margin-left: 8px" @click="prev">Previous</button>
+            <button
+               class="button"
+               v-if="current < steps.length - 1"
+               type="primary"
+               @click="next"
+               >{{ current === 0 && isNew ? 'Start' : 'Next'}}</button>
+         </div>
+         <a-modal @ok="newTiming"
+            :width="620"
+            title="New Timing"
+            v-model="visible">
             <div class="row new-time">
-              <div class="col-md-6">
-                <h6 >Opening Time</h6>
-              </div>
-              <div class="col-md-6">
-                <a-time-picker v-model="newTime.time_start" :minuteStep="15" :secondStep="10"/>
+               <div class="col-md-6">
+                  <h6 >Opening Time</h6>
+               </div>
+               <div class="col-md-6">
+                  <a-time-picker v-model="newTime.time_start" :minuteStep="15" :secondStep="10"/>
                </div>
             </div>
             <div class="row new-time">
-              <div class="col-md-6">
-                <h6>Close time</h6>
+               <div class="col-md-6">
+                  <h6>Close time</h6>
                </div>
-              <div class="col-md-6">
-                <a-time-picker v-model="newTime.time_end" :minuteStep="15" :secondStep="10"  />
-              </div>
+               <div class="col-md-6">
+                  <a-time-picker v-model="newTime.time_end" :minuteStep="15" :secondStep="10"  />
+               </div>
             </div>
             <div class="row new-time">
-              <div class="col-md-6">
-                <h6>Date</h6>
-              </div>
-              <div class="col-md-6">
-                <a-date-picker  />
-              </div>
+               <div class="col-md-6">
+                  <h6>Date</h6>
+               </div>
+               <div class="col-md-6">
+                  <a-date-picker  />
+               </div>
             </div>
             <div class="row new-time">
-              <div class="col-md-3 .no-pad">
-                <h6>Space Allocation</h6>
-              </div>
-              <div class="col-md-7 .no-pad">
+               <div class="col-md-3 .no-pad">
+                  <h6>Space Allocation</h6>
+               </div>
+               <div class="col-md-7 .no-pad">
                   <a-radio-group v-model="newTime.slot">
-                    <a-radio-button value="per_day">Per day</a-radio-button>
-                    <a-radio-button value="per_shift">Per shift</a-radio-button>
-                    <a-radio-button value="per_hour">Per hour</a-radio-button>
+                     <a-radio-button value="per_day">Per day</a-radio-button>
+                     <a-radio-button value="per_shift">Per shift</a-radio-button>
+                     <a-radio-button value="per_hour">Per hour</a-radio-button>
                   </a-radio-group>
-              </div>
-              <div class="col-md-2 no-pad">
-                <a-input-number
-                v-if="newTime.slot === 'per_shift'"
-                :min="2"
-                v-model="newTime.no_of_shift"
-                placeholder="Capacity"
-                :max="10"
-              />
-              </div>
+               </div>
+               <div class="col-md-2 no-pad">
+                  <a-input-number
+                     v-if="newTime.slot === 'per_shift'"
+                     :min="2"
+                     v-model="newTime.no_of_shift"
+                     placeholder="Capacity"
+                     :max="10"
+                     />
+               </div>
             </div>
-            
-
-              <!-- <a-time-picker :minuteStep="15" :secondStep="10"  />
-              <a-time-picker :minuteStep="15" :secondStep="10"  />
-              <a-date-picker  />
-              <a-radio-group >
-                <a-radio-button value="per_day">Per day</a-radio-button>
-                <a-radio-button value="per_shift">Per shift</a-radio-button>
-                <a-radio-button value="per_hour">Per hour</a-radio-button>
-              </a-radio-group>
-              <a-input-number
-                v-if="item.slot === 'per_shift'"
-                :min="2"
-                :max="10"
-              /> -->
-        </a-modal>
-    </div>
-  </div>
+         </a-modal>
+         <a-modal @ok="newTiming"
+            :width="620"
+            title="New Menu"
+            v-model="menu_visible">
+            <div class="row new-time">
+               <div class="col-md-6">
+                  <h6 >Menu Title</h6>
+               </div>
+               <div class="col-md-6">
+                  <a-input placeholder="Buffet Storm"/>
+               </div>
+             </div>  
+            <div class="row new-time">
+               <div class="col-md-6">
+                  <h6 >Provide Menu Items</h6>
+               </div>
+               <div class="col-md-6">
+                 <template v-for="(tag, index) in tags">
+                    <a-tooltip v-if="tag.length > 20" :key="tag" :title="tag">
+                      <a-tag :key="tag" :closable="index !== 0" :afterClose="() => handleClose(tag)">
+                      {{`${tag.slice(0, 20)}...`}}
+                    </a-tag>
+                  </a-tooltip>
+                  <a-tag v-else :key="tag" :closable="index !== 0" :afterClose="() => handleClose(tag)">
+                    {{tag}}
+                  </a-tag>
+                </template>
+                <a-input
+                  v-if="inputVisible"
+                  ref="input"
+                  type="text"
+                  size="small"
+                  :style="{ width: '78px' }"
+                  :value="inputValue"
+                  @change="handleInputChange"
+                  @blur="handleInputConfirm"
+                  @keyup.enter="handleInputConfirm"
+                />
+                <a-tag v-else @click="showInput" style="background: #fff; borderStyle: dashed;">
+                  <a-icon type="plus" /> New Tag
+                </a-tag>
+               </div>
+            </div>   
+            <div class="row new-time">
+               <div class="col-md-6">
+                  <h6 >Price per Person</h6>
+               </div>
+               <div class="col-md-6">
+                <a-input type="number" placeholder="200"/>
+               </div>
+            </div>
+         </a-modal>
+          <!--  -->
+         
+      </div>
+   </div>
 </template>
-
 <script>
 import moment from "moment";
 import { RepositoryFactory } from "@/repository/RepositoryFactory";
@@ -239,6 +385,11 @@ export default {
   middleware: "auth",
   data() {
     return {
+      tags: [],
+      inputVisible: false,
+      inputValue: '',
+      menuFields: [],
+      addonFields:[],
       newTime:{
         slot:'per_hour',
         time_start:null,
@@ -247,33 +398,9 @@ export default {
         no_of_shift:null
       },
       visible: false,
+      menu_visible:false,
       isLoading: false,
-      pricings: [
-        // {
-        //   slot: "per_hour",
-        //   hours_per_shift: "1",
-        //   time_start: moment("20:00"),
-        //   time_end: moment("10:00"),
-        //   effective_date: moment("10/10/2019"),
-        //   isActive: false
-        // },
-        // {
-        //   slot: "per_shift",
-        //   hours_per_shift: "4",
-        //   time_start: moment("9:00"),
-        //   time_end: moment("17:00"),
-        //   effective_date: moment("10/10/2019"),
-        //   isActive: false
-        // },
-        // {
-        //   slot: "per_day",
-        //   hours_per_shift: "13",
-        //   time_start: moment("9:00"),
-        //   time_end: moment("22:00"),
-        //   effective_date: moment("10/10/2019"),
-        //   isActive: true
-        // }
-      ],
+      pricings: [],
       steps: [
         {
           title: "About",
@@ -298,15 +425,7 @@ export default {
       ],
       previewVisible: false,
       previewImage: "",
-      fileList: [
-        // {
-        //   uid: "-1",
-        //   name: "xxx.png",
-        //   status: "done",
-        //   url:
-        //     "https://zos.alipayobjects.com/rmsportal/jkjgkEfvpUPVyRjUImniVslZfWPnJuuZ.png"
-        // }
-      ],
+      fileList: [],
       current: 0,
       typeOptions: [
         {
@@ -357,6 +476,52 @@ export default {
     }
   },
   methods: {
+    handleClose (removedTag) {
+      const tags = this.tags.filter(tag => tag !== removedTag)
+      console.log(tags)
+      this.tags = tags
+    },
+
+    showInput () {
+      this.inputVisible = true
+      this.$nextTick(function () {
+        this.$refs.input.focus()
+      })
+    },
+
+    handleInputChange (e) {
+      this.inputValue = e.target.value
+    },
+
+    handleInputConfirm () {
+      const inputValue = this.inputValue
+      let tags = this.tags
+      if (inputValue && tags.indexOf(inputValue) === -1) {
+        tags = [...tags, inputValue]
+      }
+      console.log(tags)
+      Object.assign(this, {
+        tags,
+        inputVisible: false,
+        inputValue: '',
+      })
+    },
+    removeMenu (menu) {
+
+    },
+    setSelectedMenu (menu){
+
+    },
+    fillAddOnFields(title, price, waiveoffat) {
+      this.addonFields.push({
+        title: title,
+        price: price,
+        isRequired: false,
+        isWaivable: false,
+        waiveOffat: waiveoffat
+      });
+
+    },
     async activateSlots (config_id) {
        const { data } = await ListingRepository.changeTimeSlots({config_id:config_id,entity_id:this.listing.entity_id});
        this.fetch()
