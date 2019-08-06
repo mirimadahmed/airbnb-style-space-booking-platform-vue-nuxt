@@ -2,6 +2,8 @@ import Repository from './Repository';
 import FileRepository from './FileRepository';
 
 const resource = '/entities/';
+const products_resource ='products/'
+
 export default {
   get(permalink) {
     return Repository.get(`${resource}${permalink}/`);
@@ -38,5 +40,9 @@ export default {
   },
   deleteListing(permalink) {
     return Repository.delete(`${resource}${permalink}/`)
-  }
+  },
+  //Pricings
+  add_new_pricing (payload) {
+    return Repository.post(`${products_resource}`, payload);
+  },
 };
