@@ -184,7 +184,7 @@
                         <div class="row">
                            <div  class="col-md-12">
                               <!-- @click="saveAddOns()" -->
-                              <b-button v-if="!base_price.base_rent" @click="saveBasePrice()" style="margin-left:10px;" size="sm" variant="primary" class="mt-4 pull-right">Save Price</b-button>
+                              <b-button v-if="!basePriceExists" @click="saveBasePrice()" style="margin-left:10px;" size="sm" variant="primary" class="mt-4 pull-right">Save Price</b-button>
                               <b-button v-else @click="updateBasePrice()" style="margin-left:10px;" size="sm" variant="primary" class="mt-4 pull-right">Update</b-button>
 
                            </div>
@@ -236,7 +236,8 @@
                                     </div>
                                     <div class="col-md-2">
                                        <b-form-group>
-                                          <b-button style="margin-top:35px;" size="sm" @click="removeAddons(addon_field_item)" class="mb-2"  variant="danger">Remove</b-button>
+                                          <!-- <b-button style="margin-top:35px;" size="sm" @click="removeAddons(addon_field_item)" class="mb-2"  variant="danger">Remove</b-button> -->
+                                          <b-button style="margin-top:35px;" size="sm" @click="saveAddons(addon_field_item)" class="mb-2"  variant="success">Save</b-button>
                                        </b-form-group>
                                     </div>
                                  </div>
@@ -246,7 +247,7 @@
                         <div class="row">
                            <div  class="col-md-12">
                               <!-- @click="saveAddOns()" -->
-                              <b-button  style="margin-left:10px;" size="sm" variant="primary" class="mt-4 pull-right">Save Price</b-button>
+                              <!-- <b-button  style="margin-left:10px;" size="sm" variant="primary" class="mt-4 pull-right">Save Price</b-button> -->
                            </div>
                         </div>
                      </b-card>
@@ -437,6 +438,8 @@ export default {
   middleware: "auth",
   data() {
     return {
+      basePriceExists:false,
+
       pricing_obj: {
         product_type: null,
         name: null,
@@ -758,6 +761,7 @@ export default {
       let { data } = await ListingRepository.add_new_pricing(this.pricing_obj);
       if (data.success == true) {
           this.openNotificationWithIcon('success',data.user_message)
+          this.fetchPricings()
       } else {
           this.openNotificationWithIcon('error',data.user_message)
       }
@@ -797,6 +801,9 @@ export default {
       this.pricings=data
       const base_price=this.pricings.find(pricing_item=>pricing_item.product_type=='baseprice')
       if(base_price){
+        console.log("coming")
+        this.basePriceExists=true
+
         let new_eff_Date=base_price.Pricing[0].effective_date.split('T')
         let new_exp_Date=base_price.Pricing[0].expiration_date.split('T')
 
@@ -809,9 +816,9 @@ export default {
         this.base_price.is_required=base_price.is_required
         this.base_price.waive_off_at=base_price.applicable_on_less_than
         this.base_price.product_id=base_price.product_id
-
-        console.log(this.base_price)
-
+      }
+      else{
+        this.basePriceExists=false
       }
 
       
