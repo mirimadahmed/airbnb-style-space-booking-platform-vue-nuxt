@@ -116,7 +116,7 @@
                   class="demo-loadmore-list"
                   :loading="isLoading"
                   itemLayout="horizontal"
-                  :dataSource="pricings"
+                  :dataSource="timings"
                   >
                   <a-list-item slot="renderItem" slot-scope="item, index">
                      <a slot="actions" @click="activateSlots(item.timings_conf_id)" v-if="!item.is_active">activate</a>
@@ -184,7 +184,9 @@
                         <div class="row">
                            <div  class="col-md-12">
                               <!-- @click="saveAddOns()" -->
-                              <b-button @click="saveBasePrice()" style="margin-left:10px;" size="sm" variant="primary" class="mt-4 pull-right">Save Price</b-button>
+                              <b-button v-if="!base_price.base_rent" @click="saveBasePrice()" style="margin-left:10px;" size="sm" variant="primary" class="mt-4 pull-right">Save Price</b-button>
+                              <b-button v-else @click="updateBasePrice()" style="margin-left:10px;" size="sm" variant="primary" class="mt-4 pull-right">Update</b-button>
+
                            </div>
                         </div>
                      </b-card>
@@ -475,7 +477,8 @@ export default {
       visible: false,
       menu_visible:false,
       isLoading: false,
-      pricings: [],
+      timings: [],
+      pricings:[],
       steps: [
         {
           title: "About",
@@ -579,6 +582,43 @@ export default {
         inputValue: '',
       })
     },
+    async updateBasePrice() {
+      
+     let activated_timing=this.timings.find(timing_item=>timing_item.is_active==true)
+      this.pricing_obj.Pricing = [];
+      this.pricing_obj.name = "Base Price";
+      this.pricing_obj.product_type = "baseprice";
+      this.pricing_obj.entity_id = this.listing.entity_id;
+      this.pricing_obj.is_waivable = this.base_price.is_waivable;
+      this.pricing_obj.is_required = this.base_price.is_required;
+      this.pricing_obj.product_id=this.base_price.product_id
+      this.pricing_obj.applicable_on_less_than = this.base_price.waive_off_at;
+
+      let temp_price_obj = {
+        hours:1,
+        effective_date:this.base_price.expiration_date.replace(/-/g, "/"),
+        expiration_date:this.base_price.expiration_date.replace(/-/g, "/"),
+        monday:this.base_price.base_rent,
+        tuesday:this.base_price.base_rent,
+        wednesday:this.base_price.base_rent,
+        thursday:this.base_price.base_rent,
+        friday:this.base_price.base_rent,
+        saturday:this.base_price.base_rent,
+        sunday:this.base_price.base_rent,
+        rate:this.base_price.base_rent,
+        rate_calculation:activated_timing.slot
+      };
+      this.pricing_obj.Pricing.push(temp_price_obj);
+
+      console.log(this.pricing_obj)
+     let { data } = await ListingRepository.update_pricing(this.pricing_obj);
+      if (data.success == true) {
+          this.openNotificationWithIcon('success',data.user_message)
+      } else {
+          this.openNotificationWithIcon('error',data.user_message)
+      }
+
+    },
     removeMenu (menu) {
 
     },
@@ -656,7 +696,7 @@ export default {
     async fetch() {
       this.isLoading = true;
       const { data } = await ListingRepository.get(this.permalink);
-      this.pricings=data.Entity.timings_conf
+      this.timings=data.Entity.timings_conf
       console.log(data)
       this.listing.title = data.Entity.name;
       this.listing.description = data.Entity.description;
@@ -676,18 +716,19 @@ export default {
       }));
       this.previous_length=data.Entity.images.length
       this.customFields = data.CustomFields;
-      for(var i=0;i<this.pricings.length;i++){
-        this.pricings[i].time_start=moment(this.pricings[i].time_start,'HH:mm:ss')
-        this.pricings[i].time_end=moment(this.pricings[i].time_end,'HH:mm:ss')
+      for(var i=0;i<this.timings.length;i++){
+        this.timings[i].time_start=moment(this.timings[i].time_start,'HH:mm:ss')
+        this.timings[i].time_end=moment(this.timings[i].time_end,'HH:mm:ss')
 
       }
+      this.fetchPricings()
       this.isLoading = false;
     },
     async saveBasePrice () {
       // console.log(moment(this.base_price.expiration_date,"yyyy/mm/dd")//.format("yyyy/mm/dd"))
   
 
-     let activated_timing=this.pricings.find(pricing_item=>pricing_item.is_active==true)
+     let activated_timing=this.timings.find(timing_item=>timing_item.is_active==true)
       this.pricing_obj.Pricing = [];
       this.pricing_obj.name = "Base Price";
       this.pricing_obj.product_type = "baseprice";
@@ -750,6 +791,30 @@ export default {
       );
       this.isLoading = false;
       this.customFields = data;
+    },
+    async fetchPricings() {
+      const { data } = await ListingRepository.get_entity_pricings(this.listing.entity_id)
+      this.pricings=data
+      const base_price=this.pricings.find(pricing_item=>pricing_item.product_type=='baseprice')
+      if(base_price){
+        let new_eff_Date=base_price.Pricing[0].effective_date.split('T')
+        let new_exp_Date=base_price.Pricing[0].expiration_date.split('T')
+
+        this.base_price.base_rent=base_price.Pricing[0].rate
+        this.base_price.effective_date=new_eff_Date[0]
+        this.base_price.expiration_date=new_exp_Date[0]
+        // this.base_price.effective_date=new_eff_Date[0]+'-'+new_eff_Date[1]+'-'+new_eff_Date[2]
+        // this.base_price.expiration_date=new_exp_Date[0]+'-'+new_exp_Date[1]+'-'+new_exp_Date[2]
+        this.base_price.is_waivable=base_price.is_waivable
+        this.base_price.is_required=base_price.is_required
+        this.base_price.waive_off_at=base_price.applicable_on_less_than
+        this.base_price.product_id=base_price.product_id
+
+        console.log(this.base_price)
+
+      }
+
+      
     },
     isAboutValid() {
       return (
