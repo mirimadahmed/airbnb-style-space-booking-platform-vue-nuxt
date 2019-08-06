@@ -141,6 +141,54 @@
             </div>
             <h1 class="heading mt-4">Pricing</h1>
             <div class="row">
+              <div class="col-md-12">
+                  <b-card class="mb-4" title="Base Price">                        
+                        <div class="row">
+                           <div class="col-md-12">
+                              <b-card class="mb-12" title="Provide your base pricing">
+                                 <div class="row">
+                                    <div class="col-md-2">
+                                       <b-form-group label="Rent">
+                                          <b-form-input v-model="base_price.base_rent" type="text" />
+                                       </b-form-group>
+                                    </div>
+                                    <div class="col-md-2">
+                                       <b-form-group label="Effective Date">
+                                          <b-form-input  v-model="base_price.effective_date" type="date"  />
+                                       </b-form-group>
+                                    </div>
+                                    <div class="col-md-2">
+                                       <b-form-group label="Expiry Date">
+                                          <b-form-input  v-model="base_price.expiration_date" type="date"  />
+                                       </b-form-group>
+                                    </div>
+                                    <div class="col-md-2">
+                                       <b-form-group   label="Is waivable">
+                                          <b-form-checkbox v-model="base_price.is_waivable" name="check-button" switch></b-form-checkbox >
+                                       </b-form-group>
+                                    </div>
+                                     <div class="col-md-2">
+                                       <b-form-group  label="Is Required">
+                                          <b-form-checkbox v-model="base_price.is_required" name="check-button" switch></b-form-checkbox >
+                                       </b-form-group>
+                                    </div>
+                                    <div class="col-md-2" v-if="base_price.is_waivable==true">
+                                       <b-form-group label="Waive of people at">
+                                          <b-form-input v-model="base_price.waive_off_at" type="number" />
+                                       </b-form-group>
+                                    </div> 
+                                 </div>
+                              </b-card>
+                           </div>
+                        </div>
+                        <div class="row">
+                           <div  class="col-md-12">
+                              <!-- @click="saveAddOns()" -->
+                              <b-button @click="saveBasePrice()" style="margin-left:10px;" size="sm" variant="primary" class="mt-4 pull-right">Save Price</b-button>
+                           </div>
+                        </div>
+                     </b-card>
+               </div>
                <div class="col-md-12">
                   <b-card class="mb-4" title="AddOns">
                      <b-card class="mb-4" title="Create AddOns">
@@ -387,6 +435,27 @@ export default {
   middleware: "auth",
   data() {
     return {
+      pricing_obj: {
+        product_type: null,
+        name: null,
+        description: null,
+        is_waivable: false,
+        is_required: true,
+        applicable_on_less_than: 0,
+        entity_id: null,
+        list_items_exist: false,
+        list_items: [],
+        Pricing: []
+      },
+      base_price:{
+        base_rent:null,
+        is_waivable:false,
+        is_required:false,
+        waive_off_at:0,
+        effective_date:null,
+        expiration_date:null
+      },
+
       update:false,
       menu_title: null,
       menu_price_pp: null,
@@ -484,7 +553,6 @@ export default {
   methods: {
     handleClose (removedTag) {
       const tags = this.tags.filter(tag => tag !== removedTag)
-      console.log(tags)
       this.tags = tags
     },
 
@@ -505,7 +573,6 @@ export default {
       if (inputValue && tags.indexOf(inputValue) === -1) {
         tags = [...tags, inputValue]
       }
-      console.log(tags)
       Object.assign(this, {
         tags,
         inputVisible: false,
@@ -590,7 +657,7 @@ export default {
       this.isLoading = true;
       const { data } = await ListingRepository.get(this.permalink);
       this.pricings=data.Entity.timings_conf
-      console.log(this.pricings)
+      console.log(data)
       this.listing.title = data.Entity.name;
       this.listing.description = data.Entity.description;
       this.listing.address = data.Entity.address;
@@ -615,6 +682,45 @@ export default {
 
       }
       this.isLoading = false;
+    },
+    async saveBasePrice () {
+      // console.log(moment(this.base_price.expiration_date,"yyyy/mm/dd")//.format("yyyy/mm/dd"))
+  
+
+     let activated_timing=this.pricings.find(pricing_item=>pricing_item.is_active==true)
+      this.pricing_obj.Pricing = [];
+      this.pricing_obj.name = "Base Price";
+      this.pricing_obj.product_type = "baseprice";
+      this.pricing_obj.entity_id = this.listing.entity_id;
+      this.pricing_obj.is_waivable = this.base_price.is_waivable;
+      this.pricing_obj.is_required = this.base_price.is_required;
+      this.pricing_obj.applicable_on_less_than = this.base_price.waive_off_at;
+
+      let temp_price_obj = {
+        hours:1,
+        effective_date:this.base_price.expiration_date.replace(/-/g, "/"),
+        expiration_date:this.base_price.expiration_date.replace(/-/g, "/"),
+        monday:this.base_price.base_rent,
+        tuesday:this.base_price.base_rent,
+        wednesday:this.base_price.base_rent,
+        thursday:this.base_price.base_rent,
+        friday:this.base_price.base_rent,
+        saturday:this.base_price.base_rent,
+        sunday:this.base_price.base_rent,
+        rate:this.base_price.base_rent,
+        rate_calculation:activated_timing.slot
+      };
+      this.pricing_obj.Pricing.push(temp_price_obj);
+
+      console.log(this.pricing_obj)
+
+      let { data } = await ListingRepository.add_new_pricing(this.pricing_obj);
+      if (data.success == true) {
+          this.openNotificationWithIcon('success',data.user_message)
+      } else {
+          this.openNotificationWithIcon('error',data.user_message)
+      }
+
     },
     adddMenus() {
       if (this.update == true) {
