@@ -45,4 +45,10 @@ export default {
   add_new_pricing (payload) {
     return Repository.post(`${products_resource}`, payload);
   },
+  get_entity_pricings (entity_id) {
+    return Repository.get(`${products_resource}`+entity_id);
+  },
+  update_pricing (payload) {
+    return Repository.put(`${products_resource}`+payload.entity_id, payload);
+  },
 };
