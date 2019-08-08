@@ -205,41 +205,58 @@
                               </b-form-group>
                            </div>
                         </div>
-                        <div class="row" v-for="addon_field_item in addonFields" v-bind:key="addon_field_item.key">
-                           <div class="col-md-12">
-                              <b-card class="mb-12" :title="addon_field_item.title">
+                        <div class="row" v-for="addon_field_item in pricings" v-if="addon_field_item.product_type=='addons'" v-bind:key="addon_field_item.key">
+                           <div class="col-md-12" >
+                              <b-card class="mb-12" :title="addon_field_item.name">
                                  <div class="row">
                                     <div class="col-md-2">
                                        <b-form-group label="AddOn Title">
-                                          <b-form-input v-model="addon_field_item.title" type="text" />
+                                          <b-form-input v-model="addon_field_item.name" type="text" />
                                        </b-form-group>
                                     </div>
                                     <div class="col-md-2">
                                        <b-form-group label="Base Rent">
-                                          <b-form-input v-model="addon_field_item.price" type="number" />
+                                          <b-form-input v-model="addon_field_item.Pricing[0].rate" type="number" />
+                                       </b-form-group>
+                                    </div>
+                                    <div class="col-md-2">
+                                       <b-form-group  label="Effective Date">
+                                          <b-form-input v-model="addon_field_item.Pricing[0].effective_date" type="date"  />
+
+                                       </b-form-group>
+
+                                    </div>
+                                    <div class="col-md-2">
+                                       <b-form-group label="Expiry Date">
+                                          <b-form-input  v-model="addon_field_item.Pricing[0].expiration_date" type="date"  />
                                        </b-form-group>
                                     </div>
                                     <div class="col-md-2">
                                        <b-form-group   label="Is waivable">
-                                          <b-form-checkbox v-model="addon_field_item.isWaivable" name="check-button" switch></b-form-checkbox >
+                                          <b-form-checkbox v-model="addon_field_item.is_waivable" name="check-button" switch></b-form-checkbox >
                                        </b-form-group>
                                     </div>
                                     <div class="col-md-2">
                                        <b-form-group  label="Is Required">
-                                          <b-form-checkbox v-model="addon_field_item.isRequired" name="check-button" switch></b-form-checkbox >
+                                          <b-form-checkbox v-model="addon_field_item.is_required" name="check-button" switch></b-form-checkbox >
                                        </b-form-group>
                                     </div>
-                                    <div class="col-md-2" v-if="addon_field_item.isWaivable==true">
+
+                                    <div class=" offset-md-2  col-md-6" v-if="addon_field_item.is_waivable==true">
                                        <b-form-group label="Waive of people at">
-                                          <b-form-input v-model="addon_field_item.waiveOffat" type="number" />
+                                          <b-form-input v-model="addon_field_item.applicable_on_less_than" type="number" />
                                        </b-form-group>
                                     </div>
-                                    <div class="col-md-2">
-                                       <b-form-group>
-                                          <!-- <b-button style="margin-top:35px;" size="sm" @click="removeAddons(addon_field_item)" class="mb-2"  variant="danger">Remove</b-button> -->
-                                          <b-button style="margin-top:35px;" size="sm" @click="saveAddons(addon_field_item)" class="mb-2"  variant="success">Save</b-button>
+                                 </div>
+                                 <div class="row">
+                                   <div class="col-md-12">
+                                       <b-form-group class="pull-right">
+                                          <b-button v-if="addon_field_item.new_addon" style="margin-top:35px;" size="sm" @click="saveAddOns(addon_field_item)" class="mb-2"  variant="primary">Save</b-button>
+                                          <b-button v-else style="margin-top:35px;" size="sm" class="mb-2" @click="updateAddons(addon_field_item)" variant="success">Update</b-button>
+
                                        </b-form-group>
                                     </div>
+
                                  </div>
                               </b-card>
                            </div>
@@ -254,48 +271,81 @@
                   </b-card>
                </div>
                <div class="col-md-12">
-                  <b-card  class="mb-4" title="Add New Menus">
+                  <b-card  class="mb-4" title="Add New Menus" >
                      <div class="row">
-                        <div v-for="menus in menuFields" v-bind:key="menus.key" class="col-md-4">
-                           <b-card class="mb-4" :title="menus.menu_title">
+                        <div v-for="menus in pricings" v-if="menus.product_type=='menu'"  v-bind:key="menus.key" class="col-md-4">
+                           <b-card class="mb-4" :title="menus.name">
                               <div class="row">
                                  <div class="col-md-12">
                                     <b-form-group label="Menu Items">
-                                        <b-badge variant="info" style="margin-left:5px;" v-for="menu_list_item in menus.menu_items" v-bind:key="menu_list_item.key">{{menu_list_item}}</b-badge>
-                                       <!-- <b-button style="margin-left:5px;" v-for="menu_list_item in menus.menu_items" v-bind:key="menu_list_item.key" class="mb-2" size="xs" variant="primary"> {{menu_list_item}}</b-button> -->
+                                        <b-badge variant="info" style="margin-left:5px;" v-for="menu_list_item in menus.list_items" v-bind:key="menu_list_item.key">{{menu_list_item.list_item}}</b-badge>
                                     </b-form-group>
                                  </div>
                               </div>
                               <div class="row">
                                  <div class="col-md-12">
                                     <b-form-group label="Menu Price">
-                                        <b-badge variant="success" class="mb-2" style="color:white;" >{{menus.menu_price_pp}}</b-badge>
-                                       <!-- <b-button  class="mb-2" size="xs" variant="warning"> {{menus}} per person</b-button> -->
+                                        <b-badge variant="success" class="mb-2" style="color:white;" >{{menus.Pricing[0].rate}}</b-badge>
                                     </b-form-group>
                                  </div>
                               </div>
                               <div class="row">
+                                <div class="col-md-12">                                
+                                  <b-form-group   label="Effective Dates">
+                                    <b-form-input v-model="menus.Pricing[0].effective_date" type="date"></b-form-input >
+                                  </b-form-group>
+                                </div>
+                              </div>
+                              <div class="row">
+                                <div class="col-md-12">                                
+                                  <b-form-group   label="Expiration Dates">
+                                    <b-form-input v-model="menus.Pricing[0].expiration_date" type="date"></b-form-input >
+                                  </b-form-group>
+                                </div>
+                              </div>
+                              <div class="row">
+                                <div class="col-md-6">
+                                  <b-form-group  label="Is Waivable">
+                                    <b-form-checkbox v-model="menus.is_waivable" name="check-button" switch></b-form-checkbox >
+                                  </b-form-group>
+                                </div>
+                                <div class="col-md-6">
+                                  <b-form-group  label="Is Required">
+                                    <b-form-checkbox v-model="menus.is_required" name="check-button" switch></b-form-checkbox >
+                                  </b-form-group>
+                                </div>
+                              </div>
+                              <div class="row">
+                                <div class="col-md-12">                                
+                                  <b-form-group   label="Waive Off At">
+                                    <b-form-input v-model="menus.applicable_on_less_than" type="number"></b-form-input >
+                                  </b-form-group>
+                                </div>
+                              </div>
+                              
+
+                              <!-- <div class="row">
+                                 <div class="col-md-6">
+                                    <b-form-group label="Is ">
+                                        <b-badge variant="success" class="mb-2" style="color:white;" >{{menus.menu_price_pp}}</b-badge>
+                                    </b-form-group>
+                                 </div>
+                              </div> -->
+                              <div class="row">
                                  <div  class="col-md-12">
                                     <b-form-group label="Action">
-                                       <b-button  class="mb-2" size="sm" @click="removeMenu(menus)"  variant="danger">Remove</b-button>
-                                       <b-button  class="mb-2" size="sm" @click="setSelectedMenu(menus)" variant="info">Update</b-button>
+                                       <b-button  class="mb-2" size="sm" @click="setSelectedMenu(menus)" variant="primary">Update</b-button>
                                     </b-form-group>
                                  </div>
                               </div>
                            </b-card>
                         </div>
                         <div class="col-md-4">
-                           <b-card  @click="menu_visible=true"  class="mb-4" title="Add New">
-                              <div style="margin-left:45%;" class="simple-line-icons">
+                           <b-card  @click="menu_visible=true"  class="mb-4"  title="Add New">
+                              <div style="margin-left:45%;height:5rem;" class="simple-line-icons" >
                                   <font-awesome-icon icon="plus" :style="{ color: 'black' }"  />
                               </div>
                            </b-card>
-                           </div>
-                        </div>
-                        <div class="row">
-                           <div  class="col-md-12">
-                             <!-- @click="SaveMenus()" -->
-                              <b-button  style="margin-left:10px;"  variant="primary" class="mt-4 pull-right">Save</b-button>
                            </div>
                         </div>
                   </b-card>
@@ -373,6 +423,7 @@
          </a-modal>
          <a-modal @ok="adddMenus"
             :width="620"
+            okText="Save"
             title="New Menu"
             v-model="menu_visible">
             <div class="row new-time">
@@ -388,7 +439,7 @@
                   <h6 >Provide Menu Items</h6>
                </div>
                <div class="col-md-6">
-                 <template v-for="(tag, index) in tags">
+                 <template v-for="(tag, index) in tags" >
                     <a-tooltip v-if="tag.length > 20" :key="tag" :title="tag">
                       <a-tag :key="tag" :closable="index !== 0" :afterClose="() => handleClose(tag)">
                       {{`${tag.slice(0, 20)}...`}}
@@ -421,6 +472,41 @@
                <div class="col-md-6">
                 <a-input type="number" v-model="menu_price_pp" placeholder="200"/>
                </div>
+            </div>
+            <div class="row new-time">
+               <div class="col-md-6">
+                  <h6 >Effective Date</h6>
+               </div>
+               <div class="col-md-6">
+                <a-input  v-model="menu_effective_date" type="date" placeholder="200"/>
+               </div>
+            </div>
+            <div class="row new-time">
+               <div class="col-md-6">
+                  <h6 >Expiration Date</h6>
+               </div>
+               <div class="col-md-6">
+                <a-input  v-model="menu_expiration_date" type="date" placeholder="200"/>
+               </div>
+            </div>
+            <div class="row new-time">
+              <div class="col-md-6">
+                  <b-form-group   label="Is waivable">
+                    <b-form-checkbox v-model="menu_is_waivable" name="check-button" switch></b-form-checkbox >
+                  </b-form-group>
+              </div>
+              <div class="col-md-6">
+                <b-form-group  label="Is Required">
+                  <b-form-checkbox v-model="menu_is_required" name="check-button" switch></b-form-checkbox >
+                </b-form-group>
+              </div>
+            </div>
+            <div v-if="menu_is_waivable" class="row new-time">
+              <div class="col-md-12">
+                  <b-form-group   label="Waive Off At">
+                      <b-form-input v-model="menu_waive_off_at" type="number" />
+                  </b-form-group>
+              </div>
             </div>
          </a-modal>
           <!--  -->
@@ -464,12 +550,16 @@ export default {
       update:false,
       menu_title: null,
       menu_price_pp: null,
+      menu_effective_date:null,
+      menu_expiration_date:null,
+      menu_is_waivable:false,
+      menu_is_required:false,
+      menu_waive_off_at:0,
       tags: [],
 
       inputVisible: false,
       inputValue: '',
       menuFields: [],
-      addonFields:[],
       newTime:{
         slot:'per_hour',
         time_start:null,
@@ -622,19 +712,23 @@ export default {
       }
 
     },
-    removeMenu (menu) {
-
-    },
     setSelectedMenu (menu){
 
     },
     fillAddOnFields(title, price, waiveoffat) {
-      this.addonFields.push({
-        title: title,
-        price: price,
-        isRequired: false,
-        isWaivable: false,
-        waiveOffat: waiveoffat
+      this.pricings.push({
+        Pricing:[{
+          effective_date:null,
+          expiration_date:null,
+          rate: price,
+          }
+        ],
+        name: title,
+        is_required: false,
+        is_waivable: false,
+        applicable_on_less_than: waiveoffat,
+        product_type:'addons',
+        new_addon:true
       });
 
     },
@@ -767,26 +861,142 @@ export default {
       }
 
     },
-    adddMenus() {
-      if (this.update == true) {
-        let oldmenuitem = this.menuFields.find(
-          menu => menu.menu_title == this.old_title
-        );
-        oldmenuitem.menu_title = this.menu_title;
-        oldmenuitem.menu_items = this.tags;
-        oldmenuitem.menu_price_pp = this.menu_price_pp;
-        this.update = false;
+    async updateAddons (addonitem) {
+      console.log(addonitem.Pricing[0].effective_date)
+      let activated_timing=this.timings.find(timing_item=>timing_item.is_active==true)
+      this.pricing_obj.Pricing = [];
+      this.pricing_obj.name = addonitem.name;
+      this.pricing_obj.product_type = "addons";
+      this.pricing_obj.entity_id = this.listing.entity_id;
+      this.pricing_obj.is_waivable = addonitem.is_waivable;
+      this.pricing_obj.is_required = addonitem.is_required;
+      this.pricing_obj.applicable_on_less_than = addonitem.applicable_on_less_than;
+      this.pricing_obj.product_id=addonitem.product_id
+
+      let temp_price_obj = {
+        hours:1,
+        effective_date:addonitem.Pricing[0].effective_date.replace(/-/g, "/"),
+        expiration_date:addonitem.Pricing[0].expiration_date.replace(/-/g, "/"),
+        monday:addonitem.Pricing[0].rate,
+        tuesday:addonitem.Pricing[0].rate,
+        wednesday:addonitem.Pricing[0].rate,
+        thursday:addonitem.Pricing[0].rate,
+        friday:addonitem.Pricing[0].rate,
+        saturday:addonitem.Pricing[0].rate,
+        sunday:addonitem.Pricing[0].rate,
+        rate:addonitem.Pricing[0].rate,
+        rate_calculation:activated_timing.slot
+      };
+      this.pricing_obj.Pricing.push(temp_price_obj);
+      // console.log(this.pricing_obj)
+      let { data } = await ListingRepository.update_pricing(this.pricing_obj);
+      if (data.success == true) {
+          this.openNotificationWithIcon('success',data.user_message)
+          this.fetchPricings()
       } else {
-        this.menuFields.push({
-          menu_title: this.menu_title,
-          menu_items: this.tags,
-          menu_price_pp: this.menu_price_pp
-        });
+          this.openNotificationWithIcon('error',data.user_message)
       }
-      this.menu_title = null;
-      this.tags = [];
-      this.menu_price_pp = null;
-      this.menu_visible=false
+
+    },
+    async saveAddOns (addonitem) {  
+     let activated_timing=this.timings.find(timing_item=>timing_item.is_active==true)
+      this.pricing_obj.Pricing = [];
+      this.pricing_obj.name = addonitem.name;
+      this.pricing_obj.product_type = "addons";
+      this.pricing_obj.entity_id = this.listing.entity_id;
+      this.pricing_obj.is_waivable = addonitem.is_waivable;
+      this.pricing_obj.is_required = addonitem.is_required;
+      this.pricing_obj.applicable_on_less_than = addonitem.applicable_on_less_than;
+
+      let temp_price_obj = {
+        hours:1,
+        effective_date:addonitem.Pricing[0].effective_date.replace(/-/g, "/"),
+        expiration_date:addonitem.Pricing[0].expiration_date.replace(/-/g, "/"),
+        monday:addonitem.Pricing[0].rate,
+        tuesday:addonitem.Pricing[0].rate,
+        wednesday:addonitem.Pricing[0].rate,
+        thursday:addonitem.Pricing[0].rate,
+        friday:addonitem.Pricing[0].rate,
+        saturday:addonitem.Pricing[0].rate,
+        sunday:addonitem.Pricing[0].rate,
+        rate:addonitem.Pricing[0].rate,
+        rate_calculation:activated_timing.slot
+      };
+      this.pricing_obj.Pricing.push(temp_price_obj);
+
+      console.log(this.pricing_obj)
+
+      let { data } = await ListingRepository.add_new_pricing(this.pricing_obj);
+      if (data.success == true) {
+          this.openNotificationWithIcon('success',data.user_message)
+          this.fetchPricings()
+      } else {
+          this.openNotificationWithIcon('error',data.user_message)
+      }
+
+    },
+    async adddMenus() {
+      let activated_timing=this.timings.find(timing_item=>timing_item.is_active==true)
+      this.pricing_obj.Pricing = [];
+      this.pricing_obj.name = this.menu_title;
+      this.pricing_obj.product_type = "menu";
+      this.pricing_obj.entity_id = this.listing.entity_id;
+      this.pricing_obj.list_items_exist=true
+      for (let men_tag of this.tags) {
+            this.pricing_obj.list_items.push({ list_item: men_tag });
+          }
+      this.pricing_obj.is_waivable = this.menu_is_waivable;
+      this.pricing_obj.is_required = this.menu_is_required;
+      this.pricing_obj.applicable_on_less_than = this.menu_waive_off_at;
+
+      let temp_price_obj = {
+        hours:1,
+        effective_date:this.menu_effective_date.replace(/-/g, "/"),
+        expiration_date:this.menu_expiration_date.replace(/-/g, "/"),
+        monday:this.menu_price_pp,
+        tuesday:this.menu_price_pp,
+        wednesday:this.menu_price_pp,
+        thursday:this.menu_price_pp,
+        friday:this.menu_price_pp,
+        saturday:this.menu_price_pp,
+        sunday:this.menu_price_pp,
+        rate:this.menu_price_pp,
+        rate_calculation:activated_timing.slot
+      };
+      this.pricing_obj.Pricing.push(temp_price_obj);
+
+      console.log(this.pricing_obj)
+
+      let { data } = await ListingRepository.add_new_pricing(this.pricing_obj);
+      if (data.success == true) {
+          this.openNotificationWithIcon('success',data.user_message)
+          this.fetchPricings()
+          this.menu_visible=false
+          this
+      } else {
+          this.openNotificationWithIcon('error',data.user_message)
+          this.menu_visible=false
+      }
+
+      // if (this.update == true) {
+      //   let oldmenuitem = this.menuFields.find(
+      //     menu => menu.menu_title == this.old_title
+      //   );
+      //   oldmenuitem.menu_title = this.menu_title;
+      //   oldmenuitem.menu_items = this.tags;
+      //   oldmenuitem.menu_price_pp = this.menu_price_pp;
+      //   this.update = false;
+      // } else {
+      //   this.menuFields.push({
+      //     menu_title: this.menu_title,
+      //     menu_items: this.tags,
+      //     menu_price_pp: this.menu_price_pp
+      //   });
+      // }
+      // this.menu_title = null;
+      // this.tags = [];
+      // this.menu_price_pp = null;
+      // this.menu_visible=false
     },
     async getCusotmFields() {
       this.isLoading = true;
@@ -799,9 +1009,23 @@ export default {
     async fetchPricings() {
       const { data } = await ListingRepository.get_entity_pricings(this.listing.entity_id)
       this.pricings=data
+      if(this.pricings){
+        for(var i=0;i<this.pricings.length;i++){
+          if(this.pricings[i].Pricing.length>0){
+            console.log("wakeup")
+          this.pricings[i].Pricing[0].effective_date=this.pricings[i].Pricing[0].effective_date.split('T')[0]
+          this.pricings[i].Pricing[0].expiration_date=this.pricings[i].Pricing[0].expiration_date.split('T')[0]
+        
+
+          }
+        }
+      }
+      console.log(this.pricings)
       const base_price=this.pricings.find(pricing_item=>pricing_item.product_type=='baseprice')
       if(base_price){
         console.log("coming")
+        // console.log(base_price)
+
         this.basePriceExists=true
 
         let new_eff_Date=base_price.Pricing[0].effective_date.split('T')
