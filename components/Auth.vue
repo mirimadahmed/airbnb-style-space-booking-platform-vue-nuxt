@@ -39,8 +39,33 @@
             New here?
             <a class="link" @click.prevent="type='signup'">Register</a>
           </div>
+          <div class="col-md-12 py-4">
+            Forget Password
+            <a class="link" @click.prevent="type='forget'">Click Here</a>
+          </div>
         </div>
       </div>
+      <div v-else-if="type == 'forget'" class="text-center">
+        <div class="row forget-modal">
+          <div class="col-md-12">
+            <p class="heading">Forget Password</p>
+          </div>
+          <div class="col-md-12">
+            <b-form-group label="Email address:">
+              <b-form-input
+                v-model="forget_password.email"
+                type="email"
+                required
+                placeholder="Enter email"
+                :disabled="isLoading"
+              ></b-form-input>
+            </b-form-group>
+          </div>
+          <div class="col-md-12" v-if="!isLoading">
+            <button class="apply-button" >Send</button>
+          </div>
+        </div>
+      </div> 
       <div v-else class="text-center">
         <div class="row">
           <div class="col-md-12">
@@ -121,6 +146,9 @@ export default {
         email: "",
         password: ""
       },
+      forget_password: {
+        email: "",
+      },
       isLoading: false
     };
   },
@@ -196,5 +224,11 @@ export default {
   font-weight: 500;
   color: gray;
   cursor: pointer;
+}
+
+.forget-modal{
+    padding-bottom: 60px;
+    padding-top: 60px;
+
 }
 </style>
