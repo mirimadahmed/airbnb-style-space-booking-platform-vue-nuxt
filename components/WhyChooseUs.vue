@@ -3,7 +3,7 @@
     <h1 class="heading">Why Choose us</h1>
     <div>
       <div class="row">
-        <div class="col-md-4 row" v-for="pointer in pointers" :key="pointer">
+        <div class="col-md-4 row" v-for="(pointer, i) in pointers" :key="i">
           <div class="col-md-12">
             <img :src="pointer.icon" />
           </div>

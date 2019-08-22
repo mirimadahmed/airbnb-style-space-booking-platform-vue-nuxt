@@ -34,9 +34,14 @@
               <b-input id="search" placeholder="Where?" v-model="query.where" />
             </div>
             <div class="col-md-2 item-wrapper last-tab">
-              <b-input id="capacity" placeholder="No. of Guests" v-model="query.count" />
+              <b-input
+                type="number"
+                id="capacity"
+                placeholder="No. of Guests"
+                v-model="query.count"
+              />
             </div>
-            <div class="col-md-2 item-wrapper">
+            <div class="col-md-2 item-wrapper last-tab">
               <b-button @click="getSearchResults" squared class="search-button">SEARCH</b-button>
             </div>
           </div>
@@ -69,7 +74,12 @@
               <b-input id="search" placeholder="Where?" v-model="query.where" />
             </div>
             <div class="col-md-2 item-wrapper last-tab">
-              <b-input id="capacity" placeholder="No. of Guests" v-model="query.count" />
+              <b-input
+                type="number"
+                id="capacity"
+                placeholder="No. of Guests"
+                v-model="query.count"
+              />
             </div>
             <div class="col-md-2 item-wrapper last-tab">
               <b-button @click="getSearchResults" squared class="search-button">SEARCH</b-button>
@@ -104,7 +114,12 @@
               <b-input id="search" placeholder="Where?" v-model="query.where" />
             </div>
             <div class="col-md-2 item-wrapper last-tab">
-              <b-input id="capacity" placeholder="No. of Guests" v-model="query.count" />
+              <b-input
+                type="number"
+                id="capacity"
+                placeholder="No. of Guests"
+                v-model="query.count"
+              />
             </div>
             <div class="col-md-2 item-wrapper last-tab">
               <b-button @click="getSearchResults" squared class="search-button">SEARCH</b-button>
@@ -135,7 +150,7 @@
                 />
               </no-ssr>
             </div>
-            <div class="col-md-2 item-wrapper">
+            <div class="col-md-2 item-wrapper last-tab">
               <b-input id="search" placeholder="Where?" v-model="query.where" />
             </div>
             <div class="col-md-2 item-wrapper last-tab">
@@ -207,7 +222,7 @@
         <b-input id="search" placeholder="Where?" v-model="query.where" />
       </div>
       <div class="col-sm-12 py-3 phone-item shadow-sm">
-        <b-input id="capacity" placeholder="No. of Guests" v-model="query.count" />
+        <b-input type="number" id="capacity" placeholder="No. of Guests" v-model="query.count" />
       </div>
       <div class="col-sm-12 py-3">
         <b-button @click="getSearchResults" squared class="search-button">SEARCH</b-button>
