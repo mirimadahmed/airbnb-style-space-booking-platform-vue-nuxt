@@ -10,6 +10,7 @@ const _4fb70254 = () => interopDefault(import('..\\pages\\eventsia.vue' /* webpa
 const _47962318 = () => interopDefault(import('..\\pages\\Listings.vue' /* webpackChunkName: "pages_Listings" */))
 const _c4c0d2a0 = () => interopDefault(import('..\\pages\\Partners.vue' /* webpackChunkName: "pages_Partners" */))
 const _6cb8e8da = () => interopDefault(import('..\\pages\\Privacy.vue' /* webpackChunkName: "pages_Privacy" */))
+const _75019c56 = () => interopDefault(import('..\\pages\\ResetPassword.vue' /* webpackChunkName: "pages_ResetPassword" */))
 const _ab2432a0 = () => interopDefault(import('..\\pages\\ResultDetails.vue' /* webpackChunkName: "pages_ResultDetails" */))
 const _e6e540d6 = () => interopDefault(import('..\\pages\\search\\index.vue' /* webpackChunkName: "pages_search_index" */))
 const _6596d06d = () => interopDefault(import('..\\pages\\Search.vue' /* webpackChunkName: "pages_Search" */))
@@ -124,6 +125,10 @@ export function createRouter() {
       path: "/Privacy",
       component: _6cb8e8da,
       name: "Privacy"
+    }, {
+      path: "/ResetPassword",
+      component: _75019c56,
+      name: "ResetPassword"
     }, {
       path: "/ResultDetails",
       component: _ab2432a0,
