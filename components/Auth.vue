@@ -1,6 +1,6 @@
 <template>
   <div>
-    <b-modal id="modal" size="sm" :hide-header="true" :hide-footer="true" @hidden="$emit('closed')">
+    <b-modal  id="modal" size="sm" :hide-header="true" :hide-footer="true" @hidden="$emit('closed')">
       <div v-if="type === 'login'" class="p-3 text-center">
         <div class="row">
           <div class="col-md-12">
@@ -63,6 +63,10 @@
           </div>
           <div class="col-md-12" v-if="!isLoading">
             <button class="apply-button" >Send</button>
+          </div>
+          <div class="col-md-12 py-4">
+            Have an account?
+            <a class="link" @click.prevent="type='login'">Login</a>
           </div>
         </div>
       </div> 
