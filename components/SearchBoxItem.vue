@@ -1,7 +1,7 @@
 <template>
   <div>
     <div class="middle-wrapper col-md-12">
-      <h1 class="heading d-none d-md-block">Scan and Book Spaces, easily!</h1>
+      <h1 class="heading d-none d-md-block" style="padding:5px;background-color: rgba(255, 0, 0, 0.3);">Scan and Book Spaces, easily!</h1>
       <b-tabs class="text-center col-md-10 search d-none d-md-block" v-model="tabIndex">
         <b-tab title="Wedding" :title-link-class="linkClass(0)" class="tab-item" active>
           <div class="form row" inline>
