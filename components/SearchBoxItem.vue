@@ -6,7 +6,7 @@
       <b-tabs class="text-center col-md-10 search d-none d-md-block" v-model="tabIndex">
         <b-tab title="Wedding" :title-link-class="linkClass(0)" class="tab-item"  active>
            <template slot="title">
-                <span><i class="fa fa-birthday-cake" aria-hidden="true"></i> Wedding</span>
+                <span><i class="fa fa-birthday-cake" aria-hidden="true"></i> &nbsp; Wedding</span>
            </template>
           <div class="form row" inline>
             <div class="col-md-4 item-wrapper">
@@ -44,7 +44,7 @@
         </b-tab>
         <b-tab title="Party" :title-link-class="linkClass(1)" class="tab-item glyphicon glyphicon-asterisk">
             <template slot="title">
-                <span><i class="fa fa-glass" aria-hidden="true"></i> Party</span>
+                <span><i class="fa fa-glass" aria-hidden="true"></i> &nbsp; Party</span>
            </template>
           <div class="form row" inline>
             <div class="col-md-4 item-wrapper">
@@ -82,7 +82,7 @@
         </b-tab>
         <b-tab title="Corporate" :title-link-class="linkClass(2)" class="tab-item">
             <template slot="title">
-                <span><i class="fa fa-briefcase" aria-hidden="true"></i> Corporate</span>
+                <span><i class="fa fa-briefcase" aria-hidden="true"></i> &nbsp; Corporate</span>
            </template>          
           <div class="form row" inline>
             <div class="col-md-4 item-wrapper">
@@ -120,7 +120,7 @@
         </b-tab>
         <b-tab title="Sports" :title-link-class="linkClass(3)" class="tab-item">
           <template slot="title">
-              <span><i class="fa fa-futbol-o" aria-hidden="true"></i> Sports</span>
+              <span><i class="fa fa-futbol-o" aria-hidden="true"></i> &nbsp; Sports</span>
           </template>   
           <div class="form row" inline>
             <div class="col-md-6 item-wrapper">
@@ -155,7 +155,7 @@
         </b-tab>
         <b-tab title="Studio" class="tab-item" :title-link-class="linkClass(4)">
           <template slot="title">
-              <span><i class="fa fa-camera" aria-hidden="true"></i> Studio</span>
+              <span><i class="fa fa-camera" aria-hidden="true"></i> &nbsp;Studio</span>
           </template> 
           <div class="form row" inline>
             <div class="col-md-6 item-wrapper">
