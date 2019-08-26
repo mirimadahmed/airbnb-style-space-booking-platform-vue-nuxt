@@ -17,11 +17,14 @@ export default {
 </script>
 <style>
 #app {
-  font-family: "Avenir", Helvetica, Arial, sans-serif;
+  font-family: 'Nunito Sans', sans-serif;
+
+  /* font-family: "Avenir", Helvetica, Arial, sans-serif; */
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
   color: #2c3e50;
+  text-rendering: optimizeLegibility; 
   /* margin-top: 60px; */
 }
 
@@ -77,7 +80,7 @@ button:focus {
   color: white;
   border-top-left-radius: 0px !important;
   border-top-right-radius: 0px !important;
-  width: 100px;
+  width: 120px;
 }
 .nav-link-no-border:hover {
   color: white;
