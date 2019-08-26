@@ -1,5 +1,5 @@
 <template>
-  <div class="company shadow">
+  <div class="company shadow" @click="viewDetails">
     <div class="row image-area">
       <img class="col-md-12 px-3" :src="company.featured_image" />
     </div>
