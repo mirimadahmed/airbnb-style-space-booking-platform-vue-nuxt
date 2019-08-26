@@ -1,9 +1,13 @@
 <template>
   <div>
+
     <div class="middle-wrapper col-md-12">
       <h1 class="heading d-none d-md-block" style="padding:5px;background-color: rgba(0,0,0,0.6); ">Scan and Book Spaces, easily!  </h1>
       <b-tabs class="text-center col-md-10 search d-none d-md-block" v-model="tabIndex">
         <b-tab title="Wedding" :title-link-class="linkClass(0)" class="tab-item"  active>
+           <template slot="title">
+                <span><i class="fa fa-birthday-cake" aria-hidden="true"></i> Wedding</span>
+           </template>
           <div class="form row" inline>
             <div class="col-md-4 item-wrapper">
               <b-form-input
@@ -39,7 +43,9 @@
           </div>
         </b-tab>
         <b-tab title="Party" :title-link-class="linkClass(1)" class="tab-item glyphicon glyphicon-asterisk">
-
+            <template slot="title">
+                <span><i class="fa fa-glass" aria-hidden="true"></i> Party</span>
+           </template>
           <div class="form row" inline>
             <div class="col-md-4 item-wrapper">
               <b-form-input
@@ -75,6 +81,9 @@
           </div>
         </b-tab>
         <b-tab title="Corporate" :title-link-class="linkClass(2)" class="tab-item">
+            <template slot="title">
+                <span><i class="fa fa-briefcase" aria-hidden="true"></i> Corporate</span>
+           </template>          
           <div class="form row" inline>
             <div class="col-md-4 item-wrapper">
               <b-form-input
@@ -110,6 +119,9 @@
           </div>
         </b-tab>
         <b-tab title="Sports" :title-link-class="linkClass(3)" class="tab-item">
+          <template slot="title">
+              <span><i class="fa fa-futbol-o" aria-hidden="true"></i> Sports</span>
+          </template>   
           <div class="form row" inline>
             <div class="col-md-6 item-wrapper">
               <b-form-input
@@ -142,6 +154,9 @@
           </div>
         </b-tab>
         <b-tab title="Studio" class="tab-item" :title-link-class="linkClass(4)">
+          <template slot="title">
+              <span><i class="fa fa-camera" aria-hidden="true"></i> Studio</span>
+          </template> 
           <div class="form row" inline>
             <div class="col-md-6 item-wrapper">
               <b-form-input
