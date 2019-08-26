@@ -80,7 +80,7 @@ button:focus {
   color: white;
   border-top-left-radius: 0px !important;
   border-top-right-radius: 0px !important;
-  width: 120px;
+  width: 130px;
 }
 .nav-link-no-border:hover {
   color: white;
