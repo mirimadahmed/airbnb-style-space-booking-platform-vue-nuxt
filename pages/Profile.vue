@@ -37,7 +37,7 @@
                                 max-rows="6"
                                 ></b-form-textarea>
                             </b-form-group>
-                        <button class="pull-right" @click.prevent="updateProfile">Confirm</button>
+                        <button class="button pull-right" @click.prevent="updateProfile">Confirm</button>
                     </b-form>
                     </b-card-body>
                 </b-card>
@@ -51,6 +51,7 @@ import { RepositoryFactory } from "@/repository/RepositoryFactory";
 const UserRepository = RepositoryFactory.get("user");
 import {mapGetters} from 'vuex'
 export default {
+    middleware: "auth",
     methods:{
         async updateProfile () {
         this.isLoading = true
