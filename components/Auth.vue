@@ -4,27 +4,27 @@
       <div v-if="type === 'login'" class="p-3 text-center">
         <div class="row">
           <div class="col-md-12">
-            <p class="heading">Login to Spacesly.com</p>
+            <p class="heading">Welcome Back</p>
           </div>
           <div class="col-md-12">
-            <b-form-group id="input-group-1" label="Email address:" label-for="input-1">
+            <b-form-group id="input-group-1" label-for="input-1">
               <b-form-input
                 id="input-1"
                 v-model="login.email"
                 type="email"
                 required
-                placeholder="Enter email"
+                placeholder="Email"
                 :disabled="isLoading"
               ></b-form-input>
             </b-form-group>
           </div>
           <div class="col-md-12">
-            <b-form-group label="Password:">
+            <b-form-group>
               <b-form-input
                 v-model="login.password"
                 type="password"
                 required
-                placeholder="Enter password"
+                placeholder="Password"
                 :disabled="isLoading"
               ></b-form-input>
             </b-form-group>
@@ -51,12 +51,12 @@
             <p class="heading">Forget Password</p>
           </div>
           <div class="col-md-12">
-            <b-form-group label="Email address:">
+            <b-form-group>
               <b-form-input
                 v-model="forget_password.email"
                 type="email"
                 required
-                placeholder="Enter email"
+                placeholder="Email"
                 :disabled="isLoading"
               ></b-form-input>
             </b-form-group>
@@ -76,34 +76,34 @@
             <p class="heading">Signup at Spacesly.com</p>
           </div>
           <div class="col-md-12">
-            <b-form-group label="Name:">
+            <b-form-group>
               <b-form-input
                 v-model="signup.name"
                 type="text"
                 required
-                placeholder="Enter name"
+                placeholder="Company Name"
                 :disabled="isLoading"
               ></b-form-input>
             </b-form-group>
           </div>
           <div class="col-md-12">
-            <b-form-group label="Email address:">
+            <b-form-group>
               <b-form-input
                 v-model="signup.email"
                 type="email"
                 required
-                placeholder="Enter email"
+                placeholder="Email"
                 :disabled="isLoading"
               ></b-form-input>
             </b-form-group>
           </div>
           <div class="col-md-12">
-            <b-form-group label="Password:">
+            <b-form-group >
               <b-form-input
                 v-model="signup.password"
                 type="password"
                 required
-                placeholder="Enter password"
+                placeholder="Password"
                 :disabled="isLoading"
               ></b-form-input>
             </b-form-group>
