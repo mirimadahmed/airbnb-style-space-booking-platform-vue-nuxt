@@ -335,7 +335,7 @@
             </div>
             <div v-else-if="current === 4">
                <h1 class="heading">Finally</h1>
-               <p>Your event has been created successfully</p>
+               <p>Your space has been created successfully</p>
             </div>
          </div>
          <div class="steps-action col-md-8 text-right">
@@ -373,14 +373,14 @@
                   <a-time-picker v-model="newTime.time_end" :minuteStep="15" :secondStep="10"  />
                </div>
             </div>
-            <div class="row new-time">
+            <!-- <div class="row new-time">
                <div class="col-md-6">
                   <h6>Date</h6>
                </div>
                <div class="col-md-6">
                   <a-date-picker  />
                </div>
-            </div>
+            </div> -->
             <div class="row new-time">
                <div class="col-md-3 .no-pad">
                   <h6>Space Allocation</h6>
