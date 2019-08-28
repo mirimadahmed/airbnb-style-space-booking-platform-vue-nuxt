@@ -54,11 +54,16 @@ export default {
     middleware: "auth",
     methods:{
         async updateProfile () {
+        if(this.currentUser.phone_no && this.currentUser.address){
         this.isLoading = true
         var {data}= await UserRepository.updateVendorProfile(this.currentUser)
-        console.log(data)
         this.openNotificationWithIcon('success',data.user_message)
         this.isLoading = false
+        }
+        else{
+        this.openNotificationWithIcon('error',"Kindly fill in contacts and addresses")
+        }    
+
         },       
         async fetchPermaLinks() {
         const { data } = await UserRepository.getCompanyProfile(this.user.permalink)
@@ -84,7 +89,7 @@ export default {
         },
         openNotificationWithIcon (type,message) {
             this.$notification[type]({
-                message: 'Notification',
+                message: type,
                 description: message,
             });
         },
