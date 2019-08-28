@@ -11,42 +11,44 @@
          <div v-if="current === 0">
             <h1 class="heading">About your space</h1>
             <div v-if="isNew">
-               <h1 class="second-heading">What's your space is for?</h1>
-               <a-radio-group v-model="listing.type_id" size="large" @change="getCusotmFields">
+              <h1 class="second-heading">What's your space is for?</h1>
+              <a-radio-group v-model="listing.type_id" size="large" @change="getCusotmFields">
                   <a-radio-button
-                     v-for="(type, i) in typeOptions"
-                     :value="type.value"
-                     :key="i"
-                     >{{ type.label }}</a-radio-button>
-               </a-radio-group>
+                    v-for="(type, i) in typeOptions"
+                    :value="type.value"
+                    :key="i"
+                    >{{ type.label }}</a-radio-button>
+              </a-radio-group>
             </div>
-            <div class="mt-4 col-md-8 px-0">
-               <a-input placeholder="Give your listing a title" size="large" v-model="listing.title" />
-            </div>
-            <div class="mt-4 col-md-8 px-0">
-               <a-textarea
-                  placeholder="Give your listing a great description"
-                  :rows="4"
-                  v-model="listing.description"
-                  />
-            </div>
-            <div class="mt-4 col-md-8 px-0">
-               <no-ssr>
-                  <div class="mb-4">
-                     <h1 class="second-heading">Locate your space</h1>
-                     <gmap-autocomplete @place_changed="setPlace"   class="ant-input ant-input-lg"></gmap-autocomplete>
-                  </div>
-                  <gmap-map :center="center" :zoom="20" style="width:100%;  height: 400px;" >
-                     <gmap-marker
-                        @drag="updateCoordinates"
-                        @dragend="updateCoordinates"
-                        v-if="currentPlace"
-                        :position="currentPlace"
-                        :clickable="false"
-                        :draggable="true"
-                        />
-                  </gmap-map>
-               </no-ssr>
+            <div v-if="customFields">
+              <div class="mt-4 col-md-8 px-0">
+                <a-input placeholder="Give your listing a title" size="large" v-model="listing.title" />
+              </div>
+              <div class="mt-4 col-md-8 px-0">
+                <a-textarea
+                    placeholder="Give your listing a great description"
+                    :rows="4"
+                    v-model="listing.description"
+                    />
+              </div>
+              <div class="mt-4 col-md-8 px-0">
+                <no-ssr>
+                    <div class="mb-4">
+                      <h1 class="second-heading">Locate your space</h1>
+                      <gmap-autocomplete @place_changed="setPlace"   class="ant-input ant-input-lg"></gmap-autocomplete>
+                    </div>
+                    <gmap-map :center="center" :zoom="20" style="width:100%;  height: 400px;" >
+                      <gmap-marker
+                          @drag="updateCoordinates"
+                          @dragend="updateCoordinates"
+                          v-if="currentPlace"
+                          :position="currentPlace"
+                          :clickable="false"
+                          :draggable="true"
+                          />
+                    </gmap-map>
+                </no-ssr>
+              </div>
             </div>
          </div>
          <div v-else-if="current === 1">
@@ -338,14 +340,14 @@
                <p>Your space has been created successfully</p>
             </div>
          </div>
-         <div class="steps-action col-md-8 text-right">
+         <div class="steps-action col-md-12 text-right">
             <button
                class="button"
                v-if="current == steps.length - 1"
                type="primary"
                @click="$message.success('Processing complete!');viewListings()"
                >Done</button>
-            <button class="button" v-if="current>0" style="margin-left: 8px" @click="prev">Previous</button>
+            <button class="button pull-left" v-if="current>0" style="margin-left: 8px" @click="prev">Previous</button>
             <button
                class="button"
                v-if="current < steps.length - 1"
@@ -474,7 +476,6 @@
             </div>
             
          </a-modal>
-          <!--  -->
          
       </div>
    </div>
@@ -981,7 +982,7 @@ export default {
       this.menu_price_pp = null;
     },
     async getCusotmFields() {
-      this.isLoading = true;
+      // this.isLoading = true;
       const { data } = await ListingRepository.getCustomFields(
         this.listing.type_id
       );
@@ -1036,7 +1037,20 @@ export default {
       );
     },
     async startListing() {
-      if (this.isAboutValid()) {
+      if(this.listing.type_id === null){
+        this.openNotificationWithIcon('error',"Space type  should be selected")
+      }
+      else if(this.listing.title.length < 10){
+        this.openNotificationWithIcon('error',"Space title should be equal to 11 characters")
+      }
+      else if(this.listing.description.length < 50){
+        console.log(this.listing.title.length)
+        this.openNotificationWithIcon('error',"Description should be 50 characters long")
+      }
+      else if(this.listing.address === null){
+        this.openNotificationWithIcon('error',"Provide space Location")
+      }
+      else {
         this.isLoading=true;
         let obj = {
           name:this.listing.title,
@@ -1057,10 +1071,6 @@ export default {
         else {
            this.openNotificationWithIcon('error',data.user_message)
         }
-      } else {
-        this.openNotificationWithIcon('error',"Listing title should be 11 characters"+
-        " Description should be 50 characters long"+
-        " Provide space Location and entity type")
       }
     },
     beforeUpload(file) {
@@ -1168,6 +1178,7 @@ export default {
         } 
     },
     updateCoordinates (location) {
+      console.log(location)
       this.center = {
           lat: location.latLng.lat(),
           lng: location.latLng.lng()
@@ -1178,6 +1189,7 @@ export default {
       this.current--;
     },
     setPlace(place) {
+      console.log("abcc")
       this.currentPlace = {lat:place.geometry.location.lat(),lng:place.geometry.location.lng()};
       this.center.lat=place.geometry.location.lat()
       this.center.lng=place.geometry.location.lng()
@@ -1189,6 +1201,8 @@ export default {
           lat: position.coords.latitude,
           lng: position.coords.longitude
         };
+        this.currentPlace = {lat:position.coords.latitude,lng:position.coords.longitude};
+
       });
     },
     handleCancel() {
