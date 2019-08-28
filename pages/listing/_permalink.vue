@@ -397,7 +397,7 @@
                      v-if="newTime.slot === 'per_shift'"
                      :min="2"
                      v-model="newTime.no_of_shift"
-                     placeholder="Capacity"
+                     placeholder="No of Shifts"
                      :max="10"
                      />
                </div>
@@ -775,7 +775,7 @@ export default {
     },
     openNotificationWithIcon (type,message) {
       this.$notification[type]({
-        message: 'Notification',
+        message: type,
         description: message,
       });
     },
@@ -1059,7 +1059,8 @@ export default {
         }
       } else {
         this.openNotificationWithIcon('error',"Listing title should be 11 characters"+
-        " Description should be 50 characters long")
+        " Description should be 50 characters long"+
+        " Provide space Location and entity type")
       }
     },
     beforeUpload(file) {
