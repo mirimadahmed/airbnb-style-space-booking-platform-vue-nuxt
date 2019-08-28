@@ -1,35 +1,35 @@
 <template>
-  <div class="m-5 p-4">
-    <div class="row">
-      <div class="col-md-6">
-        <h3>My Listings</h3>
-      </div>
-      <div class="col-md-6">
-        <a-button type="primary" href="/listing">New listing</a-button>
-      </div>
-      <div class="col-md-12 px-0">
-        <a-list
-          class="demo-loadmore-list text-left col-md-6 px-0"
-          :loading="isLoading"
-          itemLayout="horizontal"
-          :dataSource="listings"
-        >
-          <a-list-item slot="renderItem" slot-scope="item, index">
-            <a slot="actions" :href="`/listing/${item.Entity.permalink}`">edit</a>
-            <a
-              v-if="item.Entity.status === 'approved'"
-              slot="actions"
-              :href="`/${item.Entity.permalink}`"
-            >view</a>
-            <a slot="actions" @click="deleteListing(item.Entity.permalink)">delete</a>
-            <a-list-item-meta :description="item.Entity.description">
-              <a slot="title">{{item.Entity.name}}</a>
-            </a-list-item-meta>
-          </a-list-item>
-        </a-list>
+    <div class="m-5 p-4">
+      <div class="row">
+        <div class="col-md-2" style="padding-left: 0px;margin-left: -1.5rem;">
+          <h3>My Listings</h3>
+        </div>
+        <div class="col-md-10 text-right">
+          <a-button type="primary" href="/listing">New listing</a-button>
+        </div>
+        <div class="col-md-12 px-0">
+          <a-list
+            class="demo-loadmore-list text-left col-md-6 px-0"
+            :loading="isLoading"
+            itemLayout="horizontal"
+            :dataSource="listings"
+          >
+            <a-list-item slot="renderItem" slot-scope="item, index">
+              <a slot="actions" :href="`/listing/${item.Entity.permalink}`">edit</a>
+              <a
+                v-if="item.Entity.status === 'approved'"
+                slot="actions"
+                :href="`/${item.Entity.permalink}`"
+              >view</a>
+              <a slot="actions" @click="deleteListing(item.Entity.permalink)">delete</a>
+              <a-list-item-meta :description="item.Entity.description">
+                <a slot="title">{{item.Entity.name}}</a>
+              </a-list-item-meta>
+            </a-list-item>
+          </a-list>
+        </div>
       </div>
     </div>
-  </div>
 </template>
 
 <script>
