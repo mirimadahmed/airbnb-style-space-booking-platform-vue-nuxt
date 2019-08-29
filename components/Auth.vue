@@ -35,6 +35,9 @@
           <div class="col-md-12" v-else>
             <b-spinner variant="danger" type="grow" label="Spinning"></b-spinner>
           </div>
+          <div class="col-md-12">
+              <a-checkbox :checked="isRemember" @change="rememberMe" >Remember me</a-checkbox>
+          </div>
           <div class="col-md-12 py-4">
             New here?
             <a class="link" @click.prevent="type='signup'">Register</a>
@@ -140,6 +143,7 @@ export default {
   },
   data() {
     return {
+      isRemember:false,
       type: "login",
       login: {
         email: "",
@@ -167,6 +171,9 @@ export default {
     }
   },
   methods: {
+    rememberMe(e){
+      this.isRemember=e.target.checked
+    },
     async loginAction() {
       this.isLoading = true;
       const { data } = await UserRepository.login({
@@ -177,6 +184,12 @@ export default {
       if (data.success) {
         this.$bvModal.hide("modal");
         this.$store.dispatch("login", data);
+        if(this.isRemember==true){
+        localStorage.setItem('isremember',"true")
+        }
+        else{
+          localStorage.setItem('isremember',"false")
+        }
       } else {
         this.openNotificationWithIcon('error',data.user_message)
       }
