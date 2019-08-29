@@ -28,6 +28,7 @@ export default () => new Vuex.Store({
     },
     logout(context) {
       localStorage.removeItem('spacesly-user')
+      localStorage.removeItem('isremember')
       context.commit('logout')
     },
     setSystemLists(context, payload) {
