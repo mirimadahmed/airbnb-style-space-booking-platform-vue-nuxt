@@ -10,7 +10,7 @@
 
       <b-collapse id="nav-collapse" is-nav>
         <b-navbar-nav class="ml-auto">
-          <b-button @click="ListSpaceAction()" class="signin-button my-2 my-sm-0 px-4 ml-4 mr-2">List your space</b-button>
+          <b-button @click="ListSpaceAction()" class="signin-button my-2 my-sm-0 px-4 ml-4 mr-2">Add Space</b-button>
           <b-nav-item
             v-if="!isLoggedIn"
             href="#"
@@ -24,8 +24,9 @@
             @click.prevent="showAuth = true; viewType = 'login'"
           >Login</b-nav-item>
           <b-nav-item href="/calendar" class="ml-3 mr-3" v-if="isLoggedIn && isVendor">Calendar</b-nav-item>
-          <b-nav-item href="/listings" class="ml-3 mr-3" v-if="isLoggedIn && isVendor">Listings</b-nav-item>
+          <b-nav-item href="/myspaces" class="ml-3 mr-3" v-if="isLoggedIn && isVendor">My Spaces</b-nav-item>
           <b-nav-item href="/bookings" class="ml-3 mr-3" v-if="isLoggedIn">Bookings</b-nav-item>
+          <b-nav-item href="/myspaces" class="ml-3 mr-3" v-if="isLoggedIn">My Spaces</b-nav-item>
           <b-nav-item href="/lists" class="ml-3 mr-3" v-if="isLoggedIn">Lists</b-nav-item>
           <b-nav-item-dropdown
             id="my-nav-dropdown"
@@ -71,7 +72,7 @@ export default {
     },
     ListSpaceAction () {
       if(this.isLoggedIn) {
-            this.$router.push({ path: "/listings"  });
+            this.$router.push({ path: "/listing"  });
       }
       else {
         this.showAuth = true; 
