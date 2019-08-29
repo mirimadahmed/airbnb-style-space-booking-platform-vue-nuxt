@@ -27,7 +27,7 @@
           <b-nav-item href="/myspaces" class="ml-3 mr-3" v-if="isLoggedIn && isVendor">My Spaces</b-nav-item>
           <b-nav-item href="/bookings" class="ml-3 mr-3" v-if="isLoggedIn">Bookings</b-nav-item>
           <b-nav-item href="/myspaces" class="ml-3 mr-3" v-if="isLoggedIn">My Spaces</b-nav-item>
-          <b-nav-item href="/lists" class="ml-3 mr-3" v-if="isLoggedIn">Lists</b-nav-item>
+          <b-nav-item href="/calander" class="ml-3 mr-3" v-if="isLoggedIn">Calendar</b-nav-item>
           <b-nav-item-dropdown
             id="my-nav-dropdown"
             v-if="isLoggedIn"
@@ -72,7 +72,7 @@ export default {
     },
     ListSpaceAction () {
       if(this.isLoggedIn) {
-            this.$router.push({ path: "/listing"  });
+            this.$router.push({ path: "/addspace"  });
       }
       else {
         this.showAuth = true; 
