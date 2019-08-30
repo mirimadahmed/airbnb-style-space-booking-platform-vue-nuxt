@@ -10,7 +10,7 @@
 
       <b-collapse id="nav-collapse" is-nav>
         <b-navbar-nav class="ml-auto">
-          <b-button @click="ListSpaceAction()" class="signin-button my-2 my-sm-0 px-4 ml-4 mr-2">Add Space</b-button>
+          <b-button @click="ListSpaceAction()" class="signin-button my-2 my-sm-0 px-4 ml-4 mr-2">List your Space</b-button>
           <b-nav-item
             v-if="!isLoggedIn"
             href="#"
