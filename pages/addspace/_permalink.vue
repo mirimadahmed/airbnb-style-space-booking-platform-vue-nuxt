@@ -148,7 +148,7 @@
                   <b-card class="mb-4" title="Base Price">                        
                         <div class="row">
                            <div class="col-md-12">
-                              <b-card class="mb-12" title="Provide your base pricing">
+                              <b-card class="mb-12" style="border:none;">
                                  <div class="row">
                                     <div class="col-md-2">
                                        <b-form-group label="Rent">
@@ -195,8 +195,8 @@
                      </b-card>
                </div>
                <div class="col-md-12">
-                  <b-card class="mb-4" title="AddOns">
-                     <b-card class="mb-4" title="Create AddOns">
+                  <b-card class="mb-4" title="Create AddOns" >
+                     <b-card class="mb-4" style="border:none;">
                         <div class="row">
                            <div class="col-md-6">
                               <b-form-group label="Add More AddOns">
@@ -323,7 +323,7 @@
                            </b-card>
                         </div>
                         <div class="col-md-4">
-                           <b-card  @click="menu_visible=true"  class="mb-4"  title="Add New">
+                           <b-card  @click="menu_visible=true"  class="mb-4">
                               <div style="margin-left:45%;height:5rem;" class="simple-line-icons" >
                                   <font-awesome-icon icon="plus" :style="{ color: 'black' }"  />
                               </div>
@@ -387,7 +387,7 @@
                   <h6>Space Allocation</h6>
                </div>
                <div class="col-md-7 .no-pad">
-                  <a-radio-group v-model="newTime.slot">
+                  <a-radio-group v-model="newTime.slot" :disabled="newTime.slot!=null">
                      <a-radio-button value="per_day">Per day</a-radio-button>
                      <a-radio-button value="per_shift">Per shift</a-radio-button>
                      <a-radio-button value="per_hour">Per hour</a-radio-button>
@@ -399,6 +399,7 @@
                      :min="2"
                      v-model="newTime.no_of_shift"
                      placeholder="No of Shifts"
+                     :disabled="newTime.no_of_shift!=null"
                      :max="10"
                      />
                </div>
@@ -813,6 +814,11 @@ export default {
       }));
       this.previous_length=data.Entity.images.length
       this.customFields = data.CustomFields;
+      console.log(this.timings)
+      if(this.timings.length>0){
+        this.newTime.slot=this.timings[0].slot
+        if(this.newTime.slot=='per_shift') this.newTime.no_of_shift=this.timings[0].hours_per_shift
+      }
       for(var i=0;i<this.timings.length;i++){
         this.timings[i].time_start=moment(this.timings[i].time_start,'HH:mm:ss')
         this.timings[i].time_end=moment(this.timings[i].time_end,'HH:mm:ss')
