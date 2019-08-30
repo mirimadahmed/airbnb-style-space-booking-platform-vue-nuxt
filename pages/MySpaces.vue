@@ -5,7 +5,7 @@
           <h3>My Spaces</h3>
         </div>
         <div class="col-md-10 text-right">
-          <a-button type="primary" href="/listing">New Space</a-button>
+          <a-button type="primary" href="/addspace">New Space</a-button>
         </div>
         <div class="col-md-12 px-0">
           <a-list
@@ -15,7 +15,7 @@
             :dataSource="listings"
           >
             <a-list-item slot="renderItem" slot-scope="item, index">
-              <a slot="actions" :href="`/listing/${item.Entity.permalink}`">edit</a>
+              <a slot="actions" :href="`/addspace/${item.Entity.permalink}`">edit</a>
               <a
                 v-if="item.Entity.status === 'approved'"
                 slot="actions"
