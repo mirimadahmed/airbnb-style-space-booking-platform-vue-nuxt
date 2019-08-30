@@ -32,7 +32,9 @@
               </no-ssr>
             </div>
             <div class="col-md-2 item-wrapper">
-              <b-input id="search" placeholder="Where?" v-model="query.where" />
+              <!-- <b-input id="search" placeholder="Where?" v-model="query.where" /> -->
+              <gmap-autocomplete   id="search" class="form-control" placeholder="Where?"></gmap-autocomplete>
+
             </div>
             <div class="col-md-2 item-wrapper last-tab">
               <b-input id="capacity" type="number" min="0" placeholder="No. of Guests" v-model="query.count" />
@@ -70,7 +72,9 @@
               </no-ssr>
             </div>
             <div class="col-md-2 item-wrapper">
-              <b-input id="search" placeholder="Where?" v-model="query.where" />
+              <!-- <b-input id="search" placeholder="Where?" v-model="query.where" /> -->
+              <gmap-autocomplete   id="search" class="form-control" placeholder="Where?"></gmap-autocomplete>
+
             </div>
             <div class="col-md-2 item-wrapper last-tab">
               <b-input id="capacity" placeholder="No. of Guests" type="number" min="0" v-model="query.count" />
@@ -108,7 +112,8 @@
               </no-ssr>
             </div>
             <div class="col-md-2 item-wrapper">
-              <b-input id="search" placeholder="Where?" v-model="query.where" />
+              <!-- <b-input id="search" placeholder="Where?" v-model="query.where" /> -->
+              <gmap-autocomplete   id="search" class="form-control" placeholder="Where?"></gmap-autocomplete>
             </div>
             <div class="col-md-2 item-wrapper last-tab">
               <b-input id="capacity" placeholder="No. of Guests" type="number" min="0" v-model="query.count" />
@@ -146,7 +151,9 @@
               </no-ssr>
             </div>
             <div class="col-md-2 item-wrapper">
-              <b-input id="search" placeholder="Where?" v-model="query.where" />
+              <!-- <b-input id="search" placeholder="Where?" v-model="query.where" /> -->
+              <gmap-autocomplete   id="search" class="form-control" placeholder="Where?"></gmap-autocomplete>
+
             </div>
             <div class="col-md-2 item-wrapper last-tab">
               <b-button @click="getSearchResults" squared class="search-button">SEARCH</b-button>
@@ -181,7 +188,9 @@
               </no-ssr>
             </div>
             <div class="col-md-2 item-wrapper last-tab">
-              <b-input id="search" placeholder="Where?" v-model="query.where" />
+              <!-- <b-input id="search" placeholder="Where?" v-model="query.where" /> -->
+              <gmap-autocomplete   id="search" class="form-control" placeholder="Where?"></gmap-autocomplete>
+
             </div>
             <div class="col-md-2 item-wrapper last-tab">
               <b-button @click="getSearchResults" squared class="search-button">SEARCH</b-button>
@@ -217,7 +226,9 @@
         </no-ssr>
       </div>
       <div class="col-sm-12 py-3 phone-item shadow-sm">
-        <b-input id="search" placeholder="Where?" v-model="query.where" />
+        <!-- <b-input id="search" placeholder="Where?" v-model="query.where" /> -->
+        <gmap-autocomplete   id="search" class="form-control" placeholder="Where?"></gmap-autocomplete>
+
       </div>
       <div class="col-sm-12 py-3 phone-item shadow-sm">
         <b-input id="capacity" placeholder="No. of Guests" type="number" min="0" v-model="query.count" />
