@@ -696,7 +696,7 @@ export default {
 
      let { data } = await ListingRepository.update_pricing(this.pricing_obj);
       if (data.success == true) {
-          this.openNotificationWithIcon('success',data.user_message)
+          // this.openNotificationWithIcon('success',data.user_message)
       } else {
           this.openNotificationWithIcon('error',data.user_message)
       }
@@ -765,7 +765,7 @@ export default {
         entity_id:this.listing.entity_id}
         const { data } = await ListingRepository.createTimeSlots(obj);
         if(data.success){
-        this.openNotificationWithIcon('success',data.user_message)
+        // this.openNotificationWithIcon('success',data.user_message)
         this.fetch();
 
         }
@@ -852,7 +852,7 @@ export default {
 
       let { data } = await ListingRepository.add_new_pricing(this.pricing_obj);
       if (data.success == true) {
-          this.openNotificationWithIcon('success',data.user_message)
+          // this.openNotificationWithIcon('success',data.user_message)
           this.fetchPricings()
       } else {
           this.openNotificationWithIcon('error',data.user_message)
@@ -889,7 +889,7 @@ export default {
       this.pricing_obj.Pricing.push(temp_price_obj);
       let { data } = await ListingRepository.update_pricing(this.pricing_obj);
       if (data.success == true) {
-          this.openNotificationWithIcon('success',data.user_message)
+          // this.openNotificationWithIcon('success',data.user_message)
           this.fetchPricings()
       } else {
           this.openNotificationWithIcon('error',data.user_message)
@@ -923,7 +923,7 @@ export default {
       this.pricing_obj.Pricing.push(temp_price_obj);
       let { data } = await ListingRepository.add_new_pricing(this.pricing_obj);
       if (data.success == true) {
-          this.openNotificationWithIcon('success',data.user_message)
+          // this.openNotificationWithIcon('success',data.user_message)
           this.fetchPricings()
       } else {
           this.openNotificationWithIcon('error',data.user_message)
@@ -966,7 +966,7 @@ export default {
       this.pricing_obj.product_id=this.menu_product_id
       let { data } = await ListingRepository.update_pricing(this.pricing_obj);
             if (data.success == true) {
-                this.openNotificationWithIcon('success',data.user_message)
+                // this.openNotificationWithIcon('success',data.user_message)
                 this.fetchPricings()
                 this.menu_visible=false
             } else {
@@ -977,7 +977,7 @@ export default {
       else{
       let { data } = await ListingRepository.add_new_pricing(this.pricing_obj);
             if (data.success == true) {
-                this.openNotificationWithIcon('success',data.user_message)
+                // this.openNotificationWithIcon('success',data.user_message)
                 this.fetchPricings()
                 this.menu_visible=false
             } else {
@@ -1092,6 +1092,7 @@ export default {
       this.fileList = fileList
     },
     async handleUpload() {
+      this.isLoading=true
       if(this.previous_length<this.fileList.length){
         if(this.previous_length==null) this.previous_length=0
         let temp_arr=[]
@@ -1114,14 +1115,17 @@ export default {
         else {
           this.openNotificationWithIcon('error',data.user_message)
         }
+
       }
       else {
           this.current++;
       }
+        this.isLoading=false
       
 
     },
     async updateCustomFields () {
+      this.isLoading=true
       let obj = {
           name:this.listing.title,
           company_id:this.user.company_id,
@@ -1136,8 +1140,11 @@ export default {
           //  this.openNotificationWithIcon('success',data.user_message)
             this.current++;
           }
+      this.isLoading=false
+
     },
     async updateAbout() {
+      
       if(this.listing.type_id === null){
         this.openNotificationWithIcon('error',"Space type  should be selected")
       }
@@ -1152,6 +1159,7 @@ export default {
         this.openNotificationWithIcon('error',"Provide space Location")
       }
       else {
+        this.isLoading=true
         let obj = {
           name:this.listing.title,
           company_id:this.user.company_id,
@@ -1170,7 +1178,7 @@ export default {
         else {
            this.openNotificationWithIcon('error',data.user_message)
         }
-
+        this.isLoading=false
       }
     },
     next() {
