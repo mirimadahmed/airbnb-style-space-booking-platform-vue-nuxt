@@ -129,7 +129,7 @@
               </a-table>
             </div>
             <!-- <h1 class="heading mt-4">Pricing</h1> -->
-            <div class="row">
+            <div class="row" style="margin-top:10px;">
               <div class="col-md-12">
                   <b-card class="mb-4" title="Base Price">                        
                         <div class="row">
