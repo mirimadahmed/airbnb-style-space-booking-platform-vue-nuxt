@@ -5,7 +5,7 @@
           <h3>My Spaces</h3>
         </div>
         <div class="col-md-10 text-right">
-          <a-button type="primary" href="/addspace">New Space</a-button>
+          <a-button type="primary" href="/addspace">Create New Space</a-button>
         </div>
         <div class="col-md-12 px-0">
           <a-list
