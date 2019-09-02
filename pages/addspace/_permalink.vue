@@ -239,18 +239,15 @@
                                  <div class="row">
                                    <div class="col-md-12">
                                        <b-form-group class="pull-right">
-                                         <!-- v-if="addon_field_item.new_addon" -->
-                                          <b-button  style="margin-top:35px;" size="sm" @click="saveAddOns()" class="mb-2 button"  >Save</b-button>
-                                          <!-- <b-button v-else style="margin-top:35px;" size="sm" class="mb-2 button" @click="updateAddons(addon_field_item)" >Update</b-button> -->
-
+                                          <b-button  v-if="addon_field_item.new_addon" style="margin-top:35px;" size="sm" @click="saveAddOns()" class="mb-2 button">Save</b-button>
+                                          <b-button  v-else style="margin-top:35px;" size="sm" class="mb-2 button" @click="updateAddons()">Update</b-button>
                                        </b-form-group>
                                     </div>
-
                                  </div>
                               </b-card>
                            </div>
                         </div>
-                        <div class="row">
+                        <div class="row" v-if="getAddons.length">
                            <div class="col-md-12" >
                               <a-table v-if="timings.length>0" :columns="addon_options" :dataSource="getAddons">
                                     <span slot="is_waivable" slot-scope="text">{{text}}</span>
@@ -258,7 +255,7 @@
                                     <span slot="applicable_on_less_than" slot-scope="text">{{text}}</span>
                                     <span slot="Pricing" slot-scope="text">{{text[0].rate}}</span>
                                     <span slot="action" slot-scope="item,index">
-                                      <a href="javascript:;" >Edit</a>
+                                      <a href="javascript:;" @click="addon_field_item.new_addon=false;addon_field_item=index">Edit</a>
                                     </span>
                               </a-table>
                            </div>
@@ -467,13 +464,12 @@
             </div>
             <div class="row new-time">
                <div class="col-md-6">
-                  <h6 >Expiration Date</h6>
+                  <h6>Expiration Date</h6>
                </div>
                <div class="col-md-6">
                 <a-input  v-model="menu_expiration_date" type="date" placeholder="200"/>
                </div>
             </div>
-            
          </a-modal>
          
       </div>
@@ -685,9 +681,8 @@ export default {
     }
   },
   computed: {
-    getAddons(){
+    getAddons() {
       let addons=this.pricings.filter(pricing_item=>pricing_item.product_type=='addons')
-      console.log(addons)
       return addons
     },
    ...mapGetters(["user"]),
@@ -928,37 +923,38 @@ export default {
       }
 
     },
-    async updateAddons (addonitem) {
+    async updateAddons () {
       let activated_timing=this.timings.find(timing_item=>timing_item.is_active==true)
       this.pricing_obj.Pricing = [];
-      this.pricing_obj.name = addonitem.name;
+      this.pricing_obj.name = this.addon_field_item.name;
       this.pricing_obj.product_type = "addons";
       this.pricing_obj.entity_id = this.listing.entity_id;
-      this.pricing_obj.is_waivable = addonitem.is_waivable;
-      this.pricing_obj.is_required = addonitem.is_required;
-      this.pricing_obj.applicable_on_less_than = addonitem.applicable_on_less_than;
-      this.pricing_obj.product_id=addonitem.product_id
+      this.pricing_obj.is_waivable = this.addon_field_item.is_waivable;
+      this.pricing_obj.is_required = this.addon_field_item.is_required;
+      this.pricing_obj.applicable_on_less_than = this.addon_field_item.applicable_on_less_than;
+      this.pricing_obj.product_id=this.addon_field_item.product_id
 
       let temp_price_obj = {
         hours:1,
-        effective_date:addonitem.Pricing[0].effective_date.replace(/-/g, "/"),
-        expiration_date:addonitem.Pricing[0].expiration_date.replace(/-/g, "/"),
-        monday:addonitem.Pricing[0].rate,
-        tuesday:addonitem.Pricing[0].rate,
-        wednesday:addonitem.Pricing[0].rate,
-        thursday:addonitem.Pricing[0].rate,
-        friday:addonitem.Pricing[0].rate,
-        pricing_id:addonitem.Pricing[0].pricing_id,
-        product_id:addonitem.product_id,
-        saturday:addonitem.Pricing[0].rate,
-        sunday:addonitem.Pricing[0].rate,
-        rate:addonitem.Pricing[0].rate,
+        effective_date:this.addon_field_item.Pricing[0].effective_date.replace(/-/g, "/"),
+        expiration_date:this.addon_field_item.Pricing[0].expiration_date.replace(/-/g, "/"),
+        monday:this.addon_field_item.Pricing[0].rate,
+        tuesday:this.addon_field_item.Pricing[0].rate,
+        wednesday:this.addon_field_item.Pricing[0].rate,
+        thursday:this.addon_field_item.Pricing[0].rate,
+        friday:this.addon_field_item.Pricing[0].rate,
+        pricing_id:this.addon_field_item.Pricing[0].pricing_id,
+        product_id:this.addon_field_item.product_id,
+        saturday:this.addon_field_item.Pricing[0].rate,
+        sunday:this.addon_field_item.Pricing[0].rate,
+        rate:this.addon_field_item.Pricing[0].rate,
         rate_calculation:activated_timing.slot
       };
       this.pricing_obj.Pricing.push(temp_price_obj);
+      // console.log(this.pricing_obj)
       let { data } = await ListingRepository.update_pricing(this.pricing_obj);
       if (data.success == true) {
-          // this.openNotificationWithIcon('success',data.user_message)
+          this.openNotificationWithIcon('success',data.user_message)
           this.fetchPricings()
       } else {
           this.openNotificationWithIcon('error',data.user_message)
@@ -990,11 +986,11 @@ export default {
         rate_calculation:activated_timing.slot
       };
       this.pricing_obj.Pricing.push(temp_price_obj);
-      console.log(this.pricing_obj)
       let { data } = await ListingRepository.add_new_pricing(this.pricing_obj);
       if (data.success == true) {
           // this.openNotificationWithIcon('success',data.user_message)
           this.fetchPricings()
+          this.fillAddOnFields('Demo',null,0)
       } else {
           this.openNotificationWithIcon('error',data.user_message)
       }
@@ -1073,7 +1069,6 @@ export default {
     async fetchPricings() {
       const { data } = await ListingRepository.get_entity_pricings(this.listing.entity_id)
       this.pricings=data
-      console.log(this.pricings)
       if(this.pricings){
         for(var i=0;i<this.pricings.length;i++){
           if(this.pricings[i].Pricing.length>0){
