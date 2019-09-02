@@ -193,8 +193,9 @@
                                  </b-button>
                               </b-form-group>
                            </div>
-                        </div>
-                        <div class="row" v-for="addon_field_item in pricings" v-if="addon_field_item.product_type=='addons'" v-bind:key="addon_field_item.key">
+                        </div> 
+                        <!-- v-for="addon_field_item in pricings" v-if="addon_field_item.product_type=='addons'" v-bind:key="addon_field_item.key" -->
+                        <div class="row" >
                            <div class="col-md-12" >
                               <b-card class="mb-12" :title="addon_field_item.name">
                                  <div class="row">
@@ -210,19 +211,18 @@
                                     </div>
                                     <div class="col-md-2">
                                        <b-form-group  label="Effective Date">
-                                          <b-form-input v-model="addon_field_item.Pricing[0].effective_date" type="date"  />
-
+                                          <b-form-input v-model="addon_field_item.Pricing[0].effective_date" type="date"/>
                                        </b-form-group>
 
                                     </div>
                                     <div class="col-md-2">
                                        <b-form-group label="Expiry Date">
-                                          <b-form-input  v-model="addon_field_item.Pricing[0].expiration_date" type="date"  />
+                                          <b-form-input v-model="addon_field_item.Pricing[0].expiration_date"   type="date"  />
                                        </b-form-group>
                                     </div>
                                     <div class="col-md-2">
                                        <b-form-group   label="Is waivable">
-                                          <b-form-checkbox v-model="addon_field_item.is_waivable" name="check-button" switch></b-form-checkbox >
+                                          <b-form-checkbox v-model="addon_field_item.is_waivable"  name="check-button" switch></b-form-checkbox >
                                        </b-form-group>
                                     </div>
                                     <div class="col-md-2">
@@ -230,8 +230,7 @@
                                           <b-form-checkbox v-model="addon_field_item.is_required" name="check-button" switch></b-form-checkbox >
                                        </b-form-group>
                                     </div>
-
-                                    <div class=" offset-md-2  col-md-6" v-if="addon_field_item.is_waivable==true">
+                                    <div v-if="addon_field_item.is_waivable==true" class="offset-md-2  col-md-6" >
                                        <b-form-group label="Waive of people at">
                                           <b-form-input v-model="addon_field_item.applicable_on_less_than" type="number" />
                                        </b-form-group>
@@ -240,14 +239,28 @@
                                  <div class="row">
                                    <div class="col-md-12">
                                        <b-form-group class="pull-right">
-                                          <b-button v-if="addon_field_item.new_addon" style="margin-top:35px;" size="sm" @click="saveAddOns(addon_field_item)" class="mb-2 button"  >Save</b-button>
-                                          <b-button v-else style="margin-top:35px;" size="sm" class="mb-2 button" @click="updateAddons(addon_field_item)" >Update</b-button>
+                                         <!-- v-if="addon_field_item.new_addon" -->
+                                          <b-button  style="margin-top:35px;" size="sm" @click="saveAddOns()" class="mb-2 button"  >Save</b-button>
+                                          <!-- <b-button v-else style="margin-top:35px;" size="sm" class="mb-2 button" @click="updateAddons(addon_field_item)" >Update</b-button> -->
 
                                        </b-form-group>
                                     </div>
 
                                  </div>
                               </b-card>
+                           </div>
+                        </div>
+                        <div class="row">
+                           <div class="col-md-12" >
+                              <a-table v-if="timings.length>0" :columns="addon_options" :dataSource="getAddons">
+                                    <span slot="is_waivable" slot-scope="text">{{text}}</span>
+                                    <span slot="is_required" slot-scope="text">{{text}}</span>
+                                    <span slot="applicable_on_less_than" slot-scope="text">{{text}}</span>
+                                    <span slot="Pricing" slot-scope="text">{{text[0].rate}}</span>
+                                    <span slot="action" slot-scope="item,index">
+                                      <a href="javascript:;" >Edit</a>
+                                    </span>
+                              </a-table>
                            </div>
                         </div>
                         <div class="row">
@@ -476,6 +489,20 @@ export default {
   middleware: "auth",
   data() {
     return {
+      addon_field_item:{
+        Pricing:[{
+          effective_date:null,
+          expiration_date:null,
+          rate: 0,
+          }
+        ],
+        name: 'default title',
+        is_required: false,
+        is_waivable: false,
+        applicable_on_less_than: 0,
+        product_type:'addons',
+        new_addon:true
+      },
       timing_options : [{
       title: 'Time Start',
       dataIndex: 'time_start',
@@ -495,6 +522,43 @@ export default {
       dataIndex: 'timings_conf_id',
       scopedSlots: { customRender: 'timings_conf_id' },
       }],
+
+      addon_options : [{
+      title: 'Name',
+      dataIndex: 'name',
+      key: 'name',
+      },
+      {
+      title: 'Is Waivable',
+      scopedSlots: { customRender: 'is_waivable' },
+      dataIndex: 'is_waivable',
+      key: 'is_waivable',
+      },
+      {
+      title: 'Is Required',
+      scopedSlots: { customRender: 'is_required' },
+      dataIndex: 'is_required',
+      key: 'is_required',
+      },
+      {
+      title: 'Waive Off At',
+      scopedSlots: { customRender: 'applicable_on_less_than' },
+      dataIndex: 'applicable_on_less_than',
+      key: 'applicable_on_less_than',
+      },
+      {
+      title: 'Pricing',
+      scopedSlots: { customRender: 'Pricing' },
+      dataIndex: 'Pricing',
+      key: 'Pricing',
+      }, 
+      {
+      title: 'Action',
+      dataIndex: 'action',
+      scopedSlots: { customRender: 'action' },
+      }
+      
+      ],
       basePriceExists:false,
 
       pricing_obj: {
@@ -621,6 +685,11 @@ export default {
     }
   },
   computed: {
+    getAddons(){
+      let addons=this.pricings.filter(pricing_item=>pricing_item.product_type=='addons')
+      console.log(addons)
+      return addons
+    },
    ...mapGetters(["user"]),
     isNew() {
       return this.permalink === undefined;
@@ -716,7 +785,7 @@ export default {
       })
     },
     fillAddOnFields(title, price, waiveoffat) {
-      this.pricings.push({
+      this.addon_field_item={
         Pricing:[{
           effective_date:null,
           expiration_date:null,
@@ -729,8 +798,7 @@ export default {
         applicable_on_less_than: waiveoffat,
         product_type:'addons',
         new_addon:true
-      });
-
+      };
     },
     async activateSlots (config_id) {
        const { data } = await ListingRepository.changeTimeSlots({config_id:config_id,entity_id:this.listing.entity_id});
@@ -897,31 +965,32 @@ export default {
       }
 
     },
-    async saveAddOns (addonitem) {  
+    async saveAddOns () {  
      let activated_timing=this.timings.find(timing_item=>timing_item.is_active==true)
       this.pricing_obj.Pricing = [];
-      this.pricing_obj.name = addonitem.name;
+      this.pricing_obj.name = this.addon_field_item.name;
       this.pricing_obj.product_type = "addons";
       this.pricing_obj.entity_id = this.listing.entity_id;
-      this.pricing_obj.is_waivable = addonitem.is_waivable;
-      this.pricing_obj.is_required = addonitem.is_required;
-      this.pricing_obj.applicable_on_less_than = addonitem.applicable_on_less_than;
+      this.pricing_obj.is_waivable = this.addon_field_item.is_waivable;
+      this.pricing_obj.is_required = this.addon_field_item.is_required;
+      this.pricing_obj.applicable_on_less_than = this.addon_field_item.applicable_on_less_than;
 
       let temp_price_obj = {
         hours:1,
-        effective_date:addonitem.Pricing[0].effective_date.replace(/-/g, "/"),
-        expiration_date:addonitem.Pricing[0].expiration_date.replace(/-/g, "/"),
-        monday:addonitem.Pricing[0].rate,
-        tuesday:addonitem.Pricing[0].rate,
-        wednesday:addonitem.Pricing[0].rate,
-        thursday:addonitem.Pricing[0].rate,
-        friday:addonitem.Pricing[0].rate,
-        saturday:addonitem.Pricing[0].rate,
-        sunday:addonitem.Pricing[0].rate,
-        rate:addonitem.Pricing[0].rate,
+        effective_date:this.addon_field_item.Pricing[0].effective_date.replace(/-/g, "/"),
+        expiration_date:this.addon_field_item.Pricing[0].expiration_date.replace(/-/g, "/"),
+        monday:this.addon_field_item.Pricing[0].rate,
+        tuesday:this.addon_field_item.Pricing[0].rate,
+        wednesday:this.addon_field_item.Pricing[0].rate,
+        thursday:this.addon_field_item.Pricing[0].rate,
+        friday:this.addon_field_item.Pricing[0].rate,
+        saturday:this.addon_field_item.Pricing[0].rate,
+        sunday:this.addon_field_item.Pricing[0].rate,
+        rate:this.addon_field_item.Pricing[0].rate,
         rate_calculation:activated_timing.slot
       };
       this.pricing_obj.Pricing.push(temp_price_obj);
+      console.log(this.pricing_obj)
       let { data } = await ListingRepository.add_new_pricing(this.pricing_obj);
       if (data.success == true) {
           // this.openNotificationWithIcon('success',data.user_message)
@@ -1004,6 +1073,7 @@ export default {
     async fetchPricings() {
       const { data } = await ListingRepository.get_entity_pricings(this.listing.entity_id)
       this.pricings=data
+      console.log(this.pricings)
       if(this.pricings){
         for(var i=0;i<this.pricings.length;i++){
           if(this.pricings[i].Pricing.length>0){
