@@ -653,15 +653,8 @@ export default {
   },
   methods: {
     async newLocation(location){
-      console.log(location.latLng.lat())
-      console.log(location.latLng.lng())
-      // this.center = {
-      //     lat: location.latLng.lat(),
-      //     lng: location.latLng.lng()
-      //   };
       this.currentPlace = {lat:location.latLng.lat(),lng:location.latLng.lng()};
       const { data } = await ListingRepository.getLocations({lat:location.latLng.lat(),lng:location.latLng.lng()});
-      console.log(data)
 
     },
     viewListings(){
@@ -844,7 +837,6 @@ export default {
       }));
       this.previous_length=data.Entity.images.length
       this.customFields = data.CustomFields;
-      console.log(this.timings)
       if(this.timings.length>0){
         this.newTime.slot=this.timings[0].slot
         if(this.newTime.slot=='per_shift') this.newTime.no_of_shift=this.timings[0].hours_per_shift
@@ -858,8 +850,6 @@ export default {
       this.isLoading = false;
     },
     async saveBasePrice () {
-      // console.log(moment(this.base_price.expiration_date,"yyyy/mm/dd")//.format("yyyy/mm/dd"))
-  
 
      let activated_timing=this.timings.find(timing_item=>timing_item.is_active==true)
       this.pricing_obj.Pricing = [];
@@ -1091,7 +1081,6 @@ export default {
         this.openNotificationWithIcon('error',"Space title should be equal to 11 characters")
       }
       else if(this.listing.description.length < 50){
-        console.log(this.listing.title.length)
         this.openNotificationWithIcon('error',"Description should be 50 characters long")
       }
       else if(this.listing.address === null){
@@ -1134,7 +1123,6 @@ export default {
         let temp_arr=[]
 
         for(var i=this.previous_length;i<this.fileList.length;i++) {
-          console.log(this.fileList[i])
           temp_arr.push(this.fileList[i].originFileObj)
         }
         let img_obj={}
@@ -1142,7 +1130,6 @@ export default {
         this.$set(img_obj, "entity_id", this.listing.entity_id);
         this.$set(img_obj, "file_type", "images");
 
-        console.log(img_obj)
         let { data } = await ListingRepository.uploadEntityGalleryImages(img_obj);
         if(data.success) {
           // this.openNotificationWithIcon('success',data.user_message)
@@ -1188,7 +1175,6 @@ export default {
         this.openNotificationWithIcon('error',"Space title should be equal to 11 characters")
       }
       else if(this.listing.description.length < 50){
-        console.log(this.listing.title.length)
         this.openNotificationWithIcon('error',"Description should be 50 characters long")
       }
       else if(this.listing.address === null){
@@ -1243,7 +1229,6 @@ export default {
         } 
     },
     updateCoordinates (location) {
-      console.log(location)
       this.center = {
           lat: location.latLng.lat(),
           lng: location.latLng.lng()
