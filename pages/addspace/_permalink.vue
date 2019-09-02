@@ -115,7 +115,19 @@
                </div>
             </div>
             <div class="clearfix">
-               <a-list
+               <a-table v-if="timings.length>0" :columns="timing_options" :dataSource="timings">
+                    <a-time-picker slot="time_start" slot-scope="text" :minuteStep="15" :secondStep="10" v-model="text" />
+                    <a-time-picker slot="time_end" slot-scope="text" :minuteStep="15" :secondStep="10" v-model="text" />
+                     <a-radio-group slot="slot" slot-scope="text" v-model="text">
+                           <a-radio-button value="per_day">Per day</a-radio-button>
+                           <a-radio-button value="per_shift">Per shift</a-radio-button>
+                           <a-radio-button value="per_hour">Per hour</a-radio-button>
+                      </a-radio-group>
+                <span slot="timings_conf_id" slot-scope="item,index" v-if="!index.is_active">
+                  <a href="javascript:;" @click="activateSlots(item)" >Activate</a>
+                </span>
+              </a-table>
+               <!-- <a-list
                   class="demo-loadmore-list"
                   :loading="isLoading"
                   itemLayout="horizontal"
@@ -126,7 +138,6 @@
                      <div>
                         <a-time-picker :minuteStep="15" :secondStep="10" v-model="item.time_start" />
                         <a-time-picker :minuteStep="15" :secondStep="10" v-model="item.time_end" />
-                        <!-- <a-date-picker v-model="item.effective_date" /> -->
                         <a-radio-group v-model="item.slot">
                            <a-radio-button value="per_day">Per day</a-radio-button>
                            <a-radio-button value="per_shift">Per shift</a-radio-button>
@@ -140,15 +151,15 @@
                            />
                      </div>
                   </a-list-item>
-               </a-list>
+               </a-list> -->
             </div>
-            <h1 class="heading mt-4">Pricing</h1>
+            <!-- <h1 class="heading mt-4">Pricing</h1> -->
             <div class="row">
               <div class="col-md-12">
                   <b-card class="mb-4" title="Base Price">                        
                         <div class="row">
                            <div class="col-md-12">
-                              <b-card class="mb-12" style="border:none;">
+                              <b-card class="mb-12"  style="border:none;">
                                  <div class="row">
                                     <div class="col-md-2">
                                        <b-form-group label="Rent">
@@ -387,7 +398,7 @@
                   <h6>Space Allocation</h6>
                </div>
                <div class="col-md-7 .no-pad">
-                  <a-radio-group v-model="newTime.slot" :disabled="newTime.slot!=null">
+                  <a-radio-group v-model="newTime.slot" :disabled="timings.length>0">
                      <a-radio-button value="per_day">Per day</a-radio-button>
                      <a-radio-button value="per_shift">Per shift</a-radio-button>
                      <a-radio-button value="per_hour">Per hour</a-radio-button>
@@ -399,8 +410,8 @@
                      :min="2"
                      v-model="newTime.no_of_shift"
                      placeholder="No of Shifts"
-                     :disabled="newTime.no_of_shift!=null"
                      :max="10"
+                     :disabled="timings.length>0"
                      />
                </div>
             </div>
@@ -490,6 +501,25 @@ export default {
   middleware: "auth",
   data() {
     return {
+      timing_options : [{
+      title: 'Time Start',
+      dataIndex: 'time_start',
+      scopedSlots: { customRender: 'time_start' },
+      }, {
+      title: 'Time End',
+      dataIndex: 'time_end',
+      scopedSlots: { customRender: 'time_end' },
+
+      }, {
+      title: 'Slot',
+      dataIndex: 'slot',
+      scopedSlots: { customRender: 'slot' },
+
+      }, {
+      title: 'Action',
+      dataIndex: 'timings_conf_id',
+      scopedSlots: { customRender: 'timings_conf_id' },
+      }],
       basePriceExists:false,
 
       pricing_obj: {
@@ -766,7 +796,7 @@ export default {
         entity_id:this.listing.entity_id}
         const { data } = await ListingRepository.createTimeSlots(obj);
         if(data.success){
-        // this.openNotificationWithIcon('success',data.user_message)
+        this.openNotificationWithIcon('success',data.user_message)
         this.fetch();
 
         }
