@@ -127,31 +127,6 @@
                   <a href="javascript:;" @click="activateSlots(item)" >Activate</a>
                 </span>
               </a-table>
-               <!-- <a-list
-                  class="demo-loadmore-list"
-                  :loading="isLoading"
-                  itemLayout="horizontal"
-                  :dataSource="timings"
-                  >
-                  <a-list-item slot="renderItem" slot-scope="item, index">
-                     <a slot="actions" @click="activateSlots(item.timings_conf_id)" v-if="!item.is_active">activate</a>
-                     <div>
-                        <a-time-picker :minuteStep="15" :secondStep="10" v-model="item.time_start" />
-                        <a-time-picker :minuteStep="15" :secondStep="10" v-model="item.time_end" />
-                        <a-radio-group v-model="item.slot">
-                           <a-radio-button value="per_day">Per day</a-radio-button>
-                           <a-radio-button value="per_shift">Per shift</a-radio-button>
-                           <a-radio-button value="per_hour">Per hour</a-radio-button>
-                        </a-radio-group>
-                        <a-input-number
-                           v-if="item.slot === 'per_shift'"
-                           :min="2"
-                           :max="10"
-                           v-model="item.hours_per_shift"
-                           />
-                     </div>
-                  </a-list-item>
-               </a-list> -->
             </div>
             <!-- <h1 class="heading mt-4">Pricing</h1> -->
             <div class="row">
