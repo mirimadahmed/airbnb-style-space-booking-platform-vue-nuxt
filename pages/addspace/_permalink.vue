@@ -22,7 +22,7 @@
             </div>
             <div v-if="customFields">
               <div class="mt-4 col-md-8 px-0">
-                <a-input placeholder="Give your listing a title" size="large" v-model="listing.title" />
+                <a-input placeholder="Give your listing a title" size="large" v-model="listing.title" /> <sub>{{titlecharactercount}}/11</sub>
               </div>
               <div class="mt-4 col-md-8 px-0">
                 <a-textarea
@@ -30,6 +30,7 @@
                     :rows="4"
                     v-model="listing.description"
                     />
+                    <sub>{{listing_description_count}}/50</sub>
               </div>
               <div class="mt-4 col-md-8 px-0">
                 <no-ssr>
@@ -681,6 +682,12 @@ export default {
     }
   },
   computed: {
+    listing_description_count(){
+        return this.listing.description.length;
+    },
+    titlecharactercount() {
+        return this.listing.title.length;
+    },
     getAddons() {
       let addons=this.pricings.filter(pricing_item=>pricing_item.product_type=='addons')
       return addons
