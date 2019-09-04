@@ -22,15 +22,30 @@
             </div>
             <div v-if="customFields">
               <div class="mt-4 col-md-8 px-0">
-                <a-input placeholder="Give your listing a title" size="large" v-model="listing.title" /> <sub>{{titlecharactercount}}/11</sub>
+                    <b-form-group
+                        id="fieldset-1"
+                        description="Min 10 characters"
+                        label="Name your space"
+                        label-for="input-1">
+                     <a-input id="input-1" label="Fail" placeholder="Give your listing a title" size="large" v-model="listing.title" /> 
+                     <sub style="margin-top:5px;" class="pull-right">{{titlecharactercount}}/100</sub>
+                  </b-form-group>
+
               </div>
               <div class="mt-4 col-md-8 px-0">
-                <a-textarea
-                    placeholder="Give your listing a great description"
-                    :rows="4"
-                    v-model="listing.description"
-                    />
-                    <sub>{{listing_description_count}}/50</sub>
+                <b-form-group
+                  id="fieldset-1"
+                  description="Min 50 characters"
+                  label="Describe your space"
+                  label-for="input-2">
+                  <a-textarea
+                      id="input-2"
+                      placeholder="Give your listing a great description"
+                      :rows="4"
+                      v-model="listing.description"/>
+                      <sub style="margin-top:5px;" class="pull-right">{{listing_description_count}}/50</sub>
+                  </b-form-group>
+
               </div>
               <div class="mt-4 col-md-8 px-0">
                 <no-ssr>
@@ -273,6 +288,76 @@
                <div class="col-md-12">
                   <b-card  class="mb-4" title="Add New Menus" >
                      <div class="row">
+                       <div class="col-md-4">
+                           <b-card class="mb-4" title="Create New Menu">
+                              <div class="row">
+                                 <div class="col-md-12">
+                                    <b-form-group label="Menu Items">
+                                       <template v-for="(tag, index) in tags" >
+                                          <a-tooltip v-if="tag.length > 20" :key="tag" :title="tag">
+                                            <a-tag color="blue" :key="tag" :closable="index !== 0" :afterClose="() => handleClose(tag)">
+                                            {{`${tag.slice(0, 20)}...`}}
+                                          </a-tag>
+                                        </a-tooltip>
+                                        <a-tag color="blue" v-else :key="tag" :closable="index !== 0" :afterClose="() => handleClose(tag)">
+                                          {{tag}}
+                                        </a-tag>
+                                      </template>
+                                      <a-input
+                                        v-if="inputVisible"
+                                        ref="input"
+                                        type="text"
+                                        size="small"
+                                        :style="{ width: '78px' }"
+                                        :value="inputValue"
+                                        @change="handleInputChange"
+                                        @blur="handleInputConfirm"
+                                        @keyup.enter="handleInputConfirm"
+                                      />
+                                      <a-tag v-else @click="showInput" style="background: #fff; borderStyle: dashed;">
+                                        <a-icon type="plus" /> New Tag
+                                      </a-tag>
+                                    </b-form-group>
+                                 </div>
+                              </div>
+                              <div class="row">
+                                 <div class="col-md-12">
+                                    <b-form-group label="Menu Title"> 
+                                        <a-input v-model="menu_title" placeholder="Buffet Storm"/>
+                                    </b-form-group>
+                                 </div>
+                              </div>
+                              <div class="row">
+                                 <div class="col-md-12">
+                                    <b-form-group label="Menu Price"> 
+                                        <a-input type="number" v-model="menu_price_pp" placeholder="200"/>
+                                    </b-form-group>
+                                 </div>
+                              </div>
+                              <div class="row">
+                                 <div class="col-md-12">
+                                    <b-form-group label="Effective Date"> 
+                                        <a-input  v-model="menu_effective_date" type="date" placeholder="200"/>
+                                    </b-form-group>
+                                 </div>
+                              </div>
+                              <div class="row">
+                                 <div class="col-md-12">
+                                    <b-form-group label="Expiration Date"> 
+                                          <a-input  v-model="menu_expiration_date" type="date" placeholder="200"/>
+                                    </b-form-group>
+                                 </div>
+                              </div>
+                              <div class="row">
+                                 <div  class="col-md-12">
+                                    <!-- <b-form-group label="Action"> -->
+                                       <b-button  class="mb-2 button pull-right" size="sm" @click="adddMenus" >Create</b-button>
+                                    <!-- </b-form-group> -->
+                                 </div>
+                              </div>
+                           </b-card>
+                        </div>
+
                         <div v-for="menus in pricings" v-if="menus.product_type=='menu'"  v-bind:key="menus.key" class="col-md-4">
                            <b-card class="mb-4" :title="menus.name">
                               <div class="row">
@@ -421,7 +506,7 @@
                   <h6 >Provide Menu Items</h6>
                </div>
                <div class="col-md-6">
-                 <template v-for="(tag, index) in tags" >
+                 <!-- <template v-for="(tag, index) in tags" >
                     <a-tooltip v-if="tag.length > 20" :key="tag" :title="tag">
                       <a-tag :key="tag" :closable="index !== 0" :afterClose="() => handleClose(tag)">
                       {{`${tag.slice(0, 20)}...`}}
@@ -444,7 +529,7 @@
                 />
                 <a-tag v-else @click="showInput" style="background: #fff; borderStyle: dashed;">
                   <a-icon type="plus" /> New Tag
-                </a-tag>
+                </a-tag> -->
                </div>
             </div>   
             <div class="row new-time">
@@ -1039,7 +1124,7 @@ export default {
       this.pricing_obj.product_id=this.menu_product_id
       let { data } = await ListingRepository.update_pricing(this.pricing_obj);
             if (data.success == true) {
-                // this.openNotificationWithIcon('success',data.user_message)
+                this.openNotificationWithIcon('success',data.user_message)
                 this.fetchPricings()
                 this.menu_visible=false
             } else {
@@ -1050,7 +1135,7 @@ export default {
       else{
       let { data } = await ListingRepository.add_new_pricing(this.pricing_obj);
             if (data.success == true) {
-                // this.openNotificationWithIcon('success',data.user_message)
+                this.openNotificationWithIcon('success',data.user_message)
                 this.fetchPricings()
                 this.menu_visible=false
             } else {
@@ -1097,7 +1182,6 @@ export default {
         this.base_price.effective_date=new_eff_Date[0]
         this.base_price.expiration_date=new_exp_Date[0]
         this.base_price.pricing_id=base_price.Pricing[0].pricing_id
-
 
         // this.base_price.effective_date=new_eff_Date[0]+'-'+new_eff_Date[1]+'-'+new_eff_Date[2]
         // this.base_price.expiration_date=new_exp_Date[0]+'-'+new_exp_Date[1]+'-'+new_exp_Date[2]
