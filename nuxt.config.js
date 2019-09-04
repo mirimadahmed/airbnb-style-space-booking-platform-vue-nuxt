@@ -1,8 +1,10 @@
+const path = require('path');
 export default {
   mode: 'spa',
   /*
   ** Headers of the page
   */
+
   head: {
     title: 'Spacesly.com - Scan and book your spaces easily.',
     meta: [
@@ -30,11 +32,11 @@ export default {
   css: [
     '@fortawesome/fontawesome-svg-core/styles.css',
     'fullcalendar/dist/fullcalendar.css',
-    'vue-multiselect/dist/vue-multiselect.min.css',
+    path.resolve(__dirname, 'node_modules/vue-multiselect/dist/vue-multiselect.min.css'),
     'ant-design-vue/dist/antd.css'
   ],
   /*
-  ** Plugins to load before mounting the App
+  ** Plugins to load before mounting the App 
   */
   plugins: [
     '~/plugins/fontawesome.js',
