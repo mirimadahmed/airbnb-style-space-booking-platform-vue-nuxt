@@ -293,30 +293,7 @@
                               <div class="row">
                                  <div class="col-md-12">
                                     <b-form-group label="Menu Items">
-                                       <template v-for="(tag, index) in tags" >
-                                          <a-tooltip v-if="tag.length > 20" :key="tag" :title="tag">
-                                            <a-tag color="blue" :key="tag" :closable="index !== 0" :afterClose="() => handleClose(tag)">
-                                            {{`${tag.slice(0, 20)}...`}}
-                                          </a-tag>
-                                        </a-tooltip>
-                                        <a-tag color="blue" v-else :key="tag" :closable="index !== 0" :afterClose="() => handleClose(tag)">
-                                          {{tag}}
-                                        </a-tag>
-                                      </template>
-                                      <a-input
-                                        v-if="inputVisible"
-                                        ref="input"
-                                        type="text"
-                                        size="small"
-                                        :style="{ width: '78px' }"
-                                        :value="inputValue"
-                                        @change="handleInputChange"
-                                        @blur="handleInputConfirm"
-                                        @keyup.enter="handleInputConfirm"
-                                      />
-                                      <a-tag v-else @click="showInput" style="background: #fff; borderStyle: dashed;">
-                                        <a-icon type="plus" /> New Tag
-                                      </a-tag>
+                                        <multiselect v-model="menu_tags" tag-placeholder="Add this as new tag" placeholder="Search or add a tag" label="name" track-by="code" :options="options" :multiple="true" :taggable="true" @tag="addTag"></multiselect>
                                     </b-form-group>
                                  </div>
                               </div>
@@ -351,13 +328,12 @@
                               <div class="row">
                                  <div  class="col-md-12">
                                     <!-- <b-form-group label="Action"> -->
-                                       <b-button  class="mb-2 button pull-right" size="sm" @click="adddMenus" >Create</b-button>
+                                       <b-button  class="mb-2 button pull-right" size="sm" @click="addMenu" >Create</b-button>
                                     <!-- </b-form-group> -->
                                  </div>
                               </div>
                            </b-card>
                         </div>
-
                         <div v-for="menus in pricings" v-if="menus.product_type=='menu'"  v-bind:key="menus.key" class="col-md-4">
                            <b-card class="mb-4" :title="menus.name">
                               <div class="row">
@@ -388,13 +364,6 @@
                                   </b-form-group>
                                 </div>
                               </div>
-                              <!-- <div class="row">
-                                 <div class="col-md-6">
-                                    <b-form-group label="Is ">
-                                        <b-badge variant="success" class="mb-2" style="color:white;" >{{menus.menu_price_pp}}</b-badge>
-                                    </b-form-group>
-                                 </div>
-                              </div> -->
                               <div class="row">
                                  <div  class="col-md-12">
                                     <b-form-group label="Action">
@@ -404,13 +373,7 @@
                               </div>
                            </b-card>
                         </div>
-                        <div class="col-md-4">
-                           <b-card  @click="menu_visible=true"  class="mb-4">
-                              <div style="margin-left:45%;height:5rem;" class="simple-line-icons" >
-                                  <font-awesome-icon icon="plus" :style="{ color: 'black' }"  />
-                              </div>
-                           </b-card>
-                           </div>
+                        
                         </div>
                   </b-card>
                   </div>
@@ -487,7 +450,7 @@
                </div>
             </div>
          </a-modal>
-         <a-modal @ok="adddMenus"
+         <a-modal @ok="addMenu"
             @cancel="update=false"
             :width="620"
             okText="Save"
@@ -506,30 +469,7 @@
                   <h6 >Provide Menu Items</h6>
                </div>
                <div class="col-md-6">
-                 <!-- <template v-for="(tag, index) in tags" >
-                    <a-tooltip v-if="tag.length > 20" :key="tag" :title="tag">
-                      <a-tag :key="tag" :closable="index !== 0" :afterClose="() => handleClose(tag)">
-                      {{`${tag.slice(0, 20)}...`}}
-                    </a-tag>
-                  </a-tooltip>
-                  <a-tag v-else :key="tag" :closable="index !== 0" :afterClose="() => handleClose(tag)">
-                    {{tag}}
-                  </a-tag>
-                </template>
-                <a-input
-                  v-if="inputVisible"
-                  ref="input"
-                  type="text"
-                  size="small"
-                  :style="{ width: '78px' }"
-                  :value="inputValue"
-                  @change="handleInputChange"
-                  @blur="handleInputConfirm"
-                  @keyup.enter="handleInputConfirm"
-                />
-                <a-tag v-else @click="showInput" style="background: #fff; borderStyle: dashed;">
-                  <a-icon type="plus" /> New Tag
-                </a-tag> -->
+                    <multiselect v-model="tags" tag-placeholder="Add this as new tag" placeholder="Search or add a tag" label="name" track-by="code" :options="options" :multiple="true" :taggable="true" @tag="addTag"></multiselect>
                </div>
             </div>   
             <div class="row new-time">
@@ -565,12 +505,14 @@
 import moment from "moment";
 import { RepositoryFactory } from "@/repository/RepositoryFactory";
 import { mapGetters,mapState } from "vuex";
-
+import Multiselect from 'vue-multiselect'
 const ListingRepository = RepositoryFactory.get("listings");
 export default {
   middleware: "auth",
   data() {
     return {
+      menu_tags: [],
+      options: [],
       addon_field_item:{
         Pricing:[{
           effective_date:null,
@@ -766,6 +708,9 @@ export default {
       this.fetch();
     }
   },
+  components:{
+    Multiselect
+  },
   computed: {
     listing_description_count(){
         return this.listing.description.length;
@@ -783,41 +728,27 @@ export default {
     }
   },
   methods: {
+    addTag (newTag) {
+      const tag = {
+        name: newTag,
+        code: newTag.substring(0, 2) + Math.floor((Math.random() * 10000000))
+      }
+
+      this.options.push(tag)
+      if(this.update){
+       this.tags.push(tag) 
+      }
+      else{
+      this.menu_tags.push(tag)
+
+      }
+    },
     async newLocation(location){
       this.currentPlace = {lat:location.latLng.lat(),lng:location.latLng.lng()};
       const { data } = await ListingRepository.getLocations({lat:location.latLng.lat(),lng:location.latLng.lng()});
-
     },
     viewListings(){
       this.$router.push({ path: "/myspaces"  });
-    },
-    handleClose (removedTag) {
-      const tags = this.tags.filter(tag => tag !== removedTag)
-      this.tags = tags
-    },
-
-    showInput () {
-      this.inputVisible = true
-      this.$nextTick(function () {
-        this.$refs.input.focus()
-      })
-    },
-
-    handleInputChange (e) {
-      this.inputValue = e.target.value
-    },
-
-    handleInputConfirm () {
-      const inputValue = this.inputValue
-      let tags = this.tags
-      if (inputValue && tags.indexOf(inputValue) === -1) {
-        tags = [...tags, inputValue]
-      }
-      Object.assign(this, {
-        tags,
-        inputVisible: false,
-        inputValue: '',
-      })
     },
     async updateBasePrice() {
       
@@ -858,6 +789,8 @@ export default {
 
     },
     setSelectedMenu (menu) {
+      this.options=[]
+      this.tags=[]
       this.update=true
       this.menu_visible=true
       this.menu_title=menu.name
@@ -868,7 +801,7 @@ export default {
       this.menu_pricing_id=menu.Pricing[0].pricing_id
 
       menu.list_items.forEach(item=>{
-      this.tags.push(item.list_item)
+      this.tags.push({name: item.list_item,code: item.list_item.substring(0, 2) + Math.floor((Math.random() * 10000000))})
       })
     },
     fillAddOnFields(title, price, waiveoffat) {
@@ -1088,17 +1021,14 @@ export default {
       }
 
     },
-    async adddMenus() {
-      
+    async addMenu() {
       let activated_timing=this.timings.find(timing_item=>timing_item.is_active==true)
       this.pricing_obj.Pricing = [];
       this.pricing_obj.name = this.menu_title;
       this.pricing_obj.product_type = "menu";
       this.pricing_obj.entity_id = this.listing.entity_id;
+      this.pricing_obj.list_items=[]
       this.pricing_obj.list_items_exist=true
-      for (let men_tag of this.tags) {
-            this.pricing_obj.list_items.push({ list_item: men_tag });
-          }
       this.pricing_obj.is_waivable = this.menu_is_waivable;
       this.pricing_obj.is_required = this.menu_is_required;
       this.pricing_obj.applicable_on_less_than = this.menu_waive_off_at;
@@ -1119,10 +1049,13 @@ export default {
       };
       this.pricing_obj.Pricing.push(temp_price_obj);
       if(this.update){
-      this.pricing_obj.Pricing[0].pricing_id=this.menu_pricing_id,
-      this.pricing_obj.Pricing[0].product_id=this.menu_product_id,
-      this.pricing_obj.product_id=this.menu_product_id
-      let { data } = await ListingRepository.update_pricing(this.pricing_obj);
+          for (let men_tag of this.tags) {
+            this.pricing_obj.list_items.push({ list_item: men_tag.name });
+          }
+        this.pricing_obj.Pricing[0].pricing_id=this.menu_pricing_id,
+        this.pricing_obj.Pricing[0].product_id=this.menu_product_id,
+        this.pricing_obj.product_id=this.menu_product_id
+        let { data } = await ListingRepository.update_pricing(this.pricing_obj);
             if (data.success == true) {
                 this.openNotificationWithIcon('success',data.user_message)
                 this.fetchPricings()
@@ -1133,7 +1066,10 @@ export default {
             }
       }
       else{
-      let { data } = await ListingRepository.add_new_pricing(this.pricing_obj);
+          for (let men_tag of this.menu_tags) {
+          this.pricing_obj.list_items.push({ list_item: men_tag.name });
+          }
+          let { data } = await ListingRepository.add_new_pricing(this.pricing_obj);
             if (data.success == true) {
                 this.openNotificationWithIcon('success',data.user_message)
                 this.fetchPricings()
@@ -1146,6 +1082,7 @@ export default {
       this.update=false
       this.menu_title = null;
       this.tags = [];
+      this.menu_tags=[]
       this.menu_effective_date=null,
       this.menu_expiration_date=null;
       this.menu_price_pp = null;
