@@ -51,7 +51,7 @@
                 <no-ssr>
                     <div class="mb-4">
                       <h1 class="second-heading">Locate your space</h1>
-                      <gmap-autocomplete @place_changed="setPlace"   class="ant-input ant-input-lg"></gmap-autocomplete>
+                      <gmap-autocomplete :componentRestrictions="country" @place_changed="setPlace"   class="ant-input ant-input-lg"></gmap-autocomplete>
                     </div>
                     <gmap-map :center="center" :zoom="20" @click="newLocation" style="width:100%;  height: 400px;" >
                       <gmap-marker
@@ -74,11 +74,9 @@
                   :fileList="fileList"
                   :multiple="true"
                   @change="handleChange"
-
-                  @preview="handlePreview"
-                  :beforeUpload="beforeUpload">
+                  @preview="handlePreview">
                   <div>
-                     <a-icon type="plus" />
+                    <a-icon type="plus" />
                      <div class="ant-upload-text">Upload</div>
                   </div>
                </a-upload>
@@ -511,6 +509,7 @@ export default {
   middleware: "auth",
   data() {
     return {
+      country:{country:'pk'},
       menu_tags: [],
       options: [],
       addon_field_item:{
@@ -696,7 +695,7 @@ export default {
         entity_id:null
       },
       permalink: null,
-      center: { lat: 45.508, lng: -73.587 },
+      center: { lat: 30.3753, lng: 69.3451 },
       currentPlace: null,
       customFields: null,
       previous_length:null
@@ -745,7 +744,7 @@ export default {
     },
     async newLocation(location){
       this.currentPlace = {lat:location.latLng.lat(),lng:location.latLng.lng()};
-      const { data } = await ListingRepository.getLocations({lat:location.latLng.lat(),lng:location.latLng.lng()});
+      // const { data } = await ListingRepository.getLocations({lat:location.latLng.lat(),lng:location.latLng.lng()});
     },
     viewListings(){
       this.$router.push({ path: "/myspaces"  });
@@ -1176,10 +1175,6 @@ export default {
            this.openNotificationWithIcon('error',data.user_message)
         }
       }
-    },
-    beforeUpload(file) {
-      this.fileList = [...this.fileList, file]
-      return false;
     },
     handleChange ({ fileList }) {
       this.fileList = fileList
