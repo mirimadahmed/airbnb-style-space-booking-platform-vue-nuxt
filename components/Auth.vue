@@ -35,14 +35,14 @@
           <div class="col-md-12" v-else>
             <b-spinner variant="danger" type="grow" label="Spinning"></b-spinner>
           </div>
-          <div class="col-md-12">
+          <div class="col-md-12 py-2">
               <a-checkbox :checked="isRemember" @change="rememberMe" >Remember me</a-checkbox>
           </div>
-          <div class="col-md-12 py-4">
+          <div class="col-md-12 py-2">
             New here?
             <a class="link" @click.prevent="type='signup'">Register</a>
           </div>
-          <div class="col-md-12 py-4">
+          <div class="col-md-12 py-2">
             Forget Password
             <a class="link" @click.prevent="type='forget'">Click Here</a>
           </div>
