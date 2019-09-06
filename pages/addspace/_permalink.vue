@@ -51,7 +51,7 @@
                 <no-ssr>
                     <div class="mb-4">
                       <h1 class="second-heading">Locate your space</h1>
-                      <gmap-autocomplete  v-model="listing.address" :componentRestrictions="country" @place_changed="setPlace"   class="ant-input ant-input-lg"></gmap-autocomplete>
+                      <gmap-autocomplete   :componentRestrictions="country" @place_changed="setPlace"   class="ant-input ant-input-lg"></gmap-autocomplete>
                     </div>
                     <gmap-map :center="center" :zoom="20" @click="newLocation" style="width:100%;  height: 400px;" >
                       <gmap-marker
@@ -744,8 +744,9 @@ export default {
     },
     async newLocation(location) {
       this.currentPlace = {lat:location.latLng.lat(),lng:location.latLng.lng()};
-      const { data } = await ListingRepository.getLocations({lat:location.latLng.lat(),lng:location.latLng.lng()});
-      this.listing.address=data.results[0].formatted_address
+      // const { data } = await ListingRepository.getLocations({lat:location.latLng.lat(),lng:location.latLng.lng()});
+      // console.log(data)
+      // this.listing.address=data.results[0].formatted_address
     },
     viewListings(){
       this.$router.push({ path: "/myspaces"  });
@@ -1307,8 +1308,8 @@ export default {
       };
 
       this.currentPlace = {lat:location.latLng.lat(),lng:location.latLng.lng()};  
-      const { data } = await ListingRepository.getLocations({lat:location.latLng.lat(),lng:location.latLng.lng()});
-      this.listing.address=data.results[0].formatted_address
+      // const { data } = await ListingRepository.getLocations({lat:location.latLng.lat(),lng:location.latLng.lng()});
+      // this.listing.address=data.results[0].formatted_address
     },
     prev() {
       this.current--;
