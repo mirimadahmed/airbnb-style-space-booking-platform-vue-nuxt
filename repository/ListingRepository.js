@@ -38,7 +38,9 @@ export default {
     return Repository.post(`${resource}/${timeslot.entity_id}/timings_conf/`, timeslot)
   },
   getLocations(coordinates) {
-    return Repository.get(`https://maps.google.com/maps/api/geocode/json?latlng=${coordinates.lat},${coordinates.lng}&key=AIzaSyCEDDvJ8f9sb6oSid0pahWvhQlGmdxlMTM`)
+    //my api AIzaSyCEDDvJ8f9sb6oSid0pahWvhQlGmdxlMTM
+    //imad bhai api AIzaSyCMgG-WMQl0cNVoED6GR27F5vIZMX2a2gs
+    return Repository.get(`https://maps.google.com/maps/api/geocode/json?latlng=${coordinates.lat},${coordinates.lng}&key=AIzaSyCUqW52AXRmuPzQghI877RFrjXHTxCjfkE`)
   },
   changeTimeSlots(timeslot) {
     return Repository.put(`${resource}/${timeslot.entity_id}/timings_conf/`+timeslot.config_id)
