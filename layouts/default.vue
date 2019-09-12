@@ -17,11 +17,14 @@ export default {
 </script>
 <style>
 #app {
-  font-family: "Avenir", Helvetica, Arial, sans-serif;
+  font-family: 'Nunito Sans', sans-serif;
+
+  /* font-family: "Avenir", Helvetica, Arial, sans-serif; */
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
   color: #2c3e50;
+  text-rendering: optimizeLegibility; 
   /* margin-top: 60px; */
 }
 
@@ -77,7 +80,7 @@ button:focus {
   color: white;
   border-top-left-radius: 0px !important;
   border-top-right-radius: 0px !important;
-  width: 100px;
+  width: 130px;
 }
 .nav-link-no-border:hover {
   color: white;
@@ -94,7 +97,7 @@ button:focus {
   background: #9b59b6 !important;
 }
 .bg-one:hover {
-  background: #8e44ad !important;
+  background: #af15f1 !important;
 }
 
 .bg-two {
@@ -108,20 +111,20 @@ button:focus {
   background: #28ad58 !important;
 }
 .bg-three:hover {
-  background: #27ae60 !important;
+  background: #09f56b !important;
 }
 
 .bg-four {
   background: #e74c3c !important;
 }
 .bg-four:hover {
-  background: #c0392b !important;
+  background: #fa2e17 !important;
 }
 
 .bg-five {
   background: #3498db !important;
 }
 .bg-five:hover {
-  background: #2980b9 !important;
+  background: #139ffd !important;
 }
 </style>

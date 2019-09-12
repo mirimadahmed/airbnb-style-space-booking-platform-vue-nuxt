@@ -14,6 +14,17 @@ export default {
   update_entity (payload) {
     return Repository.put(`${resource}`+payload.Entity.permalink+'/',payload);
   },
+  getEntitySlots(payload) {
+    return Repository.get(`entity_slots/${payload.entity_id}?date_dnr=`+payload.selectedDate)
+  },
+  modifyEntitySlots(payload) {
+    if(payload.dnr){
+      return Repository.post(`entity_dnr/${payload.entity_id}/${payload.slot_id}?dnr_date=`+payload.selectedDate)
+    }
+    else{
+      return Repository.delete(`delete_entity_dnr/${payload.dnr_id}`)
+    }
+  },
   uploadEntityGalleryImages(payload) {
     const form = new FormData();
     payload.files.forEach(i=>{
@@ -25,6 +36,11 @@ export default {
   },
   createTimeSlots(timeslot) {
     return Repository.post(`${resource}/${timeslot.entity_id}/timings_conf/`, timeslot)
+  },
+  getLocations(coordinates) {
+    //my api AIzaSyCEDDvJ8f9sb6oSid0pahWvhQlGmdxlMTM
+    //imad bhai api AIzaSyCMgG-WMQl0cNVoED6GR27F5vIZMX2a2gs
+    return Repository.get(`https://maps.google.com/maps/api/geocode/json?latlng=${coordinates.lat},${coordinates.lng}&key=AIzaSyCUqW52AXRmuPzQghI877RFrjXHTxCjfkE`)
   },
   changeTimeSlots(timeslot) {
     return Repository.put(`${resource}/${timeslot.entity_id}/timings_conf/`+timeslot.config_id)

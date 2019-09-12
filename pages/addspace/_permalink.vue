@@ -22,28 +22,43 @@
             </div>
             <div v-if="customFields">
               <div class="mt-4 col-md-8 px-0">
-                <a-input placeholder="Give your listing a title" size="large" v-model="listing.title" />
+                    <b-form-group
+                        id="fieldset-1"
+                        description="Min 10 characters"
+                        label="Name your space"
+                        label-for="input-1">
+                     <a-input id="input-1" label="Fail" placeholder="Give your listing a title" size="large" v-model="listing.title" /> 
+                     <sub style="margin-top:5px;" class="pull-right">{{titlecharactercount}}/100</sub>
+                  </b-form-group>
+
               </div>
               <div class="mt-4 col-md-8 px-0">
-                <a-textarea
-                    placeholder="Give your listing a great description"
-                    :rows="4"
-                    v-model="listing.description"
-                    />
+                <b-form-group
+                  id="fieldset-1"
+                  description="Min 50 characters"
+                  label="Describe your space"
+                  label-for="input-2">
+                  <a-textarea
+                      id="input-2"
+                      placeholder="Give your listing a great description"
+                      :rows="4"
+                      v-model="listing.description"/>
+                      <sub style="margin-top:5px;" class="pull-right">{{listing_description_count}}/50</sub>
+                  </b-form-group>
+
               </div>
               <div class="mt-4 col-md-8 px-0">
                 <no-ssr>
                     <div class="mb-4">
                       <h1 class="second-heading">Locate your space</h1>
-                      <gmap-autocomplete @place_changed="setPlace"   class="ant-input ant-input-lg"></gmap-autocomplete>
+                      <gmap-autocomplete   :componentRestrictions="country" @place_changed="setPlace"   class="ant-input ant-input-lg"></gmap-autocomplete>
                     </div>
-                    <gmap-map :center="center" :zoom="20" style="width:100%;  height: 400px;" >
+                    <gmap-map :center="center" :zoom="20" @click="newLocation" style="width:100%;  height: 400px;" >
                       <gmap-marker
                           @drag="updateCoordinates"
-                          @dragend="updateCoordinates"
+                          @dragend="updateCoordinatesEnd"
                           v-if="currentPlace"
                           :position="currentPlace"
-                          :clickable="false"
                           :draggable="true"
                           />
                     </gmap-map>
@@ -59,11 +74,9 @@
                   :fileList="fileList"
                   :multiple="true"
                   @change="handleChange"
-
-                  @preview="handlePreview"
-                  :beforeUpload="beforeUpload">
+                  @preview="handlePreview">
                   <div>
-                     <a-icon type="plus" />
+                    <a-icon type="plus" />
                      <div class="ant-upload-text">Upload</div>
                   </div>
                </a-upload>
@@ -116,40 +129,26 @@
                </div>
             </div>
             <div class="clearfix">
-               <a-list
-                  class="demo-loadmore-list"
-                  :loading="isLoading"
-                  itemLayout="horizontal"
-                  :dataSource="timings"
-                  >
-                  <a-list-item slot="renderItem" slot-scope="item, index">
-                     <a slot="actions" @click="activateSlots(item.timings_conf_id)" v-if="!item.is_active">activate</a>
-                     <div>
-                        <a-time-picker :minuteStep="15" :secondStep="10" v-model="item.time_start" />
-                        <a-time-picker :minuteStep="15" :secondStep="10" v-model="item.time_end" />
-                        <!-- <a-date-picker v-model="item.effective_date" /> -->
-                        <a-radio-group v-model="item.slot">
+               <a-table v-if="timings.length>0" :columns="timing_options" :dataSource="timings">
+                    <a-time-picker slot="time_start" slot-scope="text" :minuteStep="15" :secondStep="10" v-model="text" />
+                    <a-time-picker slot="time_end" slot-scope="text" :minuteStep="15" :secondStep="10" v-model="text" />
+                     <a-radio-group slot="slot" slot-scope="text" v-model="text">
                            <a-radio-button value="per_day">Per day</a-radio-button>
                            <a-radio-button value="per_shift">Per shift</a-radio-button>
                            <a-radio-button value="per_hour">Per hour</a-radio-button>
-                        </a-radio-group>
-                        <a-input-number
-                           v-if="item.slot === 'per_shift'"
-                           :min="2"
-                           :max="10"
-                           v-model="item.hours_per_shift"
-                           />
-                     </div>
-                  </a-list-item>
-               </a-list>
+                      </a-radio-group>
+                <span slot="timings_conf_id" slot-scope="item,index" v-if="!index.is_active">
+                  <a href="javascript:;" @click="activateSlots(item)" >Activate</a>
+                </span>
+              </a-table>
             </div>
-            <h1 class="heading mt-4">Pricing</h1>
-            <div class="row">
+            <!-- <h1 class="heading mt-4">Pricing</h1> -->
+            <div class="row" style="margin-top:10px;">
               <div class="col-md-12">
                   <b-card class="mb-4" title="Base Price">                        
                         <div class="row">
                            <div class="col-md-12">
-                              <b-card class="mb-12" title="Provide your base pricing">
+                              <b-card class="mb-12"  style="border:none;">
                                  <div class="row">
                                     <div class="col-md-2">
                                        <b-form-group label="Rent">
@@ -196,8 +195,8 @@
                      </b-card>
                </div>
                <div class="col-md-12">
-                  <b-card class="mb-4" title="AddOns">
-                     <b-card class="mb-4" title="Create AddOns">
+                  <b-card class="mb-4" title="Create AddOns" >
+                     <b-card class="mb-4" style="border:none;">
                         <div class="row">
                            <div class="col-md-6">
                               <b-form-group label="Add More AddOns">
@@ -208,8 +207,9 @@
                                  </b-button>
                               </b-form-group>
                            </div>
-                        </div>
-                        <div class="row" v-for="addon_field_item in pricings" v-if="addon_field_item.product_type=='addons'" v-bind:key="addon_field_item.key">
+                        </div> 
+                        <!-- v-for="addon_field_item in pricings" v-if="addon_field_item.product_type=='addons'" v-bind:key="addon_field_item.key" -->
+                        <div class="row" >
                            <div class="col-md-12" >
                               <b-card class="mb-12" :title="addon_field_item.name">
                                  <div class="row">
@@ -225,19 +225,18 @@
                                     </div>
                                     <div class="col-md-2">
                                        <b-form-group  label="Effective Date">
-                                          <b-form-input v-model="addon_field_item.Pricing[0].effective_date" type="date"  />
-
+                                          <b-form-input v-model="addon_field_item.Pricing[0].effective_date" type="date"/>
                                        </b-form-group>
 
                                     </div>
                                     <div class="col-md-2">
                                        <b-form-group label="Expiry Date">
-                                          <b-form-input  v-model="addon_field_item.Pricing[0].expiration_date" type="date"  />
+                                          <b-form-input v-model="addon_field_item.Pricing[0].expiration_date"   type="date"  />
                                        </b-form-group>
                                     </div>
                                     <div class="col-md-2">
                                        <b-form-group   label="Is waivable">
-                                          <b-form-checkbox v-model="addon_field_item.is_waivable" name="check-button" switch></b-form-checkbox >
+                                          <b-form-checkbox v-model="addon_field_item.is_waivable"  name="check-button" switch></b-form-checkbox >
                                        </b-form-group>
                                     </div>
                                     <div class="col-md-2">
@@ -245,8 +244,7 @@
                                           <b-form-checkbox v-model="addon_field_item.is_required" name="check-button" switch></b-form-checkbox >
                                        </b-form-group>
                                     </div>
-
-                                    <div class=" offset-md-2  col-md-6" v-if="addon_field_item.is_waivable==true">
+                                    <div v-if="addon_field_item.is_waivable==true" class="offset-md-2  col-md-6" >
                                        <b-form-group label="Waive of people at">
                                           <b-form-input v-model="addon_field_item.applicable_on_less_than" type="number" />
                                        </b-form-group>
@@ -255,14 +253,25 @@
                                  <div class="row">
                                    <div class="col-md-12">
                                        <b-form-group class="pull-right">
-                                          <b-button v-if="addon_field_item.new_addon" style="margin-top:35px;" size="sm" @click="saveAddOns(addon_field_item)" class="mb-2 button"  >Save</b-button>
-                                          <b-button v-else style="margin-top:35px;" size="sm" class="mb-2 button" @click="updateAddons(addon_field_item)" >Update</b-button>
-
+                                          <b-button  v-if="addon_field_item.new_addon" style="margin-top:35px;" size="sm" @click="saveAddOns()" class="mb-2 button">Save</b-button>
+                                          <b-button  v-else style="margin-top:35px;" size="sm" class="mb-2 button" @click="updateAddons()">Update</b-button>
                                        </b-form-group>
                                     </div>
-
                                  </div>
                               </b-card>
+                           </div>
+                        </div>
+                        <div class="row" v-if="getAddons.length">
+                           <div class="col-md-12" >
+                              <a-table v-if="timings.length>0" :columns="addon_options" :dataSource="getAddons">
+                                    <span slot="is_waivable" slot-scope="text">{{text}}</span>
+                                    <span slot="is_required" slot-scope="text">{{text}}</span>
+                                    <span slot="applicable_on_less_than" slot-scope="text">{{text}}</span>
+                                    <span slot="Pricing" slot-scope="text">{{text[0].rate}}</span>
+                                    <span slot="action" slot-scope="item,index">
+                                      <a href="javascript:;" @click="addon_field_item.new_addon=false;addon_field_item=index">Edit</a>
+                                    </span>
+                              </a-table>
                            </div>
                         </div>
                         <div class="row">
@@ -277,6 +286,52 @@
                <div class="col-md-12">
                   <b-card  class="mb-4" title="Add New Menus" >
                      <div class="row">
+                       <div class="col-md-4">
+                           <b-card class="mb-4" title="Create New Menu">
+                              <div class="row">
+                                 <div class="col-md-12">
+                                    <b-form-group label="Menu Items">
+                                        <multiselect v-model="menu_tags" tag-placeholder="Add this as new tag" placeholder="Search or add a tag" label="name" track-by="code" :options="options" :multiple="true" :taggable="true" @tag="addTag"></multiselect>
+                                    </b-form-group>
+                                 </div>
+                              </div>
+                              <div class="row">
+                                 <div class="col-md-12">
+                                    <b-form-group label="Menu Title"> 
+                                        <a-input v-model="menu_title" placeholder="Buffet Storm"/>
+                                    </b-form-group>
+                                 </div>
+                              </div>
+                              <div class="row">
+                                 <div class="col-md-12">
+                                    <b-form-group label="Menu Price"> 
+                                        <a-input type="number" v-model="menu_price_pp" placeholder="200"/>
+                                    </b-form-group>
+                                 </div>
+                              </div>
+                              <div class="row">
+                                 <div class="col-md-12">
+                                    <b-form-group label="Effective Date"> 
+                                        <a-input  v-model="menu_effective_date" type="date" placeholder="200"/>
+                                    </b-form-group>
+                                 </div>
+                              </div>
+                              <div class="row">
+                                 <div class="col-md-12">
+                                    <b-form-group label="Expiration Date"> 
+                                          <a-input  v-model="menu_expiration_date" type="date" placeholder="200"/>
+                                    </b-form-group>
+                                 </div>
+                              </div>
+                              <div class="row">
+                                 <div  class="col-md-12">
+                                    <!-- <b-form-group label="Action"> -->
+                                       <b-button  class="mb-2 button pull-right" size="sm" @click="addMenu" >Create</b-button>
+                                    <!-- </b-form-group> -->
+                                 </div>
+                              </div>
+                           </b-card>
+                        </div>
                         <div v-for="menus in pricings" v-if="menus.product_type=='menu'"  v-bind:key="menus.key" class="col-md-4">
                            <b-card class="mb-4" :title="menus.name">
                               <div class="row">
@@ -307,13 +362,6 @@
                                   </b-form-group>
                                 </div>
                               </div>
-                              <!-- <div class="row">
-                                 <div class="col-md-6">
-                                    <b-form-group label="Is ">
-                                        <b-badge variant="success" class="mb-2" style="color:white;" >{{menus.menu_price_pp}}</b-badge>
-                                    </b-form-group>
-                                 </div>
-                              </div> -->
                               <div class="row">
                                  <div  class="col-md-12">
                                     <b-form-group label="Action">
@@ -323,13 +371,7 @@
                               </div>
                            </b-card>
                         </div>
-                        <div class="col-md-4">
-                           <b-card  @click="menu_visible=true"  class="mb-4"  title="Add New">
-                              <div style="margin-left:45%;height:5rem;" class="simple-line-icons" >
-                                  <font-awesome-icon icon="plus" :style="{ color: 'black' }"  />
-                              </div>
-                           </b-card>
-                           </div>
+                        
                         </div>
                   </b-card>
                   </div>
@@ -388,7 +430,7 @@
                   <h6>Space Allocation</h6>
                </div>
                <div class="col-md-7 .no-pad">
-                  <a-radio-group v-model="newTime.slot">
+                  <a-radio-group v-model="newTime.slot" :disabled="timings.length>0">
                      <a-radio-button value="per_day">Per day</a-radio-button>
                      <a-radio-button value="per_shift">Per shift</a-radio-button>
                      <a-radio-button value="per_hour">Per hour</a-radio-button>
@@ -401,11 +443,12 @@
                      v-model="newTime.no_of_shift"
                      placeholder="No of Shifts"
                      :max="10"
+                     :disabled="timings.length>0"
                      />
                </div>
             </div>
          </a-modal>
-         <a-modal @ok="adddMenus"
+         <a-modal @ok="addMenu"
             @cancel="update=false"
             :width="620"
             okText="Save"
@@ -424,30 +467,7 @@
                   <h6 >Provide Menu Items</h6>
                </div>
                <div class="col-md-6">
-                 <template v-for="(tag, index) in tags" >
-                    <a-tooltip v-if="tag.length > 20" :key="tag" :title="tag">
-                      <a-tag :key="tag" :closable="index !== 0" :afterClose="() => handleClose(tag)">
-                      {{`${tag.slice(0, 20)}...`}}
-                    </a-tag>
-                  </a-tooltip>
-                  <a-tag v-else :key="tag" :closable="index !== 0" :afterClose="() => handleClose(tag)">
-                    {{tag}}
-                  </a-tag>
-                </template>
-                <a-input
-                  v-if="inputVisible"
-                  ref="input"
-                  type="text"
-                  size="small"
-                  :style="{ width: '78px' }"
-                  :value="inputValue"
-                  @change="handleInputChange"
-                  @blur="handleInputConfirm"
-                  @keyup.enter="handleInputConfirm"
-                />
-                <a-tag v-else @click="showInput" style="background: #fff; borderStyle: dashed;">
-                  <a-icon type="plus" /> New Tag
-                </a-tag>
+                    <multiselect v-model="tags" tag-placeholder="Add this as new tag" placeholder="Search or add a tag" label="name" track-by="code" :options="options" :multiple="true" :taggable="true" @tag="addTag"></multiselect>
                </div>
             </div>   
             <div class="row new-time">
@@ -468,13 +488,12 @@
             </div>
             <div class="row new-time">
                <div class="col-md-6">
-                  <h6 >Expiration Date</h6>
+                  <h6>Expiration Date</h6>
                </div>
                <div class="col-md-6">
                 <a-input  v-model="menu_expiration_date" type="date" placeholder="200"/>
                </div>
             </div>
-            
          </a-modal>
          
       </div>
@@ -484,12 +503,85 @@
 import moment from "moment";
 import { RepositoryFactory } from "@/repository/RepositoryFactory";
 import { mapGetters,mapState } from "vuex";
-
+import Multiselect from 'vue-multiselect'
 const ListingRepository = RepositoryFactory.get("listings");
 export default {
   middleware: "auth",
   data() {
     return {
+      country:{country:'pk'},
+      menu_tags: [],
+      options: [],
+      addon_field_item:{
+        Pricing:[{
+          effective_date:null,
+          expiration_date:null,
+          rate: 0,
+          }
+        ],
+        name: 'default title',
+        is_required: false,
+        is_waivable: false,
+        applicable_on_less_than: 0,
+        product_type:'addons',
+        new_addon:true
+      },
+      timing_options : [{
+      title: 'Time Start',
+      dataIndex: 'time_start',
+      scopedSlots: { customRender: 'time_start' },
+      }, {
+      title: 'Time End',
+      dataIndex: 'time_end',
+      scopedSlots: { customRender: 'time_end' },
+
+      }, {
+      title: 'Slot',
+      dataIndex: 'slot',
+      scopedSlots: { customRender: 'slot' },
+
+      }, {
+      title: 'Action',
+      dataIndex: 'timings_conf_id',
+      scopedSlots: { customRender: 'timings_conf_id' },
+      }],
+
+      addon_options : [{
+      title: 'Name',
+      dataIndex: 'name',
+      key: 'name',
+      },
+      {
+      title: 'Is Waivable',
+      scopedSlots: { customRender: 'is_waivable' },
+      dataIndex: 'is_waivable',
+      key: 'is_waivable',
+      },
+      {
+      title: 'Is Required',
+      scopedSlots: { customRender: 'is_required' },
+      dataIndex: 'is_required',
+      key: 'is_required',
+      },
+      {
+      title: 'Waive Off At',
+      scopedSlots: { customRender: 'applicable_on_less_than' },
+      dataIndex: 'applicable_on_less_than',
+      key: 'applicable_on_less_than',
+      },
+      {
+      title: 'Pricing',
+      scopedSlots: { customRender: 'Pricing' },
+      dataIndex: 'Pricing',
+      key: 'Pricing',
+      }, 
+      {
+      title: 'Action',
+      dataIndex: 'action',
+      scopedSlots: { customRender: 'action' },
+      }
+      
+      ],
       basePriceExists:false,
 
       pricing_obj: {
@@ -603,7 +695,7 @@ export default {
         entity_id:null
       },
       permalink: null,
-      center: { lat: 45.508, lng: -73.587 },
+      center: { lat: 30.3753, lng: 69.3451 },
       currentPlace: null,
       customFields: null,
       previous_length:null
@@ -615,43 +707,49 @@ export default {
       this.fetch();
     }
   },
+  components:{
+    Multiselect
+  },
   computed: {
+    listing_description_count(){
+        return this.listing.description.length;
+    },
+    titlecharactercount() {
+        return this.listing.title.length;
+    },
+    getAddons() {
+      let addons=this.pricings.filter(pricing_item=>pricing_item.product_type=='addons')
+      return addons
+    },
    ...mapGetters(["user"]),
     isNew() {
       return this.permalink === undefined;
     }
   },
   methods: {
-    viewListings(){
-      this.$router.push({ path: "/listings"  });
-    },
-    handleClose (removedTag) {
-      const tags = this.tags.filter(tag => tag !== removedTag)
-      this.tags = tags
-    },
-
-    showInput () {
-      this.inputVisible = true
-      this.$nextTick(function () {
-        this.$refs.input.focus()
-      })
-    },
-
-    handleInputChange (e) {
-      this.inputValue = e.target.value
-    },
-
-    handleInputConfirm () {
-      const inputValue = this.inputValue
-      let tags = this.tags
-      if (inputValue && tags.indexOf(inputValue) === -1) {
-        tags = [...tags, inputValue]
+    addTag (newTag) {
+      const tag = {
+        name: newTag,
+        code: newTag.substring(0, 2) + Math.floor((Math.random() * 10000000))
       }
-      Object.assign(this, {
-        tags,
-        inputVisible: false,
-        inputValue: '',
-      })
+
+      this.options.push(tag)
+      if(this.update){
+       this.tags.push(tag) 
+      }
+      else{
+      this.menu_tags.push(tag)
+
+      }
+    },
+    async newLocation(location) {
+      this.currentPlace = {lat:location.latLng.lat(),lng:location.latLng.lng()};
+      // const { data } = await ListingRepository.getLocations({lat:location.latLng.lat(),lng:location.latLng.lng()});
+      // console.log(data)
+      // this.listing.address=data.results[0].formatted_address
+    },
+    viewListings(){
+      this.$router.push({ path: "/myspaces"  });
     },
     async updateBasePrice() {
       
@@ -685,13 +783,15 @@ export default {
 
      let { data } = await ListingRepository.update_pricing(this.pricing_obj);
       if (data.success == true) {
-          this.openNotificationWithIcon('success',data.user_message)
+          // this.openNotificationWithIcon('success',data.user_message)
       } else {
           this.openNotificationWithIcon('error',data.user_message)
       }
 
     },
     setSelectedMenu (menu) {
+      this.options=[]
+      this.tags=[]
       this.update=true
       this.menu_visible=true
       this.menu_title=menu.name
@@ -702,11 +802,11 @@ export default {
       this.menu_pricing_id=menu.Pricing[0].pricing_id
 
       menu.list_items.forEach(item=>{
-      this.tags.push(item.list_item)
+      this.tags.push({name: item.list_item,code: item.list_item.substring(0, 2) + Math.floor((Math.random() * 10000000))})
       })
     },
     fillAddOnFields(title, price, waiveoffat) {
-      this.pricings.push({
+      this.addon_field_item={
         Pricing:[{
           effective_date:null,
           expiration_date:null,
@@ -719,8 +819,7 @@ export default {
         applicable_on_less_than: waiveoffat,
         product_type:'addons',
         new_addon:true
-      });
-
+      };
     },
     async activateSlots (config_id) {
        const { data } = await ListingRepository.changeTimeSlots({config_id:config_id,entity_id:this.listing.entity_id});
@@ -802,6 +901,10 @@ export default {
       }));
       this.previous_length=data.Entity.images.length
       this.customFields = data.CustomFields;
+      if(this.timings.length>0){
+        this.newTime.slot=this.timings[0].slot
+        if(this.newTime.slot=='per_shift') this.newTime.no_of_shift=this.timings[0].hours_per_shift
+      }
       for(var i=0;i<this.timings.length;i++){
         this.timings[i].time_start=moment(this.timings[i].time_start,'HH:mm:ss')
         this.timings[i].time_end=moment(this.timings[i].time_end,'HH:mm:ss')
@@ -811,8 +914,6 @@ export default {
       this.isLoading = false;
     },
     async saveBasePrice () {
-      // console.log(moment(this.base_price.expiration_date,"yyyy/mm/dd")//.format("yyyy/mm/dd"))
-  
 
      let activated_timing=this.timings.find(timing_item=>timing_item.is_active==true)
       this.pricing_obj.Pricing = [];
@@ -841,41 +942,42 @@ export default {
 
       let { data } = await ListingRepository.add_new_pricing(this.pricing_obj);
       if (data.success == true) {
-          this.openNotificationWithIcon('success',data.user_message)
+          // this.openNotificationWithIcon('success',data.user_message)
           this.fetchPricings()
       } else {
           this.openNotificationWithIcon('error',data.user_message)
       }
 
     },
-    async updateAddons (addonitem) {
+    async updateAddons () {
       let activated_timing=this.timings.find(timing_item=>timing_item.is_active==true)
       this.pricing_obj.Pricing = [];
-      this.pricing_obj.name = addonitem.name;
+      this.pricing_obj.name = this.addon_field_item.name;
       this.pricing_obj.product_type = "addons";
       this.pricing_obj.entity_id = this.listing.entity_id;
-      this.pricing_obj.is_waivable = addonitem.is_waivable;
-      this.pricing_obj.is_required = addonitem.is_required;
-      this.pricing_obj.applicable_on_less_than = addonitem.applicable_on_less_than;
-      this.pricing_obj.product_id=addonitem.product_id
+      this.pricing_obj.is_waivable = this.addon_field_item.is_waivable;
+      this.pricing_obj.is_required = this.addon_field_item.is_required;
+      this.pricing_obj.applicable_on_less_than = this.addon_field_item.applicable_on_less_than;
+      this.pricing_obj.product_id=this.addon_field_item.product_id
 
       let temp_price_obj = {
         hours:1,
-        effective_date:addonitem.Pricing[0].effective_date.replace(/-/g, "/"),
-        expiration_date:addonitem.Pricing[0].expiration_date.replace(/-/g, "/"),
-        monday:addonitem.Pricing[0].rate,
-        tuesday:addonitem.Pricing[0].rate,
-        wednesday:addonitem.Pricing[0].rate,
-        thursday:addonitem.Pricing[0].rate,
-        friday:addonitem.Pricing[0].rate,
-        pricing_id:addonitem.Pricing[0].pricing_id,
-        product_id:addonitem.product_id,
-        saturday:addonitem.Pricing[0].rate,
-        sunday:addonitem.Pricing[0].rate,
-        rate:addonitem.Pricing[0].rate,
+        effective_date:this.addon_field_item.Pricing[0].effective_date.replace(/-/g, "/"),
+        expiration_date:this.addon_field_item.Pricing[0].expiration_date.replace(/-/g, "/"),
+        monday:this.addon_field_item.Pricing[0].rate,
+        tuesday:this.addon_field_item.Pricing[0].rate,
+        wednesday:this.addon_field_item.Pricing[0].rate,
+        thursday:this.addon_field_item.Pricing[0].rate,
+        friday:this.addon_field_item.Pricing[0].rate,
+        pricing_id:this.addon_field_item.Pricing[0].pricing_id,
+        product_id:this.addon_field_item.product_id,
+        saturday:this.addon_field_item.Pricing[0].rate,
+        sunday:this.addon_field_item.Pricing[0].rate,
+        rate:this.addon_field_item.Pricing[0].rate,
         rate_calculation:activated_timing.slot
       };
       this.pricing_obj.Pricing.push(temp_price_obj);
+      // console.log(this.pricing_obj)
       let { data } = await ListingRepository.update_pricing(this.pricing_obj);
       if (data.success == true) {
           this.openNotificationWithIcon('success',data.user_message)
@@ -885,51 +987,49 @@ export default {
       }
 
     },
-    async saveAddOns (addonitem) {  
+    async saveAddOns () {  
      let activated_timing=this.timings.find(timing_item=>timing_item.is_active==true)
       this.pricing_obj.Pricing = [];
-      this.pricing_obj.name = addonitem.name;
+      this.pricing_obj.name = this.addon_field_item.name;
       this.pricing_obj.product_type = "addons";
       this.pricing_obj.entity_id = this.listing.entity_id;
-      this.pricing_obj.is_waivable = addonitem.is_waivable;
-      this.pricing_obj.is_required = addonitem.is_required;
-      this.pricing_obj.applicable_on_less_than = addonitem.applicable_on_less_than;
+      this.pricing_obj.is_waivable = this.addon_field_item.is_waivable;
+      this.pricing_obj.is_required = this.addon_field_item.is_required;
+      this.pricing_obj.applicable_on_less_than = this.addon_field_item.applicable_on_less_than;
 
       let temp_price_obj = {
         hours:1,
-        effective_date:addonitem.Pricing[0].effective_date.replace(/-/g, "/"),
-        expiration_date:addonitem.Pricing[0].expiration_date.replace(/-/g, "/"),
-        monday:addonitem.Pricing[0].rate,
-        tuesday:addonitem.Pricing[0].rate,
-        wednesday:addonitem.Pricing[0].rate,
-        thursday:addonitem.Pricing[0].rate,
-        friday:addonitem.Pricing[0].rate,
-        saturday:addonitem.Pricing[0].rate,
-        sunday:addonitem.Pricing[0].rate,
-        rate:addonitem.Pricing[0].rate,
+        effective_date:this.addon_field_item.Pricing[0].effective_date.replace(/-/g, "/"),
+        expiration_date:this.addon_field_item.Pricing[0].expiration_date.replace(/-/g, "/"),
+        monday:this.addon_field_item.Pricing[0].rate,
+        tuesday:this.addon_field_item.Pricing[0].rate,
+        wednesday:this.addon_field_item.Pricing[0].rate,
+        thursday:this.addon_field_item.Pricing[0].rate,
+        friday:this.addon_field_item.Pricing[0].rate,
+        saturday:this.addon_field_item.Pricing[0].rate,
+        sunday:this.addon_field_item.Pricing[0].rate,
+        rate:this.addon_field_item.Pricing[0].rate,
         rate_calculation:activated_timing.slot
       };
       this.pricing_obj.Pricing.push(temp_price_obj);
       let { data } = await ListingRepository.add_new_pricing(this.pricing_obj);
       if (data.success == true) {
-          this.openNotificationWithIcon('success',data.user_message)
+          // this.openNotificationWithIcon('success',data.user_message)
           this.fetchPricings()
+          this.fillAddOnFields('Demo',null,0)
       } else {
           this.openNotificationWithIcon('error',data.user_message)
       }
 
     },
-    async adddMenus() {
-      
+    async addMenu() {
       let activated_timing=this.timings.find(timing_item=>timing_item.is_active==true)
       this.pricing_obj.Pricing = [];
       this.pricing_obj.name = this.menu_title;
       this.pricing_obj.product_type = "menu";
       this.pricing_obj.entity_id = this.listing.entity_id;
+      this.pricing_obj.list_items=[]
       this.pricing_obj.list_items_exist=true
-      for (let men_tag of this.tags) {
-            this.pricing_obj.list_items.push({ list_item: men_tag });
-          }
       this.pricing_obj.is_waivable = this.menu_is_waivable;
       this.pricing_obj.is_required = this.menu_is_required;
       this.pricing_obj.applicable_on_less_than = this.menu_waive_off_at;
@@ -950,10 +1050,13 @@ export default {
       };
       this.pricing_obj.Pricing.push(temp_price_obj);
       if(this.update){
-      this.pricing_obj.Pricing[0].pricing_id=this.menu_pricing_id,
-      this.pricing_obj.Pricing[0].product_id=this.menu_product_id,
-      this.pricing_obj.product_id=this.menu_product_id
-      let { data } = await ListingRepository.update_pricing(this.pricing_obj);
+          for (let men_tag of this.tags) {
+            this.pricing_obj.list_items.push({ list_item: men_tag.name });
+          }
+        this.pricing_obj.Pricing[0].pricing_id=this.menu_pricing_id,
+        this.pricing_obj.Pricing[0].product_id=this.menu_product_id,
+        this.pricing_obj.product_id=this.menu_product_id
+        let { data } = await ListingRepository.update_pricing(this.pricing_obj);
             if (data.success == true) {
                 this.openNotificationWithIcon('success',data.user_message)
                 this.fetchPricings()
@@ -964,7 +1067,10 @@ export default {
             }
       }
       else{
-      let { data } = await ListingRepository.add_new_pricing(this.pricing_obj);
+          for (let men_tag of this.menu_tags) {
+          this.pricing_obj.list_items.push({ list_item: men_tag.name });
+          }
+          let { data } = await ListingRepository.add_new_pricing(this.pricing_obj);
             if (data.success == true) {
                 this.openNotificationWithIcon('success',data.user_message)
                 this.fetchPricings()
@@ -977,6 +1083,7 @@ export default {
       this.update=false
       this.menu_title = null;
       this.tags = [];
+      this.menu_tags=[]
       this.menu_effective_date=null,
       this.menu_expiration_date=null;
       this.menu_price_pp = null;
@@ -1014,7 +1121,6 @@ export default {
         this.base_price.expiration_date=new_exp_Date[0]
         this.base_price.pricing_id=base_price.Pricing[0].pricing_id
 
-
         // this.base_price.effective_date=new_eff_Date[0]+'-'+new_eff_Date[1]+'-'+new_eff_Date[2]
         // this.base_price.expiration_date=new_exp_Date[0]+'-'+new_exp_Date[1]+'-'+new_exp_Date[2]
         this.base_price.is_waivable=base_price.is_waivable
@@ -1044,7 +1150,6 @@ export default {
         this.openNotificationWithIcon('error',"Space title should be equal to 11 characters")
       }
       else if(this.listing.description.length < 50){
-        console.log(this.listing.title.length)
         this.openNotificationWithIcon('error',"Description should be 50 characters long")
       }
       else if(this.listing.address === null){
@@ -1065,7 +1170,7 @@ export default {
         this.listing.entity_id=data.entity_id
         this.permalink=data.permalink
         if(data.success) {
-           this.openNotificationWithIcon('success',data.user_message)
+          //  this.openNotificationWithIcon('success',data.user_message)
            this.current++
         }
         else {
@@ -1073,20 +1178,16 @@ export default {
         }
       }
     },
-    beforeUpload(file) {
-      this.fileList = [...this.fileList, file]
-      return false;
-    },
     handleChange ({ fileList }) {
       this.fileList = fileList
     },
     async handleUpload() {
+      this.isLoading=true
       if(this.previous_length<this.fileList.length){
         if(this.previous_length==null) this.previous_length=0
         let temp_arr=[]
 
         for(var i=this.previous_length;i<this.fileList.length;i++) {
-          console.log(this.fileList[i])
           temp_arr.push(this.fileList[i].originFileObj)
         }
         let img_obj={}
@@ -1094,23 +1195,25 @@ export default {
         this.$set(img_obj, "entity_id", this.listing.entity_id);
         this.$set(img_obj, "file_type", "images");
 
-        console.log(img_obj)
         let { data } = await ListingRepository.uploadEntityGalleryImages(img_obj);
         if(data.success) {
-          this.openNotificationWithIcon('success',data.user_message)
+          // this.openNotificationWithIcon('success',data.user_message)
           this.current++;
         }
         else {
           this.openNotificationWithIcon('error',data.user_message)
         }
+
       }
       else {
           this.current++;
       }
+        this.isLoading=false
       
 
     },
     async updateCustomFields () {
+      this.isLoading=true
       let obj = {
           name:this.listing.title,
           company_id:this.user.company_id,
@@ -1122,12 +1225,28 @@ export default {
           latitude:this.center.lat}
           let { data } = await ListingRepository.update_entity({Entity:obj,CustomFields:this.customFields});
           if(data.success) {
-           this.openNotificationWithIcon('success',data.user_message)
+          //  this.openNotificationWithIcon('success',data.user_message)
             this.current++;
           }
+      this.isLoading=false
+
     },
     async updateAbout() {
-      if (this.isAboutValid()) {
+      
+      if(this.listing.type_id === null){
+        this.openNotificationWithIcon('error',"Space type  should be selected")
+      }
+      else if(this.listing.title.length < 10){
+        this.openNotificationWithIcon('error',"Space title should be equal to 11 characters")
+      }
+      else if(this.listing.description.length < 50){
+        this.openNotificationWithIcon('error',"Description should be 50 characters long")
+      }
+      else if(this.listing.address === null){
+        this.openNotificationWithIcon('error',"Provide space Location")
+      }
+      else {
+        this.isLoading=true
         let obj = {
           name:this.listing.title,
           company_id:this.user.company_id,
@@ -1140,16 +1259,13 @@ export default {
           }
         const { data } = await ListingRepository.updateListing({Entity:obj})
         if(data.success){
-           this.openNotificationWithIcon('success',data.user_message)
+          //  this.openNotificationWithIcon('success',data.user_message)
            this.current++
         }
         else {
            this.openNotificationWithIcon('error',data.user_message)
         }
-
-      } else {
-        this.openNotificationWithIcon('error',"Listing title should be 11 characters"+
-        " Description should be 50 characters long")
+        this.isLoading=false
       }
     },
     next() {
@@ -1178,18 +1294,27 @@ export default {
         } 
     },
     updateCoordinates (location) {
-      console.log(location)
       this.center = {
           lat: location.latLng.lat(),
           lng: location.latLng.lng()
         };
+
       this.currentPlace = {lat:location.latLng.lat(),lng:location.latLng.lng()};
+    },
+    async updateCoordinatesEnd (location) {
+      this.center = {
+          lat: location.latLng.lat(),
+          lng: location.latLng.lng()
+      };
+
+      this.currentPlace = {lat:location.latLng.lat(),lng:location.latLng.lng()};  
+      // const { data } = await ListingRepository.getLocations({lat:location.latLng.lat(),lng:location.latLng.lng()});
+      // this.listing.address=data.results[0].formatted_address
     },
     prev() {
       this.current--;
     },
-    setPlace(place) {
-      console.log("abcc")
+    setPlace(place) {      
       this.currentPlace = {lat:place.geometry.location.lat(),lng:place.geometry.location.lng()};
       this.center.lat=place.geometry.location.lat()
       this.center.lng=place.geometry.location.lng()

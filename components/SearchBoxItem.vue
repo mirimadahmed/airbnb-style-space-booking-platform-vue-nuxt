@@ -1,12 +1,13 @@
 <template>
   <div>
+
     <div class="middle-wrapper col-md-12">
-      <h1 class="heading d-none d-md-block">
-        Book Spaces
-        <span style="color: #54A0FF;">Easily!</span>
-      </h1>
+      <h1 class="heading d-none d-md-block" style="padding:5px;">Scan and Book Spaces, easily!  </h1>
       <b-tabs class="text-center col-md-10 search d-none d-md-block" v-model="tabIndex">
-        <b-tab title="Wedding" :title-link-class="linkClass(0)" class="tab-item" active>
+        <b-tab title="Wedding" :title-link-class="linkClass(0)" class="tab-item"  active>
+           <template slot="title">
+                <span><i class="fa fa-birthday-cake" aria-hidden="true"></i> &nbsp; Wedding</span>
+           </template>
           <div class="form row" inline>
             <div class="col-md-4 item-wrapper">
               <b-form-input
@@ -31,22 +32,22 @@
               </no-ssr>
             </div>
             <div class="col-md-2 item-wrapper">
-              <b-input id="search" placeholder="Where?" v-model="query.where" />
+              <!-- <b-input id="search" placeholder="Where?" v-model="query.where" /> -->
+              <gmap-autocomplete   id="search" class="form-control" placeholder="Where?"></gmap-autocomplete>
+
             </div>
             <div class="col-md-2 item-wrapper last-tab">
-              <b-input
-                type="number"
-                id="capacity"
-                placeholder="No. of Guests"
-                v-model="query.count"
-              />
+              <b-input id="capacity" type="number" min="0" placeholder="No. of Guests" v-model="query.count" />
             </div>
             <div class="col-md-2 item-wrapper last-tab">
               <b-button @click="getSearchResults" squared class="search-button">SEARCH</b-button>
             </div>
           </div>
         </b-tab>
-        <b-tab title="Party" :title-link-class="linkClass(1)" class="tab-item">
+        <b-tab title="Party" :title-link-class="linkClass(1)" class="tab-item glyphicon glyphicon-asterisk">
+            <template slot="title">
+                <span><i class="fa fa-glass" aria-hidden="true"></i> &nbsp; Party</span>
+           </template>
           <div class="form row" inline>
             <div class="col-md-4 item-wrapper">
               <b-form-input
@@ -71,15 +72,12 @@
               </no-ssr>
             </div>
             <div class="col-md-2 item-wrapper">
-              <b-input id="search" placeholder="Where?" v-model="query.where" />
+              <!-- <b-input id="search" placeholder="Where?" v-model="query.where" /> -->
+              <gmap-autocomplete   id="search" class="form-control" placeholder="Where?"></gmap-autocomplete>
+
             </div>
             <div class="col-md-2 item-wrapper last-tab">
-              <b-input
-                type="number"
-                id="capacity"
-                placeholder="No. of Guests"
-                v-model="query.count"
-              />
+              <b-input id="capacity" placeholder="No. of Guests" type="number" min="0" v-model="query.count" />
             </div>
             <div class="col-md-2 item-wrapper last-tab">
               <b-button @click="getSearchResults" squared class="search-button">SEARCH</b-button>
@@ -87,6 +85,9 @@
           </div>
         </b-tab>
         <b-tab title="Corporate" :title-link-class="linkClass(2)" class="tab-item">
+            <template slot="title">
+                <span><i class="fa fa-briefcase" aria-hidden="true"></i> &nbsp; Corporate</span>
+           </template>          
           <div class="form row" inline>
             <div class="col-md-4 item-wrapper">
               <b-form-input
@@ -111,15 +112,11 @@
               </no-ssr>
             </div>
             <div class="col-md-2 item-wrapper">
-              <b-input id="search" placeholder="Where?" v-model="query.where" />
+              <!-- <b-input id="search" placeholder="Where?" v-model="query.where" /> -->
+              <gmap-autocomplete   id="search" class="form-control" placeholder="Where?"></gmap-autocomplete>
             </div>
             <div class="col-md-2 item-wrapper last-tab">
-              <b-input
-                type="number"
-                id="capacity"
-                placeholder="No. of Guests"
-                v-model="query.count"
-              />
+              <b-input id="capacity" placeholder="No. of Guests" type="number" min="0" v-model="query.count" />
             </div>
             <div class="col-md-2 item-wrapper last-tab">
               <b-button @click="getSearchResults" squared class="search-button">SEARCH</b-button>
@@ -127,6 +124,9 @@
           </div>
         </b-tab>
         <b-tab title="Sports" :title-link-class="linkClass(3)" class="tab-item">
+          <template slot="title">
+              <span><i class="fa fa-futbol-o" aria-hidden="true"></i> &nbsp; Sports</span>
+          </template>   
           <div class="form row" inline>
             <div class="col-md-6 item-wrapper">
               <b-form-input
@@ -150,8 +150,9 @@
                 />
               </no-ssr>
             </div>
-            <div class="col-md-2 item-wrapper last-tab">
-              <b-input id="search" placeholder="Where?" v-model="query.where" />
+            <div class="col-md-2 item-wrapper">
+              <!-- <b-input id="search" placeholder="Where?" v-model="query.where" /> -->
+              <gmap-autocomplete   id="search" class="form-control" placeholder="Where?"></gmap-autocomplete>
             </div>
             <div class="col-md-2 item-wrapper last-tab">
               <b-button @click="getSearchResults" squared class="search-button">SEARCH</b-button>
@@ -159,6 +160,9 @@
           </div>
         </b-tab>
         <b-tab title="Studio" class="tab-item" :title-link-class="linkClass(4)">
+          <template slot="title">
+              <span><i class="fa fa-camera" aria-hidden="true"></i> &nbsp;Studio</span>
+          </template> 
           <div class="form row" inline>
             <div class="col-md-6 item-wrapper">
               <b-form-input
@@ -183,7 +187,9 @@
               </no-ssr>
             </div>
             <div class="col-md-2 item-wrapper last-tab">
-              <b-input id="search" placeholder="Where?" v-model="query.where" />
+              <!-- <b-input id="search" placeholder="Where?" v-model="query.where" /> -->
+              <gmap-autocomplete   id="search" class="form-control" placeholder="Where?"></gmap-autocomplete>
+
             </div>
             <div class="col-md-2 item-wrapper last-tab">
               <b-button @click="getSearchResults" squared class="search-button">SEARCH</b-button>
@@ -219,10 +225,12 @@
         </no-ssr>
       </div>
       <div class="col-sm-12 py-3 phone-item shadow-sm">
-        <b-input id="search" placeholder="Where?" v-model="query.where" />
+        <!-- <b-input id="search" placeholder="Where?" v-model="query.where" /> -->
+        <gmap-autocomplete   id="search" class="form-control" placeholder="Where?"></gmap-autocomplete>
+
       </div>
       <div class="col-sm-12 py-3 phone-item shadow-sm">
-        <b-input type="number" id="capacity" placeholder="No. of Guests" v-model="query.count" />
+        <b-input id="capacity" placeholder="No. of Guests" type="number" min="0" v-model="query.count" />
       </div>
       <div class="col-sm-12 py-3">
         <b-button @click="getSearchResults" squared class="search-button">SEARCH</b-button>

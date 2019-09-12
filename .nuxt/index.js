@@ -10,6 +10,7 @@ import { setContext, getLocation, getRouteData, normalizeError } from './utils'
 import { createStore } from './store.js'
 
 /* Plugins */
+
 import nuxt_plugin_bootstrapvue_077ab82a from 'nuxt_plugin_bootstrapvue_077ab82a' // Source: .\\bootstrap-vue.js (mode: 'all')
 import nuxt_plugin_fontawesome_b8db358e from 'nuxt_plugin_fontawesome_b8db358e' // Source: ..\\plugins\\fontawesome.js (mode: 'all')
 import nuxt_plugin_vue2googlemaps_51da65b7 from 'nuxt_plugin_vue2googlemaps_51da65b7' // Source: ..\\plugins\\vue2-google-maps.js (mode: 'client')

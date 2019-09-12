@@ -29,7 +29,7 @@
         <b-input id="search" placeholder="Where?" v-model="query.where" />
       </div>
       <div class="col-md-2 item-wrapper last-tab">
-        <b-input id="capacity" placeholder="No. of Guests" v-model="query.count" />
+        <b-input id="capacity" placeholder="No. of Guests" type="number" min="0" v-model="query.count" />
       </div>
       <div class="col-md-2 item-wrapper">
         <b-button @click="getSearchResults" squared class="search-button">SEARCH</b-button>
