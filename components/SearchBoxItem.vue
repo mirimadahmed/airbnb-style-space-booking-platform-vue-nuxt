@@ -39,7 +39,7 @@
             <div class="col-md-2 item-wrapper last-tab">
               <b-input id="capacity" type="number" min="0" placeholder="No. of Guests" v-model="query.count" />
             </div>
-            <div class="col-md-2 item-wrapper">
+            <div class="col-md-2 item-wrapper last-tab">
               <b-button @click="getSearchResults" squared class="search-button">SEARCH</b-button>
             </div>
           </div>
@@ -153,7 +153,6 @@
             <div class="col-md-2 item-wrapper">
               <!-- <b-input id="search" placeholder="Where?" v-model="query.where" /> -->
               <gmap-autocomplete   id="search" class="form-control" placeholder="Where?"></gmap-autocomplete>
-
             </div>
             <div class="col-md-2 item-wrapper last-tab">
               <b-button @click="getSearchResults" squared class="search-button">SEARCH</b-button>
@@ -384,7 +383,7 @@ export default {
   text-align: left;
   margin: 100px auto;
   width: 80%;
-  color: white;
+  color: #e84c3c;
   font-weight: 600;
   font-size: 50px;
 }

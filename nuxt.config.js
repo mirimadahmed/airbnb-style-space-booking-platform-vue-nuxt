@@ -6,7 +6,7 @@ export default {
   */
 
   head: {
-    title: 'Spacesly.com - Scan and book your spaces easily.',
+    title: 'Spacesly.com - Book spaces easily.',
     meta: [
       { charset: 'utf-8' },
       { name: 'viewport', content: 'width=device-width, initial-scale=1' },
@@ -18,8 +18,8 @@ export default {
       { rel: 'stylesheet', type: 'text/css', href: 'https://fonts.googleapis.com/css?family=Nunito+Sans&display=swap' }
     ],
     script: [
-      {src: '/json-serilization.js'},
-      {src: '/session.js'}
+      { src: '/json-serilization.js' },
+      { src: '/session.js' }
     ]
   },
   /*

@@ -41,7 +41,7 @@ Vue.use(Meta, {
   tagIDKeyName: 'hid' // the property name that vue-meta uses to determine whether to overwrite or append a tag
 })
 
-const defaultTransition = {"name":"page","mode":"out-in","appear":true,"appearClass":"appear","appearActiveClass":"appear-active","appearToClass":"appear-to"}
+const defaultTransition = { "name": "page", "mode": "out-in", "appear": true, "appearClass": "appear", "appearActiveClass": "appear-active", "appearToClass": "appear-to" }
 
 async function createApp(ssrContext) {
   const router = await createRouter(ssrContext)
@@ -59,10 +59,10 @@ async function createApp(ssrContext) {
     store,
     nuxt: {
       defaultTransition,
-      transitions: [ defaultTransition ],
+      transitions: [defaultTransition],
       setTransitions(transitions) {
         if (!Array.isArray(transitions)) {
-          transitions = [ transitions ]
+          transitions = [transitions]
         }
         transitions = transitions.map((transition) => {
           if (!transition) {
