@@ -12,7 +12,7 @@
         <h5 class="heading">Company</h5>
         <ul>
           <li>
-            <router-link to="/about">Spacesly</router-link>
+            <router-link to="/about">Serics Global</router-link>
           </li>
           <li>
             <router-link to="/partners">Partners</router-link>
@@ -25,40 +25,6 @@
           </li>
           <li>
             <router-link to="/terms">Terms and Conditions</router-link>
-          </li>
-        </ul>
-      </div>
-      <div class="col-md-3">
-        <h5 class="heading">Discover</h5>
-        <ul>
-          <li>
-            <router-link to="/eventsia">Eventsia</router-link>
-          </li>
-          <li>
-            <a href="https://www.facebook.com/spacesly">Facebook</a>
-          </li>
-          <li>
-            <a href="https://www.instagram.com/web.spacesly/">Instagram</a>
-          </li>
-          <li>
-            <router-link to="/about">Spacesly</router-link>
-          </li>
-        </ul>
-      </div>
-      <div class="col-md-3">
-        <h5 class="heading">Users</h5>
-        <ul>
-          <li>
-            <router-link to="/about">Spacesly</router-link>
-          </li>
-          <li>
-            <router-link to="/about">Spacesly</router-link>
-          </li>
-          <li>
-            <router-link to="/about">Spacesly</router-link>
-          </li>
-          <li>
-            <router-link to="/about">Spacesly</router-link>
           </li>
         </ul>
       </div>
