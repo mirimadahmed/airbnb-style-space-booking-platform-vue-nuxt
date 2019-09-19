@@ -146,8 +146,8 @@ export default {
       isRemember:false,
       type: "login",
       login: {
-        email: "",
-        password: ""
+        email: "hassannadeem88@gmail.com",
+        password: "hassan88"
       },
       signup: {
         name: "",
