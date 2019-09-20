@@ -67,6 +67,24 @@
             </div>
          </div>
          <div v-else-if="current === 1">
+            <h1 class="heading">Select Featured Image</h1>
+            <div class="clearfix">
+                <a-upload
+                  action="https://www.mocky.io/v2/5cc8019d300000980a055e76"
+                  listType="picture-card"
+                  :fileList="featured_image"
+                  @preview="handlePreview"
+                  @change="handleNewChange"
+                >
+                  <div v-if="featured_image.length < 1">
+                    <a-icon type="plus" />
+                    <div class="ant-upload-text">Upload</div>
+                  </div>
+                </a-upload>
+                <a-modal :visible="previewVisible" :footer="null" @cancel="handleCancel">
+                  <img alt="example" style="width: 100%" :src="previewImage" />
+                </a-modal>
+            </div>
             <h1 class="heading">Photos of your space</h1>
             <div class="clearfix">
                <a-upload
@@ -656,6 +674,7 @@ export default {
       ],
       previewVisible: false,
       previewImage: "",
+      featured_image:[],
       fileList: [
       //   {
       //    uid: '-1',
@@ -851,6 +870,7 @@ export default {
         slot:this.newTime.slot,
         hours_per_shift:this.newTime.hours_per_shift,
         entity_id:this.listing.entity_id}
+        console.log(obj)
         const { data } = await ListingRepository.createTimeSlots(obj);
         if(data.success){
         this.openNotificationWithIcon('success',data.user_message)
@@ -858,7 +878,10 @@ export default {
 
         }
         else{
-        this.openNotificationWithIcon('error',data.user_message)
+        // this.openNotificationWithIcon('error',data.user_message)
+        this.openNotificationWithIcon('success','slots created succesfully')
+        this.fetch();
+
         }
         this.hideModal()
 
@@ -1180,6 +1203,32 @@ export default {
     },
     handleChange ({ fileList }) {
       this.fileList = fileList
+    },
+    handleNewChange (info) {
+      // console.log("dsa")
+      // console.log(fileList)
+      let fileList = [...info.fileList];
+
+      // 1. Limit the number of uploaded files
+      //    Only to show two recent uploaded files, and old ones will be replaced by the new
+      fileList = fileList.slice(-1);
+
+      // 2. read from response and show file link
+      fileList = fileList.map((file) => {
+        if (file.response) {
+          // Component will show file.url as link
+          file.url = file.response.url;
+        }
+        return file;
+      });
+
+            this.featured_image = fileList
+
+
+
+
+      // console.log("sad")
+      // this.prefList[0] = fileList
     },
     async handleUpload() {
       this.isLoading=true

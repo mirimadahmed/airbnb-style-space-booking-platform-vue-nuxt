@@ -45,11 +45,13 @@ export default () => new Vuex.Store({
   mutations: {
     login(state,payload) {
       state.user = payload
+      localStorage.setItem('spacesly-token',payload.token)
       Session.set('spacesly-user', payload)
     },
     logout(state) {
       state.user = null
       Session.clear();
+      localStorage.removeItem('spacesly-token')
     },
     setSystemLists(state, payload) {
       state.systemLists = payload
