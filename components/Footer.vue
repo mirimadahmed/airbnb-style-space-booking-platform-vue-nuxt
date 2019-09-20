@@ -12,7 +12,7 @@
         <h5 class="heading">Company</h5>
         <ul>
           <li>
-            <router-link to="/about">Serics Global</router-link>
+            <router-link to="/about">About</router-link>
           </li>
           <li>
             <router-link to="/partners">Partners</router-link>
@@ -27,6 +27,9 @@
             <router-link to="/terms">Terms and Conditions</router-link>
           </li>
         </ul>
+      </div>
+      <div class="col-md-3">	
+          <a target="_blank" style="color:rgba(0, 0, 0, 0.85);" href="http://www.serics.com">Powered by Serics Global</a>	
       </div>
     </div>
   </div>
