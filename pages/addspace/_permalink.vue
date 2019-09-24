@@ -1222,13 +1222,7 @@ export default {
         return file;
       });
 
-            this.featured_image = fileList
-
-
-
-
-      // console.log("sad")
-      // this.prefList[0] = fileList
+      this.featured_image = fileList
     },
     async handleUpload() {
       this.isLoading=true
