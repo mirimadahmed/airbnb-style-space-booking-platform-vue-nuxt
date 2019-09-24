@@ -1,5 +1,6 @@
 import Repository from './Repository';
 const company_profile_resource = 'companies/';
+const register_user_resource = 'register_user/';
 
 export default {
   login(request) {
@@ -10,6 +11,9 @@ export default {
   },
   getCompanyProfile (permalink) {
     return Repository.get(`${company_profile_resource}`+permalink);
+  },
+  authenticateUser (payload) {
+    return Repository.post(`${register_user_resource}?hash=`+payload);
   },
   updateVendorProfile (payload) {
     const form = new FormData()
