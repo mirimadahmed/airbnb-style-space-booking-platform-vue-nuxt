@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 // const baseDomain = 'https://api.yenvoo.com/';
-const baseDomain = 'http://api.spacesly.com/';
+const baseDomain = 'https://api.spacesly.com/';
 
 const baseURL = `${baseDomain}api/`;
 let axiosObj
