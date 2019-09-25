@@ -922,6 +922,12 @@ export default {
         status: "done",
         url: image
       }));
+      this.featured_image[0] = {
+        uid: 0,
+        name: "space",
+        status: "done",
+        url: data.Entity.featured_image
+      };
       this.previous_length=data.Entity.images.length
       this.customFields = data.CustomFields;
       if(this.timings.length>0){
@@ -1229,18 +1235,26 @@ export default {
       if(this.previous_length<this.fileList.length){
         if(this.previous_length==null) this.previous_length=0
         let temp_arr=[]
+        let featured=[]
 
         for(var i=this.previous_length;i<this.fileList.length;i++) {
           temp_arr.push(this.fileList[i].originFileObj)
         }
+        console.log(this.featured_image.length)
+        for(var i=0;i<this.featured_image.length;i++) {
+          featured.push(this.featured_image[i].originFileObj)
+        }
+        
         let img_obj={}
         this.$set(img_obj, "files", temp_arr);
         this.$set(img_obj, "entity_id", this.listing.entity_id);
         this.$set(img_obj, "file_type", "images");
+        this.$set(img_obj, "featured_image", featured);
+        // this.$set(img_obj, "featured_image", "images");
 
         let { data } = await ListingRepository.uploadEntityGalleryImages(img_obj);
         if(data.success) {
-          // this.openNotificationWithIcon('success',data.user_message)
+          this.openNotificationWithIcon('success',data.user_message)
           this.current++;
         }
         else {
