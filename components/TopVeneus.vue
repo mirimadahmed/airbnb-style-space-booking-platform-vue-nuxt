@@ -26,35 +26,48 @@ import 'vue-carousel-card/styles/index.css'
 import CompanyBlockMain from "@/components/CompanyBlockMain.vue";
 import CompanyBlock from "@/components/CompanyBlock.vue";
 
+import { RepositoryFactory } from "@/repository/RepositoryFactory";
+const ListingRepository = RepositoryFactory.get("listings");
 export default {
   components: { CarouselCard, CarouselCardItem ,CompanyBlockMain,Carousel,Slide,CompanyBlock},
+  created(){
+    this.getVenues()
+  },
+  methods:{
+    async getVenues(){
+      const {data} = await ListingRepository.getTopVenues(1);
+      this.listings=data
+      console.log(data)
+    }
+
+  },
   data() {
     return {
       listings:[
-        {
-          address:"Islamabad Road",
-          featured_image:"https://spacesly.s3.amazonaws.com/media/Adams-Lodge.jpg",
-          name:"Phantom Hawk Marquee  ",
+        // {
+        //   address:"Islamabad Road",
+        //   featured_image:"https://spacesly.s3.amazonaws.com/media/Adams-Lodge.jpg",
+        //   name:"Phantom Hawk Marquee",
 
-        },
-        {
-          address:"Islamabad Club Road",
-          featured_image:"https://spacesly.s3.amazonaws.com/media/crop-cops-crop-cops-crop-cops_wwFStXJ.jpg",
-          name:"Dream Land Hotel Dream Land Hotel ",
+        // },
+        // {
+        //   address:"Islamabad Club Road",
+        //   featured_image:"https://spacesly.s3.amazonaws.com/media/crop-cops-crop-cops-crop-cops_wwFStXJ.jpg",
+        //   name:"Dream Land Hotel Dream Land Hotel ",
 
-        },
-         {
-          address:"Islamabad Club Road",
-          featured_image:"https://spacesly.s3.amazonaws.com/media/crop-cops-crop-cops-crop-cops_wwFStXJ.jpg",
-          name:"Hello world ",
+        // },
+        //  {
+        //   address:"Islamabad Club Road",
+        //   featured_image:"https://spacesly.s3.amazonaws.com/media/crop-cops-crop-cops-crop-cops_wwFStXJ.jpg",
+        //   name:"Hello world ",
 
-        },
-        {
-          address:"Islamabad Club Road",
-          featured_image:"https://spacesly.s3.amazonaws.com/media/demo-dorks-drops-_bGjVW1j.jpg",
-          name:"Auxilliary Guards Hotel",
+        // },
+        // {
+        //   address:"Islamabad Club Road",
+        //   featured_image:"https://spacesly.s3.amazonaws.com/media/demo-dorks-drops-_bGjVW1j.jpg",
+        //   name:"Auxilliary Guards Hotel",
           
-        }
+        // }
           
       ]
     };
@@ -63,9 +76,9 @@ export default {
 </script>
 
 <style scoped>
-.abc{
+/* .abc{
   text-align:center
-}
+} */
 .heading {
   font-weight: 600;
   padding: 50px 0px;
