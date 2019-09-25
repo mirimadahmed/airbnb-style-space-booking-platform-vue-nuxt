@@ -3,8 +3,12 @@ import FileRepository from './FileRepository';
 
 const resource = '/entities/';
 const products_resource ='products/'
+const top_venues_resource ='top_spaces/type/'
 
 export default {
+  getTopVenues(payload_id) {
+    return Repository.get(`${top_venues_resource}${payload_id}`);
+  },
   get(permalink) {
     return Repository.get(`${resource}${permalink}/`);
   },
@@ -30,8 +34,15 @@ export default {
     payload.files.forEach(i=>{
       form.append('files', i);
     })
+    payload.featured_image.forEach(i=>{
+      console.log(i)
+      form.append('featured_image', i);
+    })
+
+    // this.featured_image[0].originFileObj
     form.append('entity_id', payload.entity_id);
     form.append('file_type', payload.file_type);
+
     return FileRepository.post('file_upload/', form);
   },
   createTimeSlots(timeslot) {
