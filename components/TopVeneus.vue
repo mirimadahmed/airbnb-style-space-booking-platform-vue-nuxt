@@ -1,8 +1,8 @@
 <template>
   <div class="m-5 p-4">
-    <h1 class="heading">Top Wedding Venues</h1>
+    <h1 v-if="wedding_listings.length>0" class="heading">Top Wedding Venues</h1>
     <carousel :per-page="3"  :mouse-drag="false" :autoplay="true" :loop="true" :navigationEnabled="true">
-    <slide v-for="(company,i) in listings" :key="i" style="padding-left:10px;" >
+    <slide v-for="(company,i) in wedding_listings" :key="i" style="padding-left:10px;" >
         <CompanyBlock :company="company" />
     </slide>
   </carousel>
@@ -15,7 +15,35 @@
         </CarouselCard>
       </div>
     </div> -->
+    <h1 v-if="party_listings.length>0" class="heading">Top Party Venues</h1>
+    <carousel :per-page="3"  :mouse-drag="false" :autoplay="true" :loop="true" :navigationEnabled="true">
+    <slide v-for="(company,i) in party_listings" :key="i" style="padding-left:10px;" >
+        <CompanyBlock :company="company" />
+      </slide>
+    </carousel>
+  
+      <h1 v-if="corporate_listings.length>0" class="heading">Top Corporate Venues</h1>
+      <carousel :per-page="3"  :mouse-drag="false" :autoplay="true" :loop="true" :navigationEnabled="true">
+      <slide v-for="(company,i) in corporate_listings" :key="i" style="padding-left:10px;" >
+          <CompanyBlock :company="company" />
+      </slide>
+      </carousel>
+
+    <h1 v-if="sports_listings.length>0" class="heading">Top Sports Venues</h1>
+    <carousel :per-page="3"  :mouse-drag="false" :autoplay="true" :loop="true" :navigationEnabled="true">
+    <slide v-for="(company,i) in sports_listings" :key="i" style="padding-left:10px;" >
+        <CompanyBlock :company="company" />
+    </slide>
+    </carousel>
+
+    <h1 v-if="production_listings.length>0" class="heading">Top Production Venues</h1>
+    <carousel :per-page="3"  :mouse-drag="false" :autoplay="true" :loop="true" :navigationEnabled="true">
+    <slide v-for="(company,i) in production_listings" :key="i" style="padding-left:10px;" >
+        <CompanyBlock :company="company" />
+    </slide>
+    </carousel>
   </div>
+  
 </template>
 
 <script>
@@ -35,50 +63,32 @@ export default {
   },
   methods:{
     async getVenues(){
-      const {data} = await ListingRepository.getTopVenues(1);
-      this.listings=data
-      console.log(data)
+      const wedding_response = await ListingRepository.getTopVenues(1);
+      this.wedding_listings=wedding_response.data
+      const party_response = await ListingRepository.getTopVenues(2);
+      this.party_listings=party_response.data
+      const corporate_response = await ListingRepository.getTopVenues(3);
+      this.corporate_listings=corporate_response.data
+      const sports_response = await ListingRepository.getTopVenues(4);
+      this.sports_listings=sports_response.data
+      const production_response = await ListingRepository.getTopVenues(5);
+      this.production_listings=production_response.data
     }
 
   },
   data() {
     return {
-      listings:[
-        // {
-        //   address:"Islamabad Road",
-        //   featured_image:"https://spacesly.s3.amazonaws.com/media/Adams-Lodge.jpg",
-        //   name:"Phantom Hawk Marquee",
-
-        // },
-        // {
-        //   address:"Islamabad Club Road",
-        //   featured_image:"https://spacesly.s3.amazonaws.com/media/crop-cops-crop-cops-crop-cops_wwFStXJ.jpg",
-        //   name:"Dream Land Hotel Dream Land Hotel ",
-
-        // },
-        //  {
-        //   address:"Islamabad Club Road",
-        //   featured_image:"https://spacesly.s3.amazonaws.com/media/crop-cops-crop-cops-crop-cops_wwFStXJ.jpg",
-        //   name:"Hello world ",
-
-        // },
-        // {
-        //   address:"Islamabad Club Road",
-        //   featured_image:"https://spacesly.s3.amazonaws.com/media/demo-dorks-drops-_bGjVW1j.jpg",
-        //   name:"Auxilliary Guards Hotel",
-          
-        // }
-          
-      ]
+      wedding_listings:[],
+      party_listings:[],
+      corporate_listings:[],
+      sports_listings:[],
+      production_listings:[]
     };
   }
 };
 </script>
 
 <style scoped>
-/* .abc{
-  text-align:center
-} */
 .heading {
   font-weight: 600;
   padding: 50px 0px;
