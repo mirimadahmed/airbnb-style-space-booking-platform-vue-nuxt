@@ -12,7 +12,7 @@
             <h1 class="heading">About your space</h1>
             <div v-if="isNew">
               <h1 class="second-heading">What's your space is for?</h1>
-              <a-radio-group v-model="listing.type_id" size="large" @change="getCusotmFields">
+              <a-radio-group  v-model="listing.type_id" size="large" @change="getCusotmFields">
                   <a-radio-button
                     v-for="(type, i) in typeOptions"
                     :value="type.value"
@@ -104,7 +104,7 @@
             </div>
          </div>
          <div v-else-if="current === 2">
-            <div v-for="(group, i) in Object.keys(customFields)" :key="i" class="row">
+            <div v-if="group!='SEO Metatags'" v-for="(group, i) in Object.keys(customFields)" :key="i" class="row">
                <h1 class="heading col-md-12 my-2">{{ group }}</h1>
                <div v-for="(field, j) in customFields[group]" :key="j" class="col-md-6">
                   <div v-if="field.field_type === 'boolean'" class="row my-2">
