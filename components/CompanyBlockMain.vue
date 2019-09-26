@@ -1,11 +1,11 @@
 <template>
   <div class="company shadow" @click="viewDetails">
     <div class="row image-area">
-      <img class="col-md-12 px-3" :src="company.Entity.featured_image" />
+      <img class="col-md-12 px-3" :src="company.featured_image" style="height:61%"/>
     </div>
-    <div class="row text-left p-3">
-      <h3 class="col-md-12 title mb-2">{{ company.Entity.name }}</h3>
-      <p class="col-md-12 address mb-2">{{ company.Entity.address }}</p>
+    <div class="row text-left p-3" style="margin-top:-110px">
+      <h3 class="col-md-12 title mb-2">{{ company.name }}</h3>
+      <p class="col-md-12 address mb-2">{{ company.address }}</p>
       <div class="col-md-12 mb-2">
         <StarRating :value="70" :noOfRatings="40" />
       </div>
@@ -13,7 +13,7 @@
         <button class="details-button" @click="viewDetails">VIEW DETAILS</button>
       </div>
       <div class="col-md-6 row text-right mx-0 px-0">
-        <div class="col-md-12 amount">Rs. 500</div>
+        <div class="col-md-12 amount">Rs. 22</div>
         <div class="col-md-12 per">/ person</div>
       </div>
     </div>
@@ -34,7 +34,7 @@ export default {
   },
   methods: {
     viewDetails() {
-      this.$router.push({ path: "/" + this.company.Entity.permalink });
+      this.$router.push({ path: "/" + this.company.permalink });
     }
   }
 };

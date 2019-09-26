@@ -16,6 +16,7 @@ const _75019c56 = () => interopDefault(import('..\\pages\\ResetPassword.vue' /* 
 const _ab2432a0 = () => interopDefault(import('..\\pages\\ResultDetails.vue' /* webpackChunkName: "pages_ResultDetails" */))
 const _e6e540d6 = () => interopDefault(import('..\\pages\\search\\index.vue' /* webpackChunkName: "pages_search_index" */))
 const _6596d06d = () => interopDefault(import('..\\pages\\Search.vue' /* webpackChunkName: "pages_Search" */))
+const _46ca9ee6 = () => interopDefault(import('..\\pages\\Signup_Verification.vue' /* webpackChunkName: "pages_Signup_Verification" */))
 const _23995ad2 = () => interopDefault(import('..\\pages\\Terms.vue' /* webpackChunkName: "pages_Terms" */))
 const _5b6c4454 = () => interopDefault(import('..\\pages\\addspace\\_permalink.vue' /* webpackChunkName: "pages_addspace__permalink" */))
 const _4c8c05ca = () => interopDefault(import('..\\pages\\listing\\_permalink.vue' /* webpackChunkName: "pages_listing__permalink" */))
@@ -152,6 +153,10 @@ export function createRouter() {
       path: "/Search",
       component: _6596d06d,
       name: "Search"
+    }, {
+      path: "/Signup_Verification",
+      component: _46ca9ee6,
+      name: "Signup_Verification"
     }, {
       path: "/Terms",
       component: _23995ad2,

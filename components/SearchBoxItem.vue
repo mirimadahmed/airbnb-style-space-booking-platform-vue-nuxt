@@ -2,7 +2,7 @@
   <div>
 
     <div class="middle-wrapper col-md-12">
-      <h1 class="heading d-none d-md-block" style="padding:5px;">Scan and Book Spaces, easily!  </h1>
+      <h1 class="heading d-none d-md-block" style="padding:5px;">Book Spaces <span style="color:#54a0ff;">Easily!</span>  </h1>
       <b-tabs class="text-center col-md-10 search d-none d-md-block" v-model="tabIndex">
         <b-tab title="Wedding" :title-link-class="linkClass(0)" class="tab-item"  active>
            <template slot="title">
@@ -200,12 +200,6 @@
     </div>
 
     <div class="row d-none d-block d-xl-none d-lg-none d-md-none p-2 m-2">
-      <div class="col-sm-12 py-3 phone-item shadow-sm">
-        <b-form-input list="my-list-id" v-model="query.what" placeholder="What are you planning?"></b-form-input>
-        <datalist id="my-list-id">
-          <option v-for="item in items">{{ item }}</option>
-        </datalist>
-      </div>
       <div class="col-sm-12 py-3 phone-item shadow-sm">
         <b-form-input list="my-list-id" v-model="query.what" placeholder="What are you planning?"></b-form-input>
         <datalist id="my-list-id">
