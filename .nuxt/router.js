@@ -7,7 +7,6 @@ const _0512fdbf = () => interopDefault(import('..\\pages\\Bookings.vue' /* webpa
 const _33a9fa3b = () => interopDefault(import('..\\pages\\Calander.vue' /* webpackChunkName: "pages_Calander" */))
 const _b27b8a82 = () => interopDefault(import('..\\pages\\ChangeLog.vue' /* webpackChunkName: "pages_ChangeLog" */))
 const _4fb70254 = () => interopDefault(import('..\\pages\\eventsia.vue' /* webpackChunkName: "pages_eventsia" */))
-const _47962318 = () => interopDefault(import('..\\pages\\Listings.vue' /* webpackChunkName: "pages_Listings" */))
 const _60cb8804 = () => interopDefault(import('..\\pages\\MySpaces.vue' /* webpackChunkName: "pages_MySpaces" */))
 const _c4c0d2a0 = () => interopDefault(import('..\\pages\\Partners.vue' /* webpackChunkName: "pages_Partners" */))
 const _6cb8e8da = () => interopDefault(import('..\\pages\\Privacy.vue' /* webpackChunkName: "pages_Privacy" */))
@@ -19,7 +18,6 @@ const _6596d06d = () => interopDefault(import('..\\pages\\Search.vue' /* webpack
 const _46ca9ee6 = () => interopDefault(import('..\\pages\\Signup_Verification.vue' /* webpackChunkName: "pages_Signup_Verification" */))
 const _23995ad2 = () => interopDefault(import('..\\pages\\Terms.vue' /* webpackChunkName: "pages_Terms" */))
 const _5b6c4454 = () => interopDefault(import('..\\pages\\addspace\\_permalink.vue' /* webpackChunkName: "pages_addspace__permalink" */))
-const _4c8c05ca = () => interopDefault(import('..\\pages\\listing\\_permalink.vue' /* webpackChunkName: "pages_listing__permalink" */))
 const _02297cbd = () => interopDefault(import('..\\pages\\index.vue' /* webpackChunkName: "pages_index" */))
 const _6a1ea85e = () => interopDefault(import('..\\pages\\_permalink\\index.vue' /* webpackChunkName: "pages__permalink_index" */))
 
@@ -118,10 +116,6 @@ export function createRouter() {
       component: _4fb70254,
       name: "eventsia"
     }, {
-      path: "/Listings",
-      component: _47962318,
-      name: "Listings"
-    }, {
       path: "/MySpaces",
       component: _60cb8804,
       name: "MySpaces"
@@ -165,10 +159,6 @@ export function createRouter() {
       path: "/addspace/:permalink?",
       component: _5b6c4454,
       name: "addspace-permalink"
-    }, {
-      path: "/listing/:permalink?",
-      component: _4c8c05ca,
-      name: "listing-permalink"
     }, {
       path: "/",
       component: _02297cbd,
