@@ -34,7 +34,7 @@ export default {
   },
   methods: {
     viewDetails() {
-      this.$router.push({ path: "/" + this.company.permalink });
+      this.$router.push({ path: "/" + this.company.Entity.permalink });
     }
   }
 };
