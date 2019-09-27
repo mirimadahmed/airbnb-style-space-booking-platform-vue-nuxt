@@ -395,7 +395,7 @@
             </div>
             <div v-else-if="current === 4">
                <h1 class="heading">Finally</h1>
-               <p>Your space has been created successfully</p>
+               <p>Your space has been created successfully and will be reviewed by spacesly.com as soon as possible</p>
             </div>
          </div>
          <div class="steps-action col-md-12 text-right">
