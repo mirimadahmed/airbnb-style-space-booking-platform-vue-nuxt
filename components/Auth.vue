@@ -84,7 +84,7 @@
                 v-model="signup.name"
                 type="text"
                 required
-                placeholder="Company Name"
+                placeholder="Full Name"
                 :disabled="isLoading"
               ></b-form-input>
             </b-form-group>
