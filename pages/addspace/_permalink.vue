@@ -82,7 +82,7 @@
                   </div>
                 </a-upload>
                 <a-modal :visible="previewVisible" :footer="null" @cancel="handleCancel">
-                  <img alt="example" style="width: 100%" :src="previewImage" />
+                  <img  style="width: 100%" :src="previewImage" />
                 </a-modal>
             </div>
             <h1 class="heading">Photos of your space</h1>
@@ -143,27 +143,28 @@
                   <h1 class="heading">Timings</h1>
                </div>
                <div class="col-md-6">
-                  <button class="button" @click="showModal" style="margin-left: 8px" >Add New</button>
+                  <button class="button pull-right" @click="showModal"  >Add</button>
                </div>
             </div>
             <div class="clearfix">
-               <a-table v-if="timings.length>0" :columns="timing_options" :dataSource="timings">
-                    <a-time-picker slot="time_start" slot-scope="text" :minuteStep="15" :secondStep="10" v-model="text" />
-                    <a-time-picker slot="time_end" slot-scope="text" :minuteStep="15" :secondStep="10" v-model="text" />
-                     <a-radio-group slot="slot" slot-scope="text" v-model="text">
-                           <a-radio-button value="per_day">Per day</a-radio-button>
-                           <a-radio-button value="per_shift">Per shift</a-radio-button>
-                           <a-radio-button value="per_hour">Per hour</a-radio-button>
+               <a-table  :columns="timing_options" :dataSource="timings" :locale="{emptyText:'No Timing Configuration found. Click add to configure'}" >
+                      <a-time-picker slot="time_start" slot-scope="text" :minuteStep="15"  v-model="text" />
+                      <a-time-picker slot="time_end" slot-scope="text" :minuteStep="15"  v-model="text" />
+                      <a-radio-group slot="slot" slot-scope="text" v-model="text">
+                            <a-radio-button value="per_day">Per day</a-radio-button>
+                            <a-radio-button value="per_shift">Per shift</a-radio-button>
+                            <a-radio-button value="per_hour">Per hour</a-radio-button>
                       </a-radio-group>
-                <span slot="timings_conf_id" slot-scope="item,index" v-if="!index.is_active">
-                  <a href="javascript:;" @click="activateSlots(item)" >Activate</a>
-                </span>
+                      <span slot="timings_conf_id" slot-scope="item,index" v-if="!index.is_active">
+                      <a href="javascript:;" @click="activateSlots(item)" >Activate</a>
+                      </span>
+
               </a-table>
             </div>
             <!-- <h1 class="heading mt-4">Pricing</h1> -->
-            <div class="row" style="margin-top:10px;">
+            <div class="row" style="margin-top:10px;" v-if="timings.length>0">
               <div class="col-md-12">
-                  <b-card class="mb-4" title="Base Price">                        
+                  <b-card class="mb-4" title="Base Rent">                        
                         <div class="row">
                            <div class="col-md-12">
                               <b-card class="mb-12"  style="border:none;">
@@ -213,17 +214,14 @@
                      </b-card>
                </div>
                <div class="col-md-12">
-                  <b-card class="mb-4" title="Create AddOns" >
+                 <!--  -->
+                  <b-card class="mb-4" title="Addons" >
                      <b-card class="mb-4" style="border:none;">
-                        <div class="row">
+                        <div class="row" >
                            <div class="col-md-6">
-                              <b-form-group label="Add More AddOns">
-                                 <b-button @click="fillAddOnFields('Heating',null,0)" class="mb-2" size="sm" variant="primary">Heating</b-button>
-                                 <b-button @click="fillAddOnFields('AC',null,0)" class="mb-2" size="sm" variant="secondary">AC</b-button>
-                                 <b-button @click="fillAddOnFields('Demo',null,0)" class="mb-2" size="sm" variant="warning">
-                                    <font-awesome-icon icon="plus" :style="{ color: 'white' }"  />
+                               <b-button @click="fillAddOnFields('',null,0)" class="mb-2" size="sm" style="border:none;background-color: #dea22a;">
+                                    <span style="color:white"><font-awesome-icon icon="plus" :style="{ color: 'white' }"  />  Add </span> 
                                  </b-button>
-                              </b-form-group>
                            </div>
                         </div> 
                         <!-- v-for="addon_field_item in pricings" v-if="addon_field_item.product_type=='addons'" v-bind:key="addon_field_item.key" -->
@@ -282,8 +280,8 @@
                         <div class="row" v-if="getAddons.length">
                            <div class="col-md-12" >
                               <a-table v-if="timings.length>0" :columns="addon_options" :dataSource="getAddons">
-                                    <span slot="is_waivable" slot-scope="text">{{text}}</span>
-                                    <span slot="is_required" slot-scope="text">{{text}}</span>
+                                    <span slot="is_waivable" slot-scope="text">{{text=='true' ? 'Yes':'No'}}</span>
+                                    <span slot="is_required" slot-scope="text">{{text=='true' ? 'Yes':'No'}}</span>
                                     <span slot="applicable_on_less_than" slot-scope="text">{{text}}</span>
                                     <span slot="Pricing" slot-scope="text">{{text[0].rate}}</span>
                                     <span slot="action" slot-scope="item,index">
@@ -302,14 +300,14 @@
                   </b-card>
                </div>
                <div class="col-md-12">
-                  <b-card  class="mb-4" title="Add New Menus" >
+                  <b-card  class="mb-4" title="Food Menu" >
                      <div class="row">
                        <div class="col-md-4">
                            <b-card class="mb-4" title="Create New Menu">
                               <div class="row">
                                  <div class="col-md-12">
                                     <b-form-group label="Menu Items">
-                                        <multiselect v-model="menu_tags" tag-placeholder="Add this as new tag" placeholder="Search or add a tag" label="name" track-by="code" :options="options" :multiple="true" :taggable="true" @tag="addTag"></multiselect>
+                                        <multiselect v-model="menu_tags" tag-placeholder="Add this as new tag" placeholder="Add Menu items" label="name" track-by="code" :options="options" :multiple="true" :taggable="true" @tag="addTag"></multiselect>
                                     </b-form-group>
                                  </div>
                               </div>
@@ -397,7 +395,7 @@
             </div>
             <div v-else-if="current === 4">
                <h1 class="heading">Finally</h1>
-               <p>Your space has been created successfully</p>
+               <p>Your space has been created successfully and will be reviewed by spacesly.com as soon as possible</p>
             </div>
          </div>
          <div class="steps-action col-md-12 text-right">
@@ -424,7 +422,7 @@
                   <h6 >Opening Time</h6>
                </div>
                <div class="col-md-6">
-                  <a-time-picker v-model="newTime.time_start" :minuteStep="15" :secondStep="10"/>
+                  <a-time-picker v-model="newTime.time_start" format="HH:mm" />
                </div>
             </div>
             <div class="row new-time">
@@ -432,7 +430,7 @@
                   <h6>Close time</h6>
                </div>
                <div class="col-md-6">
-                  <a-time-picker v-model="newTime.time_end" :minuteStep="15" :secondStep="10"  />
+                  <a-time-picker v-model="newTime.time_end" format="HH:mm"/>
                </div>
             </div>
             <!-- <div class="row new-time">
@@ -527,6 +525,7 @@ export default {
   middleware: "auth",
   data() {
     return {
+      NewfeaturedImage:0,
       country:{country:'pk'},
       menu_tags: [],
       options: [],
@@ -537,7 +536,7 @@ export default {
           rate: 0,
           }
         ],
-        name: 'default title',
+        name: '',
         is_required: false,
         is_waivable: false,
         applicable_on_less_than: 0,
@@ -570,13 +569,13 @@ export default {
       key: 'name',
       },
       {
-      title: 'Is Waivable',
+      title: 'Waivable',
       scopedSlots: { customRender: 'is_waivable' },
       dataIndex: 'is_waivable',
       key: 'is_waivable',
       },
       {
-      title: 'Is Required',
+      title: 'Required',
       scopedSlots: { customRender: 'is_required' },
       dataIndex: 'is_required',
       key: 'is_required',
@@ -845,6 +844,7 @@ export default {
        this.fetch()
     },
     async newTiming() {
+       if(this.newTime.time_start!=null && this.newTime.time_end!=null){       
         if (this.newTime.slot == "per_hour") {
           this.newTime.hours_per_shift = 1;
         }
@@ -878,12 +878,16 @@ export default {
 
         }
         else{
-        // this.openNotificationWithIcon('error',data.user_message)
-        this.openNotificationWithIcon('success','slots created succesfully')
+        this.openNotificationWithIcon('error',data.user_message)
+        // this.openNotificationWithIcon('success','slots created succesfully')
         this.fetch();
 
         }
         this.hideModal()
+        }
+       else{
+        this.openNotificationWithIcon('error',"Required time slots missing")
+       }
 
 
     },
@@ -922,6 +926,7 @@ export default {
         status: "done",
         url: image
       }));
+      console.log(data.Entity)
       this.featured_image[0] = {
         uid: 0,
         name: "space",
@@ -1193,7 +1198,9 @@ export default {
           description:this.listing.description,
           type_id:this.listing.type_id,
           longitude:this.center.lng,
-          latitude:this.center.lat}
+          status:'submitted',  
+          latitude:this.center.lat
+          }
         const { data } = await ListingRepository.newListing({Entity:obj});
         this.isLoading=false
         this.listing.entity_id=data.entity_id
@@ -1211,6 +1218,12 @@ export default {
       this.fileList = fileList
     },
     handleNewChange (info) {
+      if(info.fileList.length>0){
+      this.NewfeaturedImage=1
+      }
+      else{
+        this.NewfeaturedImage=0
+      }
       // console.log("dsa")
       // console.log(fileList)
       let fileList = [...info.fileList];
@@ -1232,7 +1245,7 @@ export default {
     },
     async handleUpload() {
       this.isLoading=true
-      if(this.previous_length<this.fileList.length){
+      if(this.previous_length<this.fileList.length || this.NewfeaturedImage==1){
         if(this.previous_length==null) this.previous_length=0
         let temp_arr=[]
         let featured=[]
@@ -1250,8 +1263,7 @@ export default {
         this.$set(img_obj, "entity_id", this.listing.entity_id);
         this.$set(img_obj, "file_type", "images");
         this.$set(img_obj, "featured_image", featured);
-        // this.$set(img_obj, "featured_image", "images");
-
+        
         let { data } = await ListingRepository.uploadEntityGalleryImages(img_obj);
         if(data.success) {
           // this.openNotificationWithIcon('success',data.user_message)

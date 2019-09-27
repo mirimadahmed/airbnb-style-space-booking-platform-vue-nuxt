@@ -84,10 +84,24 @@ export default {
 </script>
 
 
-<style scoped>
-.menuitem {
-  color: black;
+<style >
+
+/* span{
+  color:black!important
+} */
+.navbar-light .navbar-nav .nav-link {
+    color: rgb(0, 0, 0) !important;
+    font-size:16px;
 }
+/* #my-nav-dropdown {
+  color:black !important;
+} */
+#my-nav-dropdown>a>span {
+    color: black !important;
+}
+/* .nav-item b-nav-dropdown dropdown{
+  color:black !important;
+} */
 .signin-button {
   border-radius: 0rem;
   border: 2px solid #ff4d78;
