@@ -82,7 +82,7 @@
                   </div>
                 </a-upload>
                 <a-modal :visible="previewVisible" :footer="null" @cancel="handleCancel">
-                  <img alt="example" style="width: 100%" :src="previewImage" />
+                  <img  style="width: 100%" :src="previewImage" />
                 </a-modal>
             </div>
             <h1 class="heading">Photos of your space</h1>
@@ -527,6 +527,7 @@ export default {
   middleware: "auth",
   data() {
     return {
+      NewfeaturedImage:0,
       country:{country:'pk'},
       menu_tags: [],
       options: [],
@@ -922,6 +923,7 @@ export default {
         status: "done",
         url: image
       }));
+      console.log(data.Entity)
       this.featured_image[0] = {
         uid: 0,
         name: "space",
@@ -1193,7 +1195,9 @@ export default {
           description:this.listing.description,
           type_id:this.listing.type_id,
           longitude:this.center.lng,
-          latitude:this.center.lat}
+          status:'submitted',  
+          latitude:this.center.lat
+          }
         const { data } = await ListingRepository.newListing({Entity:obj});
         this.isLoading=false
         this.listing.entity_id=data.entity_id
@@ -1211,6 +1215,12 @@ export default {
       this.fileList = fileList
     },
     handleNewChange (info) {
+      if(info.fileList.length>0){
+      this.NewfeaturedImage=1
+      }
+      else{
+        this.NewfeaturedImage=0
+      }
       // console.log("dsa")
       // console.log(fileList)
       let fileList = [...info.fileList];
@@ -1232,7 +1242,7 @@ export default {
     },
     async handleUpload() {
       this.isLoading=true
-      if(this.previous_length<this.fileList.length){
+      if(this.previous_length<this.fileList.length || this.NewfeaturedImage==1){
         if(this.previous_length==null) this.previous_length=0
         let temp_arr=[]
         let featured=[]
@@ -1250,11 +1260,10 @@ export default {
         this.$set(img_obj, "entity_id", this.listing.entity_id);
         this.$set(img_obj, "file_type", "images");
         this.$set(img_obj, "featured_image", featured);
-        // this.$set(img_obj, "featured_image", "images");
-
+        
         let { data } = await ListingRepository.uploadEntityGalleryImages(img_obj);
         if(data.success) {
-          this.openNotificationWithIcon('success',data.user_message)
+          // this.openNotificationWithIcon('success',data.user_message)
           this.current++;
         }
         else {
