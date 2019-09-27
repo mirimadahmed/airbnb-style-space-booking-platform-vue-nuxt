@@ -873,7 +873,7 @@ export default {
         console.log(obj)
         const { data } = await ListingRepository.createTimeSlots(obj);
         if(data.success){
-        this.openNotificationWithIcon('success',data.user_message)
+        // this.openNotificationWithIcon('success',data.user_message)
         this.fetch();
 
         }
@@ -1014,7 +1014,7 @@ export default {
       // console.log(this.pricing_obj)
       let { data } = await ListingRepository.update_pricing(this.pricing_obj);
       if (data.success == true) {
-          this.openNotificationWithIcon('success',data.user_message)
+          // this.openNotificationWithIcon('success',data.user_message)
           this.fetchPricings()
       } else {
           this.openNotificationWithIcon('error',data.user_message)
@@ -1092,7 +1092,7 @@ export default {
         this.pricing_obj.product_id=this.menu_product_id
         let { data } = await ListingRepository.update_pricing(this.pricing_obj);
             if (data.success == true) {
-                this.openNotificationWithIcon('success',data.user_message)
+                // this.openNotificationWithIcon('success',data.user_message)
                 this.fetchPricings()
                 this.menu_visible=false
             } else {
@@ -1106,7 +1106,7 @@ export default {
           }
           let { data } = await ListingRepository.add_new_pricing(this.pricing_obj);
             if (data.success == true) {
-                this.openNotificationWithIcon('success',data.user_message)
+                // this.openNotificationWithIcon('success',data.user_message)
                 this.fetchPricings()
                 this.menu_visible=false
             } else {

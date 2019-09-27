@@ -154,8 +154,6 @@ export default {
       login: {
         email: "",
         password: ""
-        // dawoodahmed696@gmail.com
-        // dawood
       },
       signup: {
         name: "",
