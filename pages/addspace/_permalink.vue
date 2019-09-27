@@ -280,8 +280,8 @@
                         <div class="row" v-if="getAddons.length">
                            <div class="col-md-12" >
                               <a-table v-if="timings.length>0" :columns="addon_options" :dataSource="getAddons">
-                                    <span slot="is_waivable" slot-scope="text">{{text}}</span>
-                                    <span slot="is_required" slot-scope="text">{{text}}</span>
+                                    <span slot="is_waivable" slot-scope="text">{{text=='true' ? 'Yes':'No'}}</span>
+                                    <span slot="is_required" slot-scope="text">{{text=='true' ? 'Yes':'No'}}</span>
                                     <span slot="applicable_on_less_than" slot-scope="text">{{text}}</span>
                                     <span slot="Pricing" slot-scope="text">{{text[0].rate}}</span>
                                     <span slot="action" slot-scope="item,index">
@@ -300,14 +300,14 @@
                   </b-card>
                </div>
                <div class="col-md-12">
-                  <b-card  class="mb-4" title="Add New Menus" >
+                  <b-card  class="mb-4" title="Food Menu" >
                      <div class="row">
                        <div class="col-md-4">
                            <b-card class="mb-4" title="Create New Menu">
                               <div class="row">
                                  <div class="col-md-12">
                                     <b-form-group label="Menu Items">
-                                        <multiselect v-model="menu_tags" tag-placeholder="Add this as new tag" placeholder="Search or add a tag" label="name" track-by="code" :options="options" :multiple="true" :taggable="true" @tag="addTag"></multiselect>
+                                        <multiselect v-model="menu_tags" tag-placeholder="Add this as new tag" placeholder="Add Menu items" label="name" track-by="code" :options="options" :multiple="true" :taggable="true" @tag="addTag"></multiselect>
                                     </b-form-group>
                                  </div>
                               </div>
