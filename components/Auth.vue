@@ -6,13 +6,15 @@
           <div class="col-md-12">
             <p class="heading">Welcome Back</p>
           </div>
-          <div class="col-md-12">
-            <b-form-group id="input-group-1" label-for="input-1">
+          <div class="col-md-12"> 
+            <b-form-group 
+              id="input-group-1" label-for="input-1">
               <b-form-input
                 id="input-1"
                 v-model="login.email"
                 type="email"
                 required
+                @keyup.enter.native="loginAction"
                 placeholder="Email"
                 :disabled="isLoading"
               ></b-form-input>
@@ -24,6 +26,7 @@
                 v-model="login.password"
                 type="password"
                 required
+                @keyup.enter.native="loginAction"
                 placeholder="Password"
                 :disabled="isLoading"
               ></b-form-input>
@@ -84,6 +87,7 @@
                 v-model="signup.name"
                 type="text"
                 required
+                @keyup.enter.native="signupAction"
                 placeholder="Full Name"
                 :disabled="isLoading"
               ></b-form-input>
@@ -97,6 +101,7 @@
                 required
                 placeholder="Email"
                 :disabled="isLoading"
+                @keyup.enter.native="signupAction"
               ></b-form-input>
             </b-form-group>
           </div>
@@ -107,6 +112,7 @@
                 type="password"
                 required
                 placeholder="Password"
+                @keyup.enter.native="signupAction"
                 :disabled="isLoading"
               ></b-form-input>
             </b-form-group>
