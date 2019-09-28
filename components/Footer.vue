@@ -28,8 +28,12 @@
           </li>
         </ul>
       </div>
-      <div class="col-md-3">	
-          <a target="_blank" style="color:rgba(0, 0, 0, 0.85);" href="http://www.serics.com">Powered by Serics Global</a>	
+      <div class="col-md-3">
+        <a
+          target="_blank"
+          style="color:rgba(0, 0, 0, 0.85);"
+          href="http://www.serics.com"
+        >Powered by Serics Global</a>
       </div>
     </div>
   </div>
@@ -57,6 +61,10 @@ export default {
   }
 }
 .wrapper {
+  color: white;
+  padding: 10px;
+  margin: 0px !important;
+  background: #343840;
   border-top: 0.5px solid rgba(189, 189, 189, 0.637);
   margin-top: 50px;
   padding-top: 30px;
@@ -66,10 +74,11 @@ export default {
 .copy a {
   font-weight: 600;
   font-size: 12px;
-  color: grey !important;
+  color: #6a707a !important;
 }
 .heading {
   font-weight: 500;
+  color: #6a707a !important;
   margin-bottom: 20px;
 }
 ul {
@@ -79,7 +88,7 @@ ul {
 ul li a {
   font-size: 12px;
   font-weight: 600;
-  color: grey !important;
+  color: white !important;
   margin-top: 30px;
 }
 </style>
