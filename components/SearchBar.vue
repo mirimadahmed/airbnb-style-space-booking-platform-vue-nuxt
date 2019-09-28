@@ -1,6 +1,6 @@
 <template>
   <div class="wrapper mx-5 my-4">
-    <div class="form shadow row" inline>
+    <div class="form shadow-sm row" inline>
       <div class="col-md-2 item-wrapper">
         <b-form-input list="my-list-id" placeholder="What are you planning?" v-model="query.type"></b-form-input>
         <datalist id="my-list-id">
@@ -29,7 +29,13 @@
         <b-input id="search" placeholder="Where?" v-model="query.where" />
       </div>
       <div class="col-md-2 item-wrapper last-tab">
-        <b-input id="capacity" placeholder="No. of Guests" type="number" min="0" v-model="query.count" />
+        <b-input
+          id="capacity"
+          placeholder="No. of Guests"
+          type="number"
+          min="0"
+          v-model="query.count"
+        />
       </div>
       <div class="col-md-2 item-wrapper">
         <b-button @click="getSearchResults" squared class="search-button">SEARCH</b-button>

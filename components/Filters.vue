@@ -2,10 +2,10 @@
   <div class="filters mx-5 my-4">
     <div class="row">
       <div class="col-sm-1">
-        <b-button v-b-modal.modal-1 class="shadow button">Rating</b-button>
+        <b-button v-b-modal.modal-1 class="shadow-sm button">Rating</b-button>
       </div>
       <div class="col-sm-1">
-        <b-button v-b-modal.modal-2 class="shadow button">Price</b-button>
+        <b-button v-b-modal.modal-2 class="shadow-sm button">Price</b-button>
       </div>
       <!-- <div class="col-xs-2 pull-right">
         <b-form-checkbox v-model="mapOn" name="check-button" class="shadow button" switch/>

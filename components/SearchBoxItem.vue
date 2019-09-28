@@ -2,10 +2,7 @@
   <div>
     <div class="middle-wrapper col-md-12">
       <div class="heading">
-        <h1 class="d-none d-md-block">
-          What do you want to host today?
-          <span style="color:#54a0ff;">Easily!</span>
-        </h1>
+        <h1 class="d-none d-md-block">What do you want to host today?</h1>
       </div>
       <b-tabs class="text-center search d-none d-md-block" v-model="tabIndex">
         <b-tab title="Wedding" :title-link-class="linkClass(0)" class="tab-item" active>
@@ -66,7 +63,7 @@
             </span>
           </template>
           <div class="form row" inline>
-            <div class="col-md-4 item-wrapper">
+            <div class="col-md-3 item-wrapper">
               <b-form-input
                 list="my-list-id"
                 placeholder="What are you planning?"
@@ -88,7 +85,7 @@
                 />
               </no-ssr>
             </div>
-            <div class="col-md-2 item-wrapper">
+            <div class="col-md-3 item-wrapper">
               <!-- <b-input id="search" placeholder="Where?" v-model="query.where" /> -->
               <gmap-autocomplete id="search" class="form-control" placeholder="Where?"></gmap-autocomplete>
             </div>
@@ -113,7 +110,7 @@
             </span>
           </template>
           <div class="form row" inline>
-            <div class="col-md-4 item-wrapper">
+            <div class="col-md-3 item-wrapper">
               <b-form-input
                 list="my-list-id"
                 placeholder="What are you planning?"
@@ -139,7 +136,7 @@
               <!-- <b-input id="search" placeholder="Where?" v-model="query.where" /> -->
               <gmap-autocomplete id="search" class="form-control" placeholder="Where?"></gmap-autocomplete>
             </div>
-            <div class="col-md-2 item-wrapper last-tab">
+            <div class="col-md-3 item-wrapper last-tab">
               <b-input
                 id="capacity"
                 placeholder="No. of Guests"
@@ -160,7 +157,7 @@
             </span>
           </template>
           <div class="form row" inline>
-            <div class="col-md-6 item-wrapper">
+            <div class="col-md-4 item-wrapper">
               <b-form-input
                 list="my-list-id"
                 placeholder="What are you planning?"
@@ -170,7 +167,7 @@
                 <option v-for="item in items">{{ item }}</option>
               </datalist>
             </div>
-            <div class="col-md-2 item-wrapper">
+            <div class="col-md-3 item-wrapper">
               <no-ssr>
                 <date-picker
                   placeholder="When?"
@@ -182,7 +179,7 @@
                 />
               </no-ssr>
             </div>
-            <div class="col-md-2 item-wrapper">
+            <div class="col-md-3 item-wrapper">
               <!-- <b-input id="search" placeholder="Where?" v-model="query.where" /> -->
               <gmap-autocomplete id="search" class="form-control" placeholder="Where?"></gmap-autocomplete>
             </div>
@@ -198,7 +195,7 @@
             </span>
           </template>
           <div class="form row" inline>
-            <div class="col-md-6 item-wrapper">
+            <div class="col-md-3 item-wrapper">
               <b-form-input
                 list="my-list-id"
                 placeholder="What are you planning?"
@@ -208,7 +205,7 @@
                 <option v-for="item in items">{{ item }}</option>
               </datalist>
             </div>
-            <div class="col-md-2 item-wrapper">
+            <div class="col-md-3 item-wrapper">
               <no-ssr>
                 <date-picker
                   placeholder="When?"
@@ -220,7 +217,7 @@
                 />
               </no-ssr>
             </div>
-            <div class="col-md-2 item-wrapper last-tab">
+            <div class="col-md-4 item-wrapper last-tab">
               <!-- <b-input id="search" placeholder="Where?" v-model="query.where" /> -->
               <gmap-autocomplete id="search" class="form-control" placeholder="Where?"></gmap-autocomplete>
             </div>
