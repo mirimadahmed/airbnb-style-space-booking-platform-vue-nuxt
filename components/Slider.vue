@@ -33,3 +33,8 @@ export default {
   }
 };
 </script>
+<style>
+.carousel-inner {
+  height: 70vh;
+}
+</style>
