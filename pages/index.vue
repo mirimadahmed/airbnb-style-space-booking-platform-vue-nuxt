@@ -1,7 +1,7 @@
 <template>
   <div>
     <Slider />
-    <TopVeneus/>
+    <TopVeneus />
     <WhyChooseUs />
     <Subscribe />
   </div>
