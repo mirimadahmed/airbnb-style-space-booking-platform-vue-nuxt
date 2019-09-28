@@ -3,7 +3,7 @@
     <SearchBoxItem />
     <b-carousel :interval="5000" v-model="slide" class="d-none d-md-block">
       <b-carousel-slide
-        img-src="https://www.bpimaging.com/assets/uploads/2015/02/restaurant-photography-sunset-grill-exterior.jpg"
+        img-src="https://cache.marriott.com/marriottassets/marriott/HYDMC/hydmc-reception-0062-hor-feat.jpg?downsize=1440px&fbclid=IwAR1bXcQVC5WoyAk98YVyX4f3xRfOpc5Mm-l6Xq8UyBeNLA3HKTwm102S8OA"
       />
       <b-carousel-slide
         img-src="https://cdn.shortpixel.ai/client/q_glossy,ret_img,w_1024/https://www.xoxtravels.com/wp-content/uploads/2019/04/res-1024x682.jpg"
