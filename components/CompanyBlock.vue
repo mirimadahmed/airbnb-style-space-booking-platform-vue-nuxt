@@ -7,7 +7,7 @@
       <h3 class="col-md-12 title mb-2">{{ company.name }}</h3>
       <p class="col-md-12 address mb-2">{{ company.address }}</p>
       <div class="col-md-12 mb-2">
-        <StarRating :value="70" :noOfRatings="40" />
+        <StarRating :value="3.5" :noOfRatings="40" />
       </div>
       <div class="col-md-6">
         <button class="details-button" @click="viewDetails">VIEW DETAILS</button>

@@ -1,8 +1,7 @@
 <template>
-  <div>
-    <font-awesome-icon v-for="i in fullStars" :key="i" icon="star" :style="{ color: '#54A0FF' }" />
-    <font-awesome-icon v-if="halfStars" icon="star-half" :style="{ color: '#54A0FF' }" />
-    <span class="count">({{ noOfRatings }})</span>
+  <div v-if="noOfRatings > 0">
+    <a-rate v-model="value" disabled allowHalf />
+    <span class="ant-rate-text">({{ noOfRatings }})</span>
   </div>
 </template>
 
@@ -22,25 +21,7 @@ export default {
       required: false,
       default: 0,
       type: Number,
-      validator: value => value >= 0 && value <= 100
-    }
-  },
-  computed: {
-    activeRating() {
-      let result = (this.value / 100) * this.numberOfStars;
-      if (result % 0.5 > 0) {
-        result = 0.5 * (Math.floor(result / 0.5) + 1);
-      }
-      return result;
-    },
-    disabledStars() {
-      return Math.floor(this.numberOfStars - this.activeRating);
-    },
-    halfStars() {
-      return this.activeRating % 1 === 0.5;
-    },
-    fullStars() {
-      return Math.floor(this.activeRating);
+      validator: value => value >= 0 && value <= 5
     }
   }
 };
