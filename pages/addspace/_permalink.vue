@@ -1329,7 +1329,8 @@ export default {
           type_id:this.listing.type_id,
           longitude:this.center.lng,
           latitude:this.center.lat,
-          permalink:this.permalink
+          permalink:this.permalink,
+          status:'submitted'
           }
         const { data } = await ListingRepository.updateListing({Entity:obj})
         if(data.success){
