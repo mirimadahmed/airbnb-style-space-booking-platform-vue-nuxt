@@ -1,19 +1,19 @@
 <template>
   <div class="wrapper mx-5 my-4">
     <div class="form shadow-sm row" inline>
-      <div class="col-md-2 item-wrapper">
+      <div class="col-md-2.5 item-wrapper">
         <b-form-input list="my-list-id" placeholder="What are you planning?" v-model="query.type"></b-form-input>
         <datalist id="my-list-id">
           <option v-for="(type, i) in types" :key="i">{{ type }}</option>
         </datalist>
       </div>
-      <div class="col-md-2 item-wrapper">
+      <div class="col-md-3 item-wrapper">
         <b-form-input list="my-list-id2" placeholder="What are you planning?" v-model="query.what"></b-form-input>
         <datalist id="my-list-id2">
           <option v-for="(what, i) in whats" :key="i">{{ what }}</option>
         </datalist>
       </div>
-      <div class="col-md-2 item-wrapper">
+      <div class="col-md-2.5 item-wrapper">
         <no-ssr>
           <date-picker
             placeholder="When?"
@@ -25,10 +25,10 @@
           />
         </no-ssr>
       </div>
-      <div class="col-md-2 item-wrapper">
+      <div class="col-md-2.5 item-wrapper">
         <b-input id="search" placeholder="Where?" v-model="query.where" />
       </div>
-      <div class="col-md-2 item-wrapper last-tab">
+      <div class="col-md-3 item-wrapper last-tab">
         <b-input
           id="capacity"
           placeholder="No. of Guests"
@@ -36,9 +36,6 @@
           min="0"
           v-model="query.count"
         />
-      </div>
-      <div class="col-md-2 item-wrapper">
-        <b-button @click="getSearchResults" squared class="search-button">SEARCH</b-button>
       </div>
     </div>
   </div>
