@@ -129,8 +129,9 @@ export default {
       this.isLoading = false;
     },
     openNotificationWithIcon (type,message) {
+      let headers = type.charAt(0).toUpperCase() + type.substring(1);
       this.$notification[type]({
-        message: 'Notification',
+        message: headers,
         description: message,
       });
     }
