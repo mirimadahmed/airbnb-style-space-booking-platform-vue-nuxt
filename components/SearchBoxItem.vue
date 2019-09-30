@@ -2,7 +2,7 @@
   <div>
     <div class="middle-wrapper col-md-12">
       <div class="heading">
-        <h1 class="d-none d-md-block">What do you want to host today?</h1>
+        <h1 class="d-none d-md-block">Spacesly - Book Spaces Easily</h1>
       </div>
       <b-tabs class="text-center search d-none d-md-block" v-model="tabIndex">
         <b-tab title="Wedding" :title-link-class="linkClass(0)" class="tab-item" active>
