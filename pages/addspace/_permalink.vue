@@ -953,8 +953,8 @@ export default {
       this.isLoading = false;
     },
     async saveBasePrice () {
-
-     let activated_timing=this.timings.find(timing_item=>timing_item.is_active==true)
+      
+      let activated_timing=this.timings.find(timing_item=>timing_item.is_active==true)
       this.pricing_obj.Pricing = [];
       this.pricing_obj.name = "Base Price";
       this.pricing_obj.product_type = "baseprice";
