@@ -3,7 +3,7 @@
     <h1 v-if="wedding_listings.length>0" class="heading">Top Wedding Venues</h1>
     <carousel :per-page="3" :mouse-drag="false" :autoplay="true" :loop="true" :navigationEnabled="true">
     <slide v-for="(company,i) in wedding_listings" :key="i" style="margin-left:27px;" >
-        <CompanyBlock :company="company" />
+        <CompanyBlock :company="company.Entity" />
     </slide>
   </carousel>
     <!-- <div class="row offset-md-2">
@@ -18,28 +18,28 @@
     <h1 v-if="party_listings.length>0" class="heading">Top Party Venues</h1>
     <carousel :per-page="3"  :mouse-drag="false" :autoplay="true" :loop="true" :navigationEnabled="true">
     <slide v-for="(company,i) in party_listings" :key="i" style="margin-left:27px;" >
-        <CompanyBlock :company="company" />
+        <CompanyBlock :company="company.Entity" />
       </slide>
     </carousel>
   
       <h1 v-if="corporate_listings.length>0" class="heading">Top Corporate Venues</h1>
       <carousel :per-page="3"  :mouse-drag="false" :autoplay="true" :loop="true" :navigationEnabled="true">
       <slide v-for="(company,i) in corporate_listings" :key="i" style="margin-left:27px;" >
-          <CompanyBlock :company="company" />
+          <CompanyBlock :company="company.Entity" />
       </slide>
       </carousel>
 
     <h1 v-if="sports_listings.length>0" class="heading">Top Sports Venues</h1>
     <carousel :per-page="3"  :mouse-drag="false" :autoplay="true" :loop="true" :navigationEnabled="true">
     <slide v-for="(company,i) in sports_listings" :key="i" style="margin-left:27px;" >
-        <CompanyBlock :company="company" />
+        <CompanyBlock :company="company.Entity" />
     </slide>
     </carousel>
 
     <h1 v-if="production_listings.length>0" class="heading">Top Production Venues</h1>
     <carousel :per-page="3"  :mouse-drag="false" :autoplay="true" :loop="true" :navigationEnabled="true">
     <slide v-for="(company,i) in production_listings" :key="i" style="margin-left:27px;" >
-        <CompanyBlock :company="company" />
+        <CompanyBlock :company="company.Entity" />
     </slide>
     </carousel>
   </div>
