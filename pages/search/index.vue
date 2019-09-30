@@ -9,7 +9,7 @@
     </vue-content-loading>
     <div class="row mx-5" v-else>
       <div class="col-md-12 mt-5" v-if="companies.length === 0">
-        <h4>No such listings found.</h4>
+        <h4>No spaces found with this search criteria.</h4>
       </div>
       <div v-else>
         <div class="row">
