@@ -32,14 +32,15 @@
               <a slot="actions" @click="deleteListing(item.Entity.permalink)">
                 <i class="fa fa-trash-o" style="color:red;" aria-hidden="true"></i>
               </a>
-              <a-list-item-meta :description="item.Entity.description">
+              <a-list-item-meta>
                 <a slot="title">{{item.Entity.name}}</a>
                 <a-avatar slot="avatar" :src="item.Entity.featured_image" />
-                <!-- <a-progress slot="footer" :percent="10" size="small" />  -->
+                 <b-badge v-if="item.Entity.status=='pending'" slot="description" variant="warning">{{item.Entity.status}}</b-badge>
+                 <b-badge v-else-if="item.Entity.status=='submitted'" slot="description" variant="primary">{{item.Entity.status}}</b-badge>
+                 <b-badge v-else-if="item.Entity.status=='approved'" slot="description" variant="success">{{item.Entity.status}}</b-badge>
+                 <p slot="description">{{item.Entity.description}}</p>
+                <a-progress slot="description" :percent="find_percentage(item.Entity)" size="small" /> 
               </a-list-item-meta>
-              <a-progress :percent="find_percentage(item.Entity)" size="small" />
-                  <!-- <div slot="footer">Footer</div> -->
-
             </a-list-item>
           </a-list>
         </div>
