@@ -164,7 +164,7 @@
             <!-- <h1 class="heading mt-4">Pricing</h1> -->
             <div class="row" style="margin-top:10px;" v-if="timings.length>0">
               <div class="col-md-12">
-                  <b-card class="mb-4" title="Base Rent">                        
+                  <b-card class="mb-4" title="Space Rent">                        
                         <div class="row">
                            <div class="col-md-12">
                               <b-card class="mb-12"  style="border:none;">
@@ -215,7 +215,7 @@
                </div>
                <div class="col-md-12">
                  <!--  -->
-                  <b-card class="mb-4" title="Addons" >
+                  <b-card class="mb-4" title="Add-Ons" >
                      <b-card class="mb-4" style="border:none;">
                         <div class="row" >
                            <div class="col-md-6">
@@ -231,7 +231,7 @@
                                  <div class="row">
                                     <div class="col-md-2">
                                        <b-form-group label="AddOn Title">
-                                          <b-form-input v-model="addon_field_item.name" type="text" />
+                                          <b-form-input placeholder="e.g. Heating" v-model="addon_field_item.name" type="text" />
                                        </b-form-group>
                                     </div>
                                     <div class="col-md-2">
@@ -404,14 +404,14 @@
                v-if="current == steps.length - 1"
                type="primary"
                @click="$message.success('Processing complete!');viewListings()"
-               >Done</button>
-            <button class="button pull-left" v-if="current>0" style="margin-left: 8px" @click="prev">Previous</button>
+               >Go to Home</button>
+            <button class="button pull-left" v-if="current>0 && current!=4" style="margin-left: 8px" @click="prev">Previous</button>
             <button
                class="button"
                v-if="current < steps.length - 1"
                type="primary"
                @click="next"
-               >{{ current === 0 && isNew ? 'Start' : 'Next'}}</button>
+               >{{ current === 0 && isNew ? 'Next' : 'Next'}}</button>
          </div>
          <a-modal @ok="newTiming"
             :width="620"
