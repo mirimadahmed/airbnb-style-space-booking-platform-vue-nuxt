@@ -27,7 +27,7 @@
                         description="Min 10 characters"
                         label="Name your space"
                         label-for="input-1">
-                     <a-input id="input-1" label="Fail" placeholder="Give your listing a title" size="large" v-model="listing.title" /> 
+                     <a-input   v-bind:class="{ errorss: titlecharactercount<10 }" id="input-1" label="Fail" placeholder="Give your listing a title" size="large" v-model="listing.title" /> 
                      <sub style="margin-top:5px;" class="pull-right">{{titlecharactercount}}/100</sub>
                   </b-form-group>
 
@@ -40,10 +40,11 @@
                   label-for="input-2">
                   <a-textarea
                       id="input-2"
+                      v-bind:class="{ errorss: listing_description_count<50 }"
                       placeholder="Give your listing a great description"
                       :rows="4"
                       v-model="listing.description"/>
-                      <sub style="margin-top:5px;" class="pull-right">{{listing_description_count}}/50</sub>
+                      <sub style="margin-top:5px;" class="pull-right">{{listing_description_count}}/500</sub>
                   </b-form-group>
 
               </div>
@@ -164,34 +165,34 @@
             <!-- <h1 class="heading mt-4">Pricing</h1> -->
             <div class="row" style="margin-top:10px;" v-if="timings.length>0">
               <div class="col-md-12">
-                  <b-card class="mb-4" title="Space Rent">                        
+                  <b-card class="mb-4" :title="'Space Rent  ' + slot_render    ">                        
                         <div class="row">
                            <div class="col-md-12">
                               <b-card class="mb-12"  style="border:none;">
                                  <div class="row">
-                                    <div class="col-md-2">
+                                    <div class="col-md-3">
                                        <b-form-group label="Rent">
                                           <b-form-input v-model="base_price.base_rent" type="text" />
                                        </b-form-group>
                                     </div>
-                                    <div class="col-md-2">
+                                    <div class="col-md-3">
                                        <b-form-group label="Effective Date">
                                           <b-form-input  v-model="base_price.effective_date" type="date"  />
                                        </b-form-group>
                                     </div>
-                                    <div class="col-md-2">
+                                    <div class="col-md-3">
                                        <b-form-group label="Expiry Date">
                                           <b-form-input  v-model="base_price.expiration_date" type="date"  />
                                        </b-form-group>
                                     </div>
-                                    <div class="col-md-2">
-                                       <b-form-group   label="Is waivable">
-                                          <b-form-checkbox size="lg" v-model="base_price.is_waivable" name="check-button" switch></b-form-checkbox >
-                                       </b-form-group>
-                                    </div>
-                                     <div class="col-md-2">
+                                     <div class="col-md-3">
                                        <b-form-group  label="Is Required">
                                           <b-form-checkbox v-model="base_price.is_required" name="check-button" switch></b-form-checkbox >
+                                       </b-form-group>
+                                    </div>
+                                    <div class="col-md-5">
+                                       <b-form-group   label="Is the rent amount waivable at certain number of people">
+                                          <b-form-checkbox size="lg" v-model="base_price.is_waivable" name="check-button" switch></b-form-checkbox >
                                        </b-form-group>
                                     </div>
                                     <div class="col-md-2" v-if="base_price.is_waivable==true">
@@ -229,12 +230,12 @@
                            <div class="col-md-12" >
                               <b-card class="mb-12" :title="addon_field_item.name">
                                  <div class="row">
-                                    <div class="col-md-2">
+                                    <div class="col-md-3">
                                        <b-form-group label="AddOn Title">
                                           <b-form-input placeholder="e.g. Heating" v-model="addon_field_item.name" type="text" />
                                        </b-form-group>
                                     </div>
-                                    <div class="col-md-2">
+                                    <div class="col-md-3">
                                        <b-form-group label="Base Rent">
                                           <b-form-input v-model="addon_field_item.Pricing[0].rate" type="number" />
                                        </b-form-group>
@@ -251,16 +252,16 @@
                                        </b-form-group>
                                     </div>
                                     <div class="col-md-2">
-                                       <b-form-group   label="Is waivable">
-                                          <b-form-checkbox v-model="addon_field_item.is_waivable"  name="check-button" switch></b-form-checkbox >
-                                       </b-form-group>
-                                    </div>
-                                    <div class="col-md-2">
                                        <b-form-group  label="Is Required">
                                           <b-form-checkbox v-model="addon_field_item.is_required" name="check-button" switch></b-form-checkbox >
                                        </b-form-group>
                                     </div>
-                                    <div v-if="addon_field_item.is_waivable==true" class="offset-md-2  col-md-6" >
+                                    <div class="col-md-5">
+                                       <b-form-group   label="Is the rent amount waivable at certain number of people">
+                                          <b-form-checkbox v-model="addon_field_item.is_waivable"  name="check-button" switch></b-form-checkbox >
+                                       </b-form-group>
+                                    </div>
+                                    <div v-if="addon_field_item.is_waivable==true" class="col-md-2" >
                                        <b-form-group label="Waive of people at">
                                           <b-form-input v-model="addon_field_item.applicable_on_less_than" type="number" />
                                        </b-form-group>
@@ -729,6 +730,10 @@ export default {
     Multiselect
   },
   computed: {
+    slot_render(){
+      let slot=this.newTime.slot.split('_')
+      return slot[0]+' '+slot[1]
+    },
     listing_description_count(){
         return this.listing.description.length;
     },
@@ -901,8 +906,9 @@ export default {
       this.visible = false
     },
     openNotificationWithIcon (type,message) {
+      let headers = type.charAt(0).toUpperCase() + type.substring(1);
       this.$notification[type]({
-        message: type,
+        message: headers,
         description: message,
       });
     },
@@ -926,7 +932,6 @@ export default {
         status: "done",
         url: image
       }));
-      console.log(data.Entity)
       this.featured_image[0] = {
         uid: 0,
         name: "space",
@@ -1414,6 +1419,9 @@ export default {
 </script>
 
 <style scoped>
+.errorss{
+  border-color: red;
+}
 .heading {
   font-weight: 600;
   font-size: 24px;
