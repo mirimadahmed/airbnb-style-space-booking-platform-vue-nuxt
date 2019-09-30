@@ -1,5 +1,5 @@
 <template>
-  <div class="border-bottom">
+  <div id="search-bar" class="border-bottom">
     <div class="form row p-2" inline>
       <div class="col-md-2">
         <b-form-input

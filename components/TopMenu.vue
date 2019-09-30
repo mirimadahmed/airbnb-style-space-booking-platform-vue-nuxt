@@ -1,5 +1,5 @@
 <template>
-  <div class="border-bottom">
+  <div id="top-menu" class="border-bottom">
     <b-navbar toggleable="lg" type="light" variant="faded">
       <b-navbar-brand href="/">
         <img src="/logo.png" width="120px" alt="Spacesly" />

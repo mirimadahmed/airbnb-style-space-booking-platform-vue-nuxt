@@ -7,23 +7,39 @@
       <rect x="105" y="10" rx="4" ry="4" width="85" height="100" />
       <rect x="195" y="10" rx="4" ry="4" width="85" height="100" />
     </vue-content-loading>
-    <div class="row mx-5" v-else>
+    <div
+      id="main-wrapper"
+      class="row m-0"
+      v-else
+      :style="{
+            'height': `calc(100vh - ${filterSectionHeight}px)`
+     }"
+    >
       <div class="col-md-12 mt-5" v-if="companies.length === 0">
         <h4>No such listings found.</h4>
       </div>
-      <div v-else>
-        <div class="row">
-          <div class="col-md-12 text-left">
-            <p>showing {{ currentTotal }} of total {{ total }} spaces</p>
+      <div v-else class="h-100">
+        <div class="row px-0 h-100 mx-0">
+          <div :class="outerClass" class="h-100">
+            <div class="row">
+              <div class="col-md-12 text-left">
+                <p>showing {{ currentTotal }} of total {{ total }} spaces</p>
+              </div>
+            </div>
+            <div :class="itemsClass" v-for="company in companies" :key="company.bpl_id">
+              <CompanyBlock :company="company" />
+            </div>
+            <div class="col-md-12 loading-more text-center" v-if="isLoadingMore">Loading More</div>
+          </div>
+          <div v-if="mapOn" class="col-md-5 h-100 p-0">
+            <GmapMap
+              :center="{lat:33.684422, lng:73.047882}"
+              :zoom="17"
+              map-type-id="terrain"
+              class="col-md-12 h-100 p-0"
+            ></GmapMap>
           </div>
         </div>
-        <div class="main-outer row px-0" :class="outerClass">
-          <div class="mb-4" :class="itemsClass" v-for="company in companies" :key="company.bpl_id">
-            <CompanyBlock :company="company" />
-          </div>
-        </div>
-        <div class="col-md-12 loading-more text-center" v-if="isLoadingMore">Loading More</div>
-        <div v-if="mapOn" class="col-md-4">Map Here</div>
       </div>
     </div>
   </div>
@@ -49,17 +65,28 @@ export default {
       isLoadingMore: false,
       companies: [],
       nextLink: "",
-      mapOn: false,
+      mapOn: true,
       query: null,
-      total: 0
+      total: 0,
+      window: {
+        width: 0,
+        height: 0
+      }
     };
   },
   computed: {
+    filterSectionHeight() {
+      const filterSectionDOM = document.getElementById("top-menu");
+      const filterSectionDOM2 = document.getElementById("search-bar");
+      const height1 = filterSectionDOM ? filterSectionDOM.clientHeight : 0;
+      const height2 = filterSectionDOM2 ? filterSectionDOM2.clientHeight : 0;
+      return height1 + height2;
+    },
     itemsClass() {
       return this.mapOn ? "col-md-6" : "col-md-4";
     },
     outerClass() {
-      return this.mapOn ? "col-md-8" : "col-md-12";
+      return this.mapOn ? "col-md-7" : "col-md-12";
     },
     currentTotal() {
       return this.companies.length;
@@ -119,8 +146,6 @@ export default {
   font-weight: 600;
   font-size: 16px;
   color: rgb(151, 78, 65);
-}
-.main-outer {
 }
 </style>
 
