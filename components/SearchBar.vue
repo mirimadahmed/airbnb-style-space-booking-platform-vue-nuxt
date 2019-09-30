@@ -1,44 +1,46 @@
 <template>
-  <div class="wrapper mx-5 my-4">
-    <div class="form shadow-sm row" inline>
-      <div class="col-md-2 item-wrapper">
-        <b-form-input list="my-list-id" placeholder="What are you planning?" v-model="query.type"></b-form-input>
-        <datalist id="my-list-id">
-          <option v-for="(type, i) in types" :key="i">{{ type }}</option>
-        </datalist>
-      </div>
-      <div class="col-md-2 item-wrapper">
-        <b-form-input list="my-list-id2" placeholder="What are you planning?" v-model="query.what"></b-form-input>
+  <div class="border-bottom">
+    <div class="form row p-2" inline>
+      <div class="col-md-2">
+        <b-form-input
+          class="border"
+          list="my-list-id2"
+          placeholder="What are you planning?"
+          v-model="query.what"
+        ></b-form-input>
         <datalist id="my-list-id2">
           <option v-for="(what, i) in whats" :key="i">{{ what }}</option>
         </datalist>
       </div>
-      <div class="col-md-2 item-wrapper">
+      <div class="col-md-2">
         <no-ssr>
           <date-picker
             placeholder="When?"
             v-model="query.when"
             input-class="form-control h-100 border-0 rounded-0"
-            class="form-control p-0"
+            class="form-control p-0 border"
             :lang="lang"
             :not-before="new Date()"
           />
         </no-ssr>
       </div>
-      <div class="col-md-2 item-wrapper">
-        <b-input id="search" placeholder="Where?" v-model="query.where" />
+      <div class="col-md-2">
+        <b-input class="border" id="search" placeholder="Where?" v-model="query.where" />
       </div>
-      <div class="col-md-2 item-wrapper last-tab">
+      <div class="col-md-2">
         <b-input
           id="capacity"
+          class="border"
           placeholder="No. of Guests"
           type="number"
           min="0"
           v-model="query.count"
         />
       </div>
-      <div class="col-md-2 item-wrapper">
-        <b-button @click="getSearchResults" squared class="search-button">SEARCH</b-button>
+      <div class="col-md-2"></div>
+      <div class="col-md-2">
+        Show Map
+        <a-switch defaultChecked v-model="mapOn" />
       </div>
     </div>
   </div>
@@ -58,6 +60,7 @@ export default {
   },
   data() {
     return {
+      mapOn: true,
       lang: {
         days: ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"],
         months: [
@@ -152,6 +155,11 @@ export default {
       }
     }
   },
+  watch: {
+    mapOn() {
+      this.$emit("map-changed", this.mapOn);
+    }
+  },
   computed: {
     whats() {
       if (this.query.type) {
@@ -185,14 +193,9 @@ export default {
   height: 100%;
 }
 .form {
-  margin-top: -1px;
   margin-left: 0px;
   margin-right: 0px;
   height: 50px;
-}
-.item-wrapper {
-  padding: 0px;
-  border-right: 1px solid rgba(170, 168, 168, 0.301);
 }
 .search-button {
   background: linear-gradient(#ff4d78, #fa7649);
@@ -201,8 +204,5 @@ export default {
   font-size: 14px;
   width: 100%;
   height: 100%;
-}
-.last-tab {
-  border-right: none !important;
 }
 </style>
