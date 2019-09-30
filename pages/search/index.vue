@@ -1,7 +1,7 @@
 <template>
   <div>
-    <SearchBar :search="query" />
-    <Filters @map-changed="updateMap" />
+    <SearchBar :search="query" @map-changed="updateMap" />
+    <!-- <Filters @map-changed="updateMap" /> -->
     <vue-content-loading v-if="isLoading" :width="300" :height="120">
       <rect x="10" y="10" rx="4" ry="4" width="85" height="100" />
       <rect x="105" y="10" rx="4" ry="4" width="85" height="100" />
