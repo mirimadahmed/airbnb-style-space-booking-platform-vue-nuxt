@@ -15,13 +15,17 @@
             :dataSource="listings"
           >
             <a-list-item slot="renderItem" slot-scope="item, index">
-              <a slot="actions" :href="`/addspace/${item.Entity.permalink}`">edit</a>
+              <a slot="actions" :href="`/addspace/${item.Entity.permalink}`">
+              <i class="fa fa-pencil" aria-hidden="true"></i>
+              </a>
               <a
                 v-if="item.Entity.status === 'approved'"
                 slot="actions"
                 :href="`/${item.Entity.permalink}`"
               >view</a>
-              <a slot="actions" @click="deleteListing(item.Entity.permalink)">delete</a>
+              <a slot="actions" @click="deleteListing(item.Entity.permalink)">
+                <i class="fa fa-trash-o" style="color:red;" aria-hidden="true"></i>
+              </a>
               <a-list-item-meta :description="item.Entity.description">
                 <a slot="title">{{item.Entity.name}}</a>
               </a-list-item-meta>
