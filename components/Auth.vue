@@ -190,6 +190,8 @@ export default {
       if (data.success) {
         this.$bvModal.hide("modal");
         this.$store.dispatch("login", data);
+        this.login.email=""
+        this.login.password=""
         if(this.isRemember==true){
         localStorage.setItem('isremember',"true")
         }
@@ -207,10 +209,14 @@ export default {
       if (data.success) {
         this.openNotificationWithIcon('success',data.user_message)
         this.$bvModal.hide("modal");
+        this.signup.name=""
+        this.signup.email=""
+        this.signup.password=""
       } else {
         this.openNotificationWithIcon('error',data.user_message)
 
       }
+
 
     },
     openNotificationWithIcon (type,message) {
