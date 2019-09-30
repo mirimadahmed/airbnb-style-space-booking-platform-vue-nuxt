@@ -14,7 +14,13 @@
             itemLayout="horizontal"
             :dataSource="listings"
           >
-            <a-list-item slot="renderItem" slot-scope="item, index">
+            <a-list-item 
+             class="shadow"
+             style="margin-top:15px;
+             padding:14px;
+             border:20x;
+             border-color: #dcdcdc;"
+             slot="renderItem" slot-scope="item, index">
               <a slot="actions" :href="`/addspace/${item.Entity.permalink}`">
               <i class="fa fa-pencil" aria-hidden="true"></i>
               </a>
@@ -28,7 +34,12 @@
               </a>
               <a-list-item-meta :description="item.Entity.description">
                 <a slot="title">{{item.Entity.name}}</a>
+                <a-avatar slot="avatar" :src="item.Entity.featured_image" />
+                <!-- <a-progress slot="footer" :percent="10" size="small" />  -->
               </a-list-item-meta>
+              <a-progress :percent="find_percentage(item.Entity)" size="small" />
+                  <!-- <div slot="footer">Footer</div> -->
+
             </a-list-item>
           </a-list>
         </div>
@@ -47,13 +58,20 @@ export default {
     };
   },
   computed: {
-    ...mapGetters(["listings", "user"])
+    ...mapGetters(["listings", "user"]),
   },
   middleware: "auth",
   created() {
     this.fetch();
   },
   methods: {
+     find_percentage(item) {
+      let percentg=75
+      if(item.timings_conf.length>0) {
+        percentg=percentg+25
+      }
+      return percentg;
+    },
     async fetch() {
       this.isLoading = true;
       const { data } = await ListingRepository.getAll(this.user.company_id);
