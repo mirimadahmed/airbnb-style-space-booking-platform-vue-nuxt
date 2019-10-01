@@ -40,6 +40,7 @@ export default {
   border: none !important;
   font-weight: 500;
   padding-left: 10px;
+  
 }
 
 .button {
@@ -49,6 +50,31 @@ export default {
   padding: 10px 20px;
   color: white;
   font-weight: 600;
+  text-align: center;
+  -webkit-transition-duration: 0.4s; /* Safari */
+  transition-duration: 0.4s;
+  text-decoration: none;
+  overflow: hidden;
+  cursor: pointer;
+}
+.subscribe-button:after {
+  content: "";
+  background: linear-gradient(#ff4d78, #fa7649);
+  display: block;
+  position: absolute;
+  padding-top: 300%;
+  padding-left: 350%;
+  margin-left: -20px!important;
+  margin-top: -120%;
+  opacity: 0;
+  transition: all 0.8s
+}
+
+.subscribe-button:active:after {
+  padding: 0;
+  margin: 0;
+  opacity: 1;
+  transition: 0s
 }
 
 button:focus {
