@@ -2,7 +2,7 @@
   <div id="app">
     <TopMenu />
     <nuxt />
-    <Footer />
+    <Footer v-if="showFooter" />
   </div>
 </template>
 <script>
@@ -12,22 +12,25 @@ export default {
   components: {
     TopMenu,
     Footer
+  },
+  computed: {
+    showFooter() {
+      return this.$route.name !== "search";
+    }
   }
 };
 </script>
 <style>
 #app {
-  font-family: 'Nunito Sans', sans-serif;
+  font-family: "Nunito Sans", sans-serif;
 
   /* font-family: "Avenir", Helvetica, Arial, sans-serif; */
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
   color: #2c3e50;
-  text-rendering: optimizeLegibility; 
-  /* margin-top: 60px; */
+  text-rendering: optimizeLegibility;
 }
-
 .wrapper {
   margin-left: 15px;
   margin-right: 15px;

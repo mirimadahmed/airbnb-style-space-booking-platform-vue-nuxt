@@ -1,16 +1,19 @@
 <template>
-  <div class="shadow-sm">
-    <b-navbar toggleable="lg" type="light" variant="light">
+  <div id="top-menu" class="border-bottom">
+    <b-navbar toggleable="lg" type="light" variant="faded">
       <b-navbar-brand href="/">
         <img src="/logo.png" width="120px" alt="Spacesly" />
       </b-navbar-brand>
-            <!-- href="/listing" -->
+      <!-- href="/listing" -->
 
       <b-navbar-toggle target="nav-collapse"></b-navbar-toggle>
 
       <b-collapse id="nav-collapse" is-nav>
         <b-navbar-nav class="ml-auto">
-          <b-button @click="ListSpaceAction()" class="signin-button my-2 my-sm-0 px-4 ml-4 mr-2">List your Space</b-button>
+          <b-button
+            @click="ListSpaceAction()"
+            class="signin-button my-2 my-sm-0 px-4 ml-4 mr-2"
+          >List your Space</b-button>
           <b-nav-item
             v-if="!isLoggedIn"
             href="#"
@@ -67,16 +70,14 @@ export default {
   methods: {
     logout() {
       this.$store.dispatch("logout");
-      this.$router.push({ path: "/"  });
-
+      this.$router.push({ path: "/" });
     },
-    ListSpaceAction () {
-      if(this.isLoggedIn) {
-            this.$router.push({ path: "/addspace"  });
-      }
-      else {
-        this.showAuth = true; 
-        this.viewType = 'login'
+    ListSpaceAction() {
+      if (this.isLoggedIn) {
+        this.$router.push({ path: "/addspace" });
+      } else {
+        this.showAuth = true;
+        this.viewType = "login";
       }
     }
   }
@@ -85,19 +86,18 @@ export default {
 
 
 <style >
-
 /* span{
   color:black!important
 } */
 .navbar-light .navbar-nav .nav-link {
-    color: rgb(0, 0, 0) !important;
-    font-size:16px;
+  color: rgb(0, 0, 0) !important;
+  font-size: 16px;
 }
 /* #my-nav-dropdown {
   color:black !important;
 } */
-#my-nav-dropdown>a>span {
-    color: black !important;
+#my-nav-dropdown > a > span {
+  color: black !important;
 }
 /* .nav-item b-nav-dropdown dropdown{
   color:black !important;
