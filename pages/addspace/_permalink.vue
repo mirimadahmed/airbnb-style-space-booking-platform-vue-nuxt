@@ -394,40 +394,92 @@
                               </div>
                            </b-card>
                         </div>
-                        <div v-for="menus in pricings" v-if="menus.product_type=='menu'"  v-bind:key="menus.key" class="col-md-4">
-                           <b-card class="mb-4" :title="menus.name">
+                        <div v-for="menus in getMenus" v-if="menus.product_type=='menu'"  v-bind:key="menus.key" class="col-md-4">
+                           <b-card class="mb-4" >
                               <div class="row">
+                                <div class="col-md-6">
+                                    <h4 class="heading">{{menus.name}}</h4>
+                                </div>
+                                <div class="col-md-6">
+                                    <i class="fa fa-trash-o pull-right"  style="color:red;" aria-hidden="true"></i>
+                                    <i v-if="menus.editable==true" class="fa fa-times pull-right" @click="setSelectedMenu(menus,!menus.editable);menus.editable=false" aria-hidden="true"></i>
+                                    <i v-else @click="setSelectedMenu(menus,!menus.editable);menus.editable=true" style="color:blue;" class="fa fa-pencil pull-right" aria-hidden="true"></i>
+                                </div>
+                              </div>
+                              <div v-if="menus.editable==true" class="row">
+                                <div class="col-md-12">
+                                  <b-form-group label="Menu Title"> 
+                                      <!-- <a-input v-model="menus.name" placeholder="Buffet Storm"/> -->
+                                      <input type="text" class="ant-input" v-model="menus.name">
+                                  </b-form-group>
+                                </div>
+                              </div>
+                              <div v-if="menus.editable==false" class="row">
                                  <div class="col-md-12">
                                     <b-form-group label="Menu Items">
-                                        <b-badge variant="info" style="margin-left:5px;" v-for="menu_list_item in menus.list_items" v-bind:key="menu_list_item.key">{{menu_list_item.list_item}}</b-badge>
+                                        <b-badge  variant="info" style="margin-left:5px;" v-for="menu_list_item in menus.list_items" v-bind:key="menu_list_item.key">{{menu_list_item.list_item}}</b-badge>
                                     </b-form-group>
                                  </div>
                               </div>
-                              <div class="row">
+                              <div v-else class="row">
+                                 <div class="col-md-12">
+                                    <b-form-group label="Menu Items">
+                                        <multiselect v-model="tags" tag-placeholder="Add this as new tag" placeholder="Search or add a tag" label="name" track-by="code" :options="options" :multiple="true" :taggable="true" @tag="addTag"></multiselect>
+                                    </b-form-group>
+                                 </div>
+                              </div>
+                              <div v-if="menus.editable==false" class="row">
                                  <div class="col-md-12">
                                     <b-form-group label="Menu Price">
                                         <b-badge variant="success" class="mb-2" style="color:white;" >{{menus.Pricing[0].rate}}</b-badge>
                                     </b-form-group>
                                  </div>
                               </div>
+                              <div v-else class="row">
+                                 <div class="col-md-12">
+                                    <b-form-group label="Menu Price"> 
+                                        <a-input type="number" v-model="menus.Pricing[0].rate" placeholder="200"/>
+                                    </b-form-group>
+                                 </div>
+                              </div>
                               <div class="row">
                                 <div class="col-md-12">                                
                                   <b-form-group   label="Effective Dates">
-                                    <b-form-input v-model="menus.Pricing[0].effective_date" type="date"></b-form-input >
+                                    <p v-if="menus.editable==false">{{menus.Pricing[0].effective_date}}</p>
+                                    <date-picker
+                                      v-else
+                                      placeholder="mm/dd/yy"
+                                      v-model="menus.Pricing[0].effective_date"
+                                      input-class="form-control h-100 border-0 rounded-0"
+                                      class="form-control p-0"
+                                      :lang="lang"
+                                      :not-before="new Date()"
+                                    />
+                                    <!-- <b-form-input v-model="menus.Pricing[0].effective_date" type="date"></b-form-input > -->
                                   </b-form-group>
                                 </div>
                               </div>
                               <div class="row">
                                 <div class="col-md-12">                                
                                   <b-form-group   label="Expiration Dates">
-                                    <b-form-input v-model="menus.Pricing[0].expiration_date" type="date"></b-form-input >
+                                    <p v-if="menus.editable==false">{{menus.Pricing[0].expiration_date}}</p>
+                                     <date-picker
+                                      v-else
+                                      placeholder="mm/dd/yy"
+                                      v-model="menus.Pricing[0].expiration_date"
+                                      input-class="form-control h-100 border-0 rounded-0"
+                                      class="form-control p-0"
+                                      :lang="lang"
+                                      :not-before="new Date()"
+                                    />
+                                    <!-- <b-form-input v-model="menus.Pricing[0].expiration_date" type="date"></b-form-input > -->
                                   </b-form-group>
                                 </div>
                               </div>
                               <div class="row">
                                  <div  class="col-md-12">
-                                    <b-form-group label="Action">
-                                       <b-button  class="mb-2 button" size="sm" @click="setSelectedMenu(menus)" >Update</b-button>
+                                    <b-form-group >
+                                       <b-button  class="mb-2 button pull-right" size="sm" @click="UpdateMenu(menus);menus.editable=false" >Update</b-button>
                                     </b-form-group>
                                  </div>
                               </div>
@@ -587,6 +639,7 @@ export default {
   middleware: "auth",
   data() {
     return {
+      updatetags:[],
       lang: {
         days: ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"],
         months: [
@@ -832,6 +885,13 @@ export default {
       let addons=this.pricings.filter(pricing_item=>pricing_item.product_type=='addons')
       return addons
     },
+    getMenus() {
+      let menus=this.pricings.filter(pricing_item=>pricing_item.product_type=='menu')
+      for(var i=0;i<menus.length;i++){
+       menus[i]={...menus[i],editable: false}
+      }
+      return menus
+    },
    ...mapGetters(["user"]),
     isNew() {
       return this.permalink === undefined;
@@ -900,17 +960,19 @@ export default {
       }
 
     },
-    setSelectedMenu (menu) {
+    setSelectedMenu (menu,doUpdate) {
       this.options=[]
       this.tags=[]
+      if(doUpdate==true){
       this.update=true
-      this.menu_visible=true
-      this.menu_title=menu.name
-      this.menu_price_pp=menu.Pricing[0].rate
-      this.menu_effective_date=menu.Pricing[0].effective_date
-      this.menu_expiration_date=menu.Pricing[0].expiration_date
-      this.menu_product_id=menu.product_id
-      this.menu_pricing_id=menu.Pricing[0].pricing_id
+      }
+      // this.menu_visible=true
+      // this.menu_title=menu.name
+      // this.menu_price_pp=menu.Pricing[0].rate
+      // this.menu_effective_date=menu.Pricing[0].effective_date
+      // this.menu_expiration_date=menu.Pricing[0].expiration_date
+      // this.menu_product_id=menu.product_id
+      // this.menu_pricing_id=menu.Pricing[0].pricing_id
 
       menu.list_items.forEach(item=>{
       this.tags.push({name: item.list_item,code: item.list_item.substring(0, 2) + Math.floor((Math.random() * 10000000))})
@@ -1147,6 +1209,83 @@ export default {
       } else {
           this.openNotificationWithIcon('error',data.user_message)
       }
+
+    },
+    async UpdateMenu(menus){
+      // console.log(menus)
+    menus.list_items=[]
+     menus.Pricing[0].effective_date=moment(menus.Pricing[0].effective_date).format("YYYY/MM/DD"),
+     menus.Pricing[0].expiration_date=moment(menus.Pricing[0].expiration_date).format("YYYY/MM/DD")
+     for (let men_tag of this.tags) {
+            menus.list_items.push({ list_item: men_tag.name });
+      }
+
+      console.log(menus)
+      let { data } = await ListingRepository.update_pricing(menus);
+      if (data.success == true) {
+          this.openNotificationWithIcon('success',data.user_message)
+          this.fetchPricings()
+      } else {
+          this.openNotificationWithIcon('error',data.user_message)
+      }
+
+      // let activated_timing=this.timings.find(timing_item=>timing_item.is_active==true)
+      // this.pricing_obj.Pricing = [];
+      // this.pricing_obj.name = this.menu_title;
+      // this.pricing_obj.product_type = "menu";
+      // this.pricing_obj.entity_id = this.listing.entity_id;
+      // this.pricing_obj.list_items=[]
+      // this.pricing_obj.list_items_exist=true
+      // this.pricing_obj.is_waivable = this.menu_is_waivable;
+      // this.pricing_obj.is_required = this.menu_is_required;
+      // this.pricing_obj.applicable_on_less_than = this.menu_waive_off_at;
+
+      // let temp_price_obj = {
+      //   hours:1,
+      //   effective_date:moment(this.menu_effective_date).format("YYYY/MM/DD"),
+      //   expiration_date:moment(this.menu_expiration_date).format("YYYY/MM/DD"),
+      //   monday:this.menu_price_pp,
+      //   tuesday:this.menu_price_pp,
+      //   wednesday:this.menu_price_pp,
+      //   thursday:this.menu_price_pp,
+      //   friday:this.menu_price_pp,
+      //   saturday:this.menu_price_pp,
+      //   sunday:this.menu_price_pp,
+      //   rate:this.menu_price_pp,
+      //   rate_calculation:activated_timing.slot
+      // };
+      // this.pricing_obj.Pricing.push(temp_price_obj);
+      // if(this.update){
+      //     for (let men_tag of this.tags) {
+      //       this.pricing_obj.list_items.push({ list_item: men_tag.name });
+      //     }
+      //   this.pricing_obj.Pricing[0].pricing_id=this.menu_pricing_id,
+      //   this.pricing_obj.Pricing[0].product_id=this.menu_product_id,
+      //   this.pricing_obj.product_id=this.menu_product_id
+      //   let { data } = await ListingRepository.update_pricing(this.pricing_obj);
+      //       if (data.success == true) {
+                // this.openNotificationWithIcon('success',data.user_message)
+      //           this.fetchPricings()
+      //           this.menu_visible=false
+      //       } else {
+      //           this.openNotificationWithIcon('error',data.user_message)
+      //           this.menu_visible=false
+      //       }
+      // }
+      // else{
+      //     for (let men_tag of this.menu_tags) {
+      //     this.pricing_obj.list_items.push({ list_item: men_tag.name });
+      //     }
+      //     let { data } = await ListingRepository.add_new_pricing(this.pricing_obj);
+      //       if (data.success == true) {
+                // this.openNotificationWithIcon('success',data.user_message)
+      //           this.fetchPricings()
+      //           this.menu_visible=false
+      //       } else {
+      //           this.openNotificationWithIcon('error',data.user_message)
+      //           this.menu_visible=false
+      //       }
+      // }
 
     },
     async addMenu() {
