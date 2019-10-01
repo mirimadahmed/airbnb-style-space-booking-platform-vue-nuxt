@@ -162,7 +162,6 @@
 
               </a-table>
             </div>
-            <!-- <h1 class="heading mt-4">Pricing</h1> -->
             <div class="row" style="margin-top:10px;" v-if="timings.length>0">
               <div class="col-md-12">
                   <b-card class="mb-4" :title="'Space Rent  ' + slot_render    ">                        
@@ -171,18 +170,34 @@
                               <b-card class="mb-12"  style="border:none;">
                                  <div class="row">
                                     <div class="col-md-3">
-                                       <b-form-group label="Rent">
+                                       <b-form-group label="Space Rent">
                                           <b-form-input v-model="base_price.base_rent" type="text" />
                                        </b-form-group>
                                     </div>
                                     <div class="col-md-3">
                                        <b-form-group label="Effective Date">
-                                          <b-form-input  v-model="base_price.effective_date" type="date"  />
+                                          <!-- <b-form-input  v-model="base_price.effective_date" type="date"  /> -->
+                                          <date-picker
+                                              placeholder="mm/dd/yy"
+                                              v-model="base_price.effective_date"
+                                              input-class="form-control h-100 border-0 rounded-0"
+                                              class="form-control p-0"
+                                              :lang="lang"
+                                              :not-before="new Date()"
+                                            />
                                        </b-form-group>
                                     </div>
                                     <div class="col-md-3">
                                        <b-form-group label="Expiry Date">
-                                          <b-form-input  v-model="base_price.expiration_date" type="date"  />
+                                          <!-- <b-form-input  v-model="base_price.expiration_date" type="date"  /> -->
+                                          <date-picker
+                                              placeholder="mm/dd/yy"
+                                              v-model="base_price.expiration_date"
+                                              input-class="form-control h-100 border-0 rounded-0"
+                                              class="form-control p-0"
+                                              :lang="lang"
+                                              :not-before="new Date()"
+                                            />
                                        </b-form-group>
                                     </div>
                                      <div class="col-md-3">
@@ -207,7 +222,7 @@
                         <div class="row">
                            <div  class="col-md-12">
                               <!-- @click="saveAddOns()" -->
-                              <b-button v-if="!basePriceExists" @click="saveBasePrice()" style="margin-left:10px;" size="sm"  class="button mt-4 pull-right">Save Price</b-button>
+                              <b-button v-if="!basePriceExists" @click="saveBasePrice()" style="margin-left:10px;" size="sm"  class="button mt-4 pull-right">Save</b-button>
                               <b-button v-else @click="updateBasePrice()" style="margin-left:10px;" size="sm"  class="mt-4 pull-right button">Update</b-button>
 
                            </div>
@@ -216,42 +231,56 @@
                </div>
                <div class="col-md-12">
                  <!--  -->
-                  <b-card class="mb-4" title="Add-Ons" >
-                     <b-card class="mb-4" style="border:none;">
-                        <div class="row" >
-                           <div class="col-md-6">
-                               <b-button @click="fillAddOnFields('',null,0)" class="mb-2" size="sm" style="border:none;background-color: #dea22a;">
-                                    <span style="color:white"><font-awesome-icon icon="plus" :style="{ color: 'white' }"  />  Add </span> 
-                                 </b-button>
-                           </div>
-                        </div> 
-                        <!-- v-for="addon_field_item in pricings" v-if="addon_field_item.product_type=='addons'" v-bind:key="addon_field_item.key" -->
-                        <div class="row" >
+                 <div class="row">
+               <div class="col-md-6">
+                  <h1 class="heading">Add-Ons</h1>
+                  </div>
+                  <div class="col-md-6">
+                      <button class="button pull-right" @click="fillAddOnFields('',null,0)" style="margin-bottom:5px;"  >Add</button>
+                  </div>
+                </div>
+                  <b-card class="mb-4"  >
+                    <div v-if="addon_field_item.new_addon==true || addon_field_item.name!=null" class="row" >
                            <div class="col-md-12" >
-                              <b-card class="mb-12" :title="addon_field_item.name">
+                              <b-card class="mb-12" style="border:none;">
                                  <div class="row">
-                                    <div class="col-md-3">
+                                    <div class="col-md-2">
                                        <b-form-group label="AddOn Title">
                                           <b-form-input placeholder="e.g. Heating" v-model="addon_field_item.name" type="text" />
                                        </b-form-group>
                                     </div>
-                                    <div class="col-md-3">
+                                    <div class="col-md-2">
                                        <b-form-group label="Base Rent">
                                           <b-form-input v-model="addon_field_item.Pricing[0].rate" type="number" />
                                        </b-form-group>
                                     </div>
-                                    <div class="col-md-2">
+                                    <div class="col-md-2.5">
                                        <b-form-group  label="Effective Date">
-                                          <b-form-input v-model="addon_field_item.Pricing[0].effective_date" type="date"/>
+                                          <!-- <b-form-input v-model="addon_field_item.Pricing[0].effective_date" type="date"/> -->
+                                            <date-picker
+                                              placeholder="mm/dd/yy"
+                                              v-model="addon_field_item.Pricing[0].effective_date"
+                                              input-class="form-control h-100 border-0 rounded-0"
+                                              class="form-control p-0"
+                                              :lang="lang"
+                                              :not-before="new Date()"
+                                            />
                                        </b-form-group>
-
                                     </div>
                                     <div class="col-md-2">
                                        <b-form-group label="Expiry Date">
-                                          <b-form-input v-model="addon_field_item.Pricing[0].expiration_date"   type="date"  />
+                                          <!-- <b-form-input v-model="addon_field_item.Pricing[0].expiration_date"   type="date"  /> -->
+                                            <date-picker
+                                              placeholder="mm/dd/yy"
+                                              v-model="addon_field_item.Pricing[0].expiration_date"
+                                              input-class="form-control h-100 border-0 rounded-0"
+                                              class="form-control p-0"
+                                              :lang="lang"
+                                              :not-before="new Date()"
+                                            />
                                        </b-form-group>
                                     </div>
-                                    <div class="col-md-2">
+                                    <div class="offset-md-1 col-md-2">
                                        <b-form-group  label="Is Required">
                                           <b-form-checkbox v-model="addon_field_item.is_required" name="check-button" switch></b-form-checkbox >
                                        </b-form-group>
@@ -278,9 +307,9 @@
                               </b-card>
                            </div>
                         </div>
-                        <div class="row" v-if="getAddons.length">
+                        <div class="row" >
                            <div class="col-md-12" >
-                              <a-table v-if="timings.length>0" :columns="addon_options" :dataSource="getAddons">
+                              <a-table v-if="timings.length>0" :locale="{emptyText:'No Add-Ons found. Click add to create new Add-On'}" :columns="addon_options" :dataSource="getAddons">
                                     <span slot="is_waivable" slot-scope="text">{{text=='true' ? 'Yes':'No'}}</span>
                                     <span slot="is_required" slot-scope="text">{{text=='true' ? 'Yes':'No'}}</span>
                                     <span slot="applicable_on_less_than" slot-scope="text">{{text}}</span>
@@ -297,7 +326,7 @@
                               <!-- <b-button  style="margin-left:10px;" size="sm" variant="primary" class="mt-4 pull-right">Save Price</b-button> -->
                            </div>
                         </div>
-                     </b-card>
+                     <!-- </b-card> -->
                   </b-card>
                </div>
                <div class="col-md-12">
@@ -307,15 +336,15 @@
                            <b-card class="mb-4" title="Create New Menu">
                               <div class="row">
                                  <div class="col-md-12">
-                                    <b-form-group label="Menu Items">
-                                        <multiselect v-model="menu_tags" tag-placeholder="Add this as new tag" placeholder="Add Menu items" label="name" track-by="code" :options="options" :multiple="true" :taggable="true" @tag="addTag"></multiselect>
+                                    <b-form-group label="Menu Title"> 
+                                        <a-input v-model="menu_title" placeholder="Buffet Storm"/>
                                     </b-form-group>
                                  </div>
                               </div>
                               <div class="row">
                                  <div class="col-md-12">
-                                    <b-form-group label="Menu Title"> 
-                                        <a-input v-model="menu_title" placeholder="Buffet Storm"/>
+                                    <b-form-group label="Menu Items">
+                                        <multiselect v-model="menu_tags" tag-placeholder="Add this as new tag" placeholder="Add Menu items" label="name" track-by="code" :options="options" :multiple="true" :taggable="true" @tag="addTag"></multiselect>
                                     </b-form-group>
                                  </div>
                               </div>
@@ -329,14 +358,30 @@
                               <div class="row">
                                  <div class="col-md-12">
                                     <b-form-group label="Effective Date"> 
-                                        <a-input  v-model="menu_effective_date" type="date" placeholder="200"/>
+                                        <!-- <a-input  v-model="menu_effective_date" type="date" placeholder="200"/> -->
+                                        <date-picker
+                                          placeholder="mm/dd/yy"
+                                          v-model="menu_effective_date"
+                                          input-class="form-control h-100 border-0 rounded-0"
+                                          class="form-control p-0"
+                                          :lang="lang"
+                                          :not-before="new Date()"
+                                        />
                                     </b-form-group>
                                  </div>
                               </div>
                               <div class="row">
                                  <div class="col-md-12">
                                     <b-form-group label="Expiration Date"> 
-                                          <a-input  v-model="menu_expiration_date" type="date" placeholder="200"/>
+                                          <!-- <a-input  v-model="menu_expiration_date" type="date" placeholder="200"/> -->
+                                          <date-picker
+                                          placeholder="mm/dd/yy"
+                                          v-model="menu_expiration_date"
+                                          input-class="form-control h-100 border-0 rounded-0"
+                                          class="form-control p-0"
+                                          :lang="lang"
+                                          :not-before="new Date()"
+                                        />
                                     </b-form-group>
                                  </div>
                               </div>
@@ -406,7 +451,7 @@
                type="primary"
                @click="$message.success('Processing complete!');viewListings()"
                >Go to Home</button>
-            <button class="button pull-left" v-if="current>0 && current!=4" style="margin-left: 8px" @click="prev">Previous</button>
+            <button class="button pull-left" v-if="current>0 && current!=4"  style="margin-left: 8px" @click="prev" >Previous</button>
             <button
                class="button"
                v-if="current < steps.length - 1"
@@ -500,7 +545,15 @@
                   <h6 >Effective Date</h6>
                </div>
                <div class="col-md-6">
-                <a-input  v-model="menu_effective_date" type="date" placeholder="200"/>
+                <!-- <a-input  v-model="menu_effective_date" type="date" placeholder="200"/> -->
+                <date-picker
+                  placeholder="mm/dd/yy"
+                  v-model="menu_effective_date"
+                  input-class="form-control h-100 border-0 rounded-0"
+                  class="form-control p-0"
+                  :lang="lang"
+                  :not-before="new Date()"
+                />
                </div>
             </div>
             <div class="row new-time">
@@ -508,7 +561,15 @@
                   <h6>Expiration Date</h6>
                </div>
                <div class="col-md-6">
-                <a-input  v-model="menu_expiration_date" type="date" placeholder="200"/>
+                <!-- <a-input  v-model="menu_expiration_date" type="date" placeholder="200"/> -->
+                <date-picker
+                  placeholder="mm/dd/yy"
+                  v-model="menu_expiration_date"
+                  input-class="form-control h-100 border-0 rounded-0"
+                  class="form-control p-0"
+                  :lang="lang"
+                  :not-before="new Date()"
+                />
                </div>
             </div>
          </a-modal>
@@ -526,6 +587,33 @@ export default {
   middleware: "auth",
   data() {
     return {
+      lang: {
+        days: ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"],
+        months: [
+          "Jan",
+          "Feb",
+          "Mar",
+          "Apr",
+          "May",
+          "Jun",
+          "Jul",
+          "Aug",
+          "Sep",
+          "Oct",
+          "Nov",
+          "Dec"
+        ],
+        pickers: [
+          "next 7 days",
+          "next 30 days",
+          "previous 7 days",
+          "previous 30 days"
+        ],
+        placeholder: {
+          date: "Select Date",
+          dateRange: "Select Date Range"
+        }
+      },
       NewfeaturedImage:0,
       country:{country:'pk'},
       menu_tags: [],
@@ -537,12 +625,12 @@ export default {
           rate: 0,
           }
         ],
-        name: '',
+        name: null,
         is_required: false,
         is_waivable: false,
         applicable_on_less_than: 0,
         product_type:'addons',
-        new_addon:true
+        new_addon:false
       },
       timing_options : [{
       title: 'Time Start',
@@ -788,8 +876,8 @@ export default {
 
       let temp_price_obj = {
         hours:1,
-        effective_date:this.base_price.expiration_date.replace(/-/g, "/"),
-        expiration_date:this.base_price.expiration_date.replace(/-/g, "/"),
+        effective_date:moment(this.base_price.effective_date).format("YYYY/MM/DD"),
+        expiration_date:moment(this.base_price.expiration_date).format("YYYY/MM/DD"),
         monday:this.base_price.base_rent,
         tuesday:this.base_price.base_rent,
         wednesday:this.base_price.base_rent,
@@ -953,7 +1041,7 @@ export default {
       this.isLoading = false;
     },
     async saveBasePrice () {
-      
+
       let activated_timing=this.timings.find(timing_item=>timing_item.is_active==true)
       this.pricing_obj.Pricing = [];
       this.pricing_obj.name = "Base Price";
@@ -965,8 +1053,8 @@ export default {
 
       let temp_price_obj = {
         hours:1,
-        effective_date:this.base_price.expiration_date.replace(/-/g, "/"),
-        expiration_date:this.base_price.expiration_date.replace(/-/g, "/"),
+        effective_date:moment(this.base_price.effective_date).format("YYYY/MM/DD"),
+        expiration_date:moment(this.base_price.expiration_date).format("YYYY/MM/DD"),
         monday:this.base_price.base_rent,
         tuesday:this.base_price.base_rent,
         wednesday:this.base_price.base_rent,
@@ -1001,8 +1089,8 @@ export default {
 
       let temp_price_obj = {
         hours:1,
-        effective_date:this.addon_field_item.Pricing[0].effective_date.replace(/-/g, "/"),
-        expiration_date:this.addon_field_item.Pricing[0].expiration_date.replace(/-/g, "/"),
+        effective_date:moment(this.addon_field_item.Pricing[0].effective_date).format("YYYY/MM/DD"),
+        expiration_date:moment(this.addon_field_item.Pricing[0].expiration_date).format("YYYY/MM/DD"),
         monday:this.addon_field_item.Pricing[0].rate,
         tuesday:this.addon_field_item.Pricing[0].rate,
         wednesday:this.addon_field_item.Pricing[0].rate,
@@ -1038,8 +1126,8 @@ export default {
 
       let temp_price_obj = {
         hours:1,
-        effective_date:this.addon_field_item.Pricing[0].effective_date.replace(/-/g, "/"),
-        expiration_date:this.addon_field_item.Pricing[0].expiration_date.replace(/-/g, "/"),
+        effective_date:moment(this.addon_field_item.Pricing[0].effective_date).format("YYYY/MM/DD"),
+        expiration_date:moment(this.addon_field_item.Pricing[0].expiration_date).format("YYYY/MM/DD"),
         monday:this.addon_field_item.Pricing[0].rate,
         tuesday:this.addon_field_item.Pricing[0].rate,
         wednesday:this.addon_field_item.Pricing[0].rate,
@@ -1055,7 +1143,7 @@ export default {
       if (data.success == true) {
           // this.openNotificationWithIcon('success',data.user_message)
           this.fetchPricings()
-          this.fillAddOnFields('Demo',null,0)
+          this.fillAddOnFields('',null,0)
       } else {
           this.openNotificationWithIcon('error',data.user_message)
       }
@@ -1075,8 +1163,8 @@ export default {
 
       let temp_price_obj = {
         hours:1,
-        effective_date:this.menu_effective_date.replace(/-/g, "/"),
-        expiration_date:this.menu_expiration_date.replace(/-/g, "/"),
+        effective_date:moment(this.menu_effective_date).format("YYYY/MM/DD"),
+        expiration_date:moment(this.menu_expiration_date).format("YYYY/MM/DD"),
         monday:this.menu_price_pp,
         tuesday:this.menu_price_pp,
         wednesday:this.menu_price_pp,
