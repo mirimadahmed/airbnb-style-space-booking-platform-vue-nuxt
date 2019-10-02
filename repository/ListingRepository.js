@@ -6,6 +6,10 @@ const products_resource ='products/'
 const top_venues_resource ='top_spaces/type/'
 
 export default {
+  deleteMenu (payload_id) {
+    return Repository.delete(`delete_entity_dnr/${payload_id}`)
+
+  },
   getTopVenues(payload_id) {
     return Repository.get(`${top_venues_resource}${payload_id}`);
   },
