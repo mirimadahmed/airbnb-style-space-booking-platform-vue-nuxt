@@ -19,7 +19,7 @@
             <div class="col-md-2" v-if="entity.Entity.latitude">Map</div>
           </div>-->
           <div class="row fields px-4">
-            <div class="col-md-12 shadow mb-4">
+            <div class="col-md-12 shadow-sm mb-4">
               <div class="row">
                 <b-carousel
                   id="carousel-1"
@@ -32,20 +32,26 @@
                   style="text-shadow: 1px 1px 2px #333;"
                 >
                   <!-- Text slides with image -->
-                  <b-carousel-slide
-                    v-for="(image, i) in entity.Entity.images"
-                    :key="i"
-                    :img-src="image"
-                  ></b-carousel-slide>
+                  <b-carousel-slide v-for="(image, i) in entity.Entity.images" :key="i">
+                    <template v-slot:img>
+                      <img
+                        class="d-block img-fluid w-100"
+                        width="1024"
+                        height="480"
+                        :src="image"
+                        alt="image slot"
+                      />
+                    </template>
+                  </b-carousel-slide>
                 </b-carousel>
               </div>
             </div>
-            <div class="col-md-12 shadow mb-4 p-4 text-left">
+            <div class="col-md-12 shadow-sm mb-4 p-4 text-left">
               <h1 class="heading">{{ entity.Entity.name }}</h1>
               <p class="address">{{ entity.Entity.address }}</p>
               <p class="description">{{ entity.Entity.description }}</p>
             </div>
-            <div class="col-md-12 shadow mb-4">
+            <div class="col-md-12 shadow-sm mb-4">
               <div class="row mb-0">
                 <p
                   class="col-md-3 mb-0 py-4 feature"
@@ -55,7 +61,7 @@
                 >{{ amenity.name }}</p>
               </div>
             </div>
-            <div class="col-md-12 shadow mb-4">
+            <div class="col-md-12 shadow-sm mb-4">
               <div class="row mb-0">
                 <p
                   class="col-md-3 mb-0 py-4 feature"
@@ -71,22 +77,22 @@
               </div>
             </div>
 
-            <div class="col-md-12 shadow p-0 map-field" v-if="entity.Entity.latitude">
-              <!-- <GmapMap
+            <div class="col-md-12 shadow-sm p-0 map-field" v-if="entity.Entity.latitude">
+              <GmapMap
                 :center="{lat:entity.Entity.latitude, lng:entity.Entity.longitude}"
                 :zoom="17"
                 map-type-id="terrain"
-                class="col-md-12"
+                class="col-md-12 h-100"
               >
                 <GmapMarker :position="{lat:entity.Entity.latitude, lng:entity.Entity.longitude}" />
-              </GmapMap>-->
+              </GmapMap>
             </div>
           </div>
         </div>
         <div class="col-md-4">
           <div class="sidebar-item">
             <div class="make-me-sticky text-left">
-              <div class="row shadow">
+              <div class="row shadow-sm">
                 <div class="col-md-12 p-4">
                   <h1 class="heading">{{ msg }}</h1>
                 </div>
@@ -133,7 +139,7 @@
                   <button class="request-booking" @click="send">SEND</button>
                 </div>
               </div>
-              <div class="row shadow text-center py-3 mt-3 px-4">
+              <div class="row shadow-sm text-center py-3 mt-3 px-4">
                 <social-sharing
                   url="https://vuejs.org/"
                   title="The Progressive JavaScript Framework"
