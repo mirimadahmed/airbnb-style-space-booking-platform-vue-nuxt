@@ -1,23 +1,21 @@
 <template>
-  <div class="company shadow" @click="viewDetails">
-    <div class="row image-area">
-      <img class="col-md-12 px-3" :src="company.featured_image" />
-    </div>
-    <div class="row text-left p-3">
-      <h3 class="col-md-12 title mb-2">{{ company.name }}</h3>
-      <p class="col-md-12 address mb-2">{{ company.address }}</p>
-      <div class="col-md-12 mb-2">
-        <StarRating :value="3.5" :noOfRatings="40" />
-      </div>
-      <div class="col-md-6">
-        <button class="details-button" @click="viewDetails">VIEW DETAILS</button>
-      </div>
-      <div class="col-md-6 row text-right mx-0 px-0">
-        <div class="col-md-12 amount">Rs. 500</div>
-        <div class="col-md-12 per">/ person</div>
-      </div>
-    </div>
-  </div>
+  <b-card
+    :title="company.name"
+    :img-src="company.featured_image"
+    img-alt="Image"
+    img-top
+    tag="article"
+    style="max-width: 20rem;"
+    class="mb-2 text-left"
+    border-variant="light"
+  >
+    <b-card-text>
+      {{ company.address }}
+      <StarRating :value="3.5" :noOfRatings="40" />
+    </b-card-text>
+
+    <b-button class="details-button" variant="primary" @click="viewDetails">VIEW DETAILS</b-button>
+  </b-card>
 </template>
 
 <script>
