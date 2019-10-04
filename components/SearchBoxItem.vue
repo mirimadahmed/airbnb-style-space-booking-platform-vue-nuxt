@@ -2,7 +2,7 @@
   <div>
     <div class="middle-wrapper col-md-12">
       <div class="heading">
-        <h1 class="d-none d-md-block">What do you want to host today?</h1>
+        <h1 class="d-none d-md-block">Spacesly - Book Spaces Easily</h1>
       </div>
       <b-tabs class="text-center search d-none d-md-block" v-model="tabIndex">
         <b-tab title="Wedding" :title-link-class="linkClass(0)" class="tab-item" active>
@@ -464,11 +464,45 @@ export default {
   border-right: 1px solid grey;
 }
 .search-button {
-  background: linear-gradient(#ff4d78, #fa7649);
+   background: linear-gradient(#ff4d78, #fa7649);
   font-weight: 600;
   border: none;
   font-size: 14px;
   width: 100%;
   height: 100%;
+
+  position: relative;
+  /* background-color: #4CAF50; */
+  border: none;
+  /* font-size: 28px; */
+  color: #FFFFFF;
+  /* padding: 20px; */
+  /* width: 200px; */
+  text-align: center;
+  -webkit-transition-duration: 0.4s; /* Safari */
+  transition-duration: 0.4s;
+  text-decoration: none;
+  overflow: hidden;
+  cursor: pointer;
+}
+
+.search-button:after {
+  content: "";
+   background: linear-gradient(#ff4d78, #fa7649);
+  display: block;
+  position: absolute;
+  padding-top: 300%;
+  padding-left: 350%;
+  margin-left: -20px!important;
+  margin-top: -120%;
+  opacity: 0;
+  transition: all 0.8s
+}
+
+.search-button:active:after {
+  padding: 0;
+  margin: 0;
+  opacity: 1;
+  transition: 0s
 }
 </style>

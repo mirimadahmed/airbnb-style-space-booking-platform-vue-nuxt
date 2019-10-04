@@ -2,24 +2,24 @@ import Vue from 'vue'
 import Router from 'vue-router'
 import { interopDefault } from './utils'
 
-const _4227bb6b = () => interopDefault(import('../pages/About.vue' /* webpackChunkName: "pages/About" */))
-const _0363374c = () => interopDefault(import('../pages/Bookings.vue' /* webpackChunkName: "pages/Bookings" */))
-const _31fa33c8 = () => interopDefault(import('../pages/Calander.vue' /* webpackChunkName: "pages/Calander" */))
-const _727932d2 = () => interopDefault(import('../pages/ChangeLog.vue' /* webpackChunkName: "pages/ChangeLog" */))
-const _53168f3a = () => interopDefault(import('../pages/eventsia.vue' /* webpackChunkName: "pages/eventsia" */))
-const _642b14ea = () => interopDefault(import('../pages/MySpaces.vue' /* webpackChunkName: "pages/MySpaces" */))
-const _c8205f86 = () => interopDefault(import('../pages/Partners.vue' /* webpackChunkName: "pages/Partners" */))
-const _9e612734 = () => interopDefault(import('../pages/Privacy.vue' /* webpackChunkName: "pages/Privacy" */))
-const _61cada07 = () => interopDefault(import('../pages/Profile.vue' /* webpackChunkName: "pages/Profile" */))
-const _6e05e868 = () => interopDefault(import('../pages/ResetPassword.vue' /* webpackChunkName: "pages/ResetPassword" */))
-const _52f49d43 = () => interopDefault(import('../pages/ResultDetails.vue' /* webpackChunkName: "pages/ResultDetails" */))
-const _8ace0fc6 = () => interopDefault(import('../pages/search/index.vue' /* webpackChunkName: "pages/search/index" */))
-const _f45bed8c = () => interopDefault(import('../pages/Search.vue' /* webpackChunkName: "pages/Search" */))
-const _d2162640 = () => interopDefault(import('../pages/Signup_Verification.vue' /* webpackChunkName: "pages/Signup_Verification" */))
-const _0bdd5465 = () => interopDefault(import('../pages/Terms.vue' /* webpackChunkName: "pages/Terms" */))
-const _ba34c498 = () => interopDefault(import('../pages/addspace/_permalink.vue' /* webpackChunkName: "pages/addspace/_permalink" */))
-const _2b251360 = () => interopDefault(import('../pages/index.vue' /* webpackChunkName: "pages/index" */))
-const _5426e5e1 = () => interopDefault(import('../pages/_permalink/index.vue' /* webpackChunkName: "pages/_permalink/index" */))
+const _22ca975e = () => interopDefault(import('..\\pages\\About.vue' /* webpackChunkName: "pages_About" */))
+const _2b7cf279 = () => interopDefault(import('..\\pages\\Bookings.vue' /* webpackChunkName: "pages_Bookings" */))
+const _5a13eef5 = () => interopDefault(import('..\\pages\\Calander.vue' /* webpackChunkName: "pages_Calander" */))
+const _4d96dd45 = () => interopDefault(import('..\\pages\\ChangeLog.vue' /* webpackChunkName: "pages_ChangeLog" */))
+const _02e318e0 = () => interopDefault(import('..\\pages\\eventsia.vue' /* webpackChunkName: "pages_eventsia" */))
+const _13f79e90 = () => interopDefault(import('..\\pages\\MySpaces.vue' /* webpackChunkName: "pages_MySpaces" */))
+const _77ece92c = () => interopDefault(import('..\\pages\\Partners.vue' /* webpackChunkName: "pages_Partners" */))
+const _17a9d0ce = () => interopDefault(import('..\\pages\\Privacy.vue' /* webpackChunkName: "pages_Privacy" */))
+const _b5b2f58c = () => interopDefault(import('..\\pages\\Profile.vue' /* webpackChunkName: "pages_Profile" */))
+const _56d9bd4a = () => interopDefault(import('..\\pages\\ResetPassword.vue' /* webpackChunkName: "pages_ResetPassword" */))
+const _8cfc5394 = () => interopDefault(import('..\\pages\\ResultDetails.vue' /* webpackChunkName: "pages_ResultDetails" */))
+const _c8bd61ca = () => interopDefault(import('..\\pages\\search\\index.vue' /* webpackChunkName: "pages_search_index" */))
+const _8ceaa8b2 = () => interopDefault(import('..\\pages\\Search.vue' /* webpackChunkName: "pages_Search" */))
+const _997b38da = () => interopDefault(import('..\\pages\\Signup_Verification.vue' /* webpackChunkName: "pages_Signup_Verification" */))
+const _26ff9f50 = () => interopDefault(import('..\\pages\\Terms.vue' /* webpackChunkName: "pages_Terms" */))
+const _5ecee8e0 = () => interopDefault(import('..\\pages\\addspace\\_permalink.vue' /* webpackChunkName: "pages_addspace__permalink" */))
+const _69df5b7a = () => interopDefault(import('..\\pages\\index.vue' /* webpackChunkName: "pages_index" */))
+const _47d56857 = () => interopDefault(import('..\\pages\\_permalink\\index.vue' /* webpackChunkName: "pages__permalink_index" */))
 
 Vue.use(Router)
 
@@ -97,75 +97,75 @@ export function createRouter() {
 
     routes: [{
       path: "/About",
-      component: _4227bb6b,
+      component: _22ca975e,
       name: "About"
     }, {
       path: "/Bookings",
-      component: _0363374c,
+      component: _2b7cf279,
       name: "Bookings"
     }, {
       path: "/Calander",
-      component: _31fa33c8,
+      component: _5a13eef5,
       name: "Calander"
     }, {
       path: "/ChangeLog",
-      component: _727932d2,
+      component: _4d96dd45,
       name: "ChangeLog"
     }, {
       path: "/eventsia",
-      component: _53168f3a,
+      component: _02e318e0,
       name: "eventsia"
     }, {
       path: "/MySpaces",
-      component: _642b14ea,
+      component: _13f79e90,
       name: "MySpaces"
     }, {
       path: "/Partners",
-      component: _c8205f86,
+      component: _77ece92c,
       name: "Partners"
     }, {
       path: "/Privacy",
-      component: _9e612734,
+      component: _17a9d0ce,
       name: "Privacy"
     }, {
       path: "/Profile",
-      component: _61cada07,
+      component: _b5b2f58c,
       name: "Profile"
     }, {
       path: "/ResetPassword",
-      component: _6e05e868,
+      component: _56d9bd4a,
       name: "ResetPassword"
     }, {
       path: "/ResultDetails",
-      component: _52f49d43,
+      component: _8cfc5394,
       name: "ResultDetails"
     }, {
       path: "/search",
-      component: _8ace0fc6,
+      component: _c8bd61ca,
       name: "search"
     }, {
       path: "/Search",
-      component: _f45bed8c,
+      component: _8ceaa8b2,
       name: "Search"
     }, {
       path: "/Signup_Verification",
-      component: _d2162640,
+      component: _997b38da,
       name: "Signup_Verification"
     }, {
       path: "/Terms",
-      component: _0bdd5465,
+      component: _26ff9f50,
       name: "Terms"
     }, {
       path: "/addspace/:permalink?",
-      component: _ba34c498,
+      component: _5ecee8e0,
       name: "addspace-permalink"
     }, {
       path: "/",
-      component: _2b251360,
+      component: _69df5b7a,
       name: "index"
     }, {
       path: "/:permalink",
-      component: _5426e5e1,
+      component: _47d56857,
       name: "permalink"
     }],
 

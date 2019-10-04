@@ -1,7 +1,13 @@
 <template>
   <div id="search-bar" class="border-bottom">
     <div class="form row p-2" inline>
-      <div class="col-md-2">
+      <div class="col-md-1.5">
+        <b-form-input class="border" list="my-list-id" placeholder="What are you planning?" v-model="query.type"></b-form-input>
+        <datalist id="my-list-id">
+          <option v-for="(type, i) in types" :key="i">{{ type }}</option>
+        </datalist>
+      </div>
+      <div class="col-md-1.5">
         <b-form-input
           class="border"
           list="my-list-id2"
@@ -12,7 +18,7 @@
           <option v-for="(what, i) in whats" :key="i">{{ what }}</option>
         </datalist>
       </div>
-      <div class="col-md-2">
+      <div class="col-md-1.5">
         <no-ssr>
           <date-picker
             placeholder="When?"
@@ -24,10 +30,10 @@
           />
         </no-ssr>
       </div>
-      <div class="col-md-2">
+      <div class="col-md-1.5">
         <b-input class="border" id="search" placeholder="Where?" v-model="query.where" />
       </div>
-      <div class="col-md-2">
+      <div class="col-md-1.5">
         <b-input
           id="capacity"
           class="border"
@@ -37,7 +43,7 @@
           v-model="query.count"
         />
       </div>
-      <div class="col-md-2"></div>
+      <div class="col-md-1.5"></div>
       <div class="col-md-2">
         Show Map
         <a-switch defaultChecked v-model="mapOn" />

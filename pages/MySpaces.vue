@@ -14,16 +14,32 @@
             itemLayout="horizontal"
             :dataSource="listings"
           >
-            <a-list-item slot="renderItem" slot-scope="item, index">
-              <a slot="actions" :href="`/addspace/${item.Entity.permalink}`">edit</a>
+            <a-list-item 
+             class="shadow"
+             style="margin-top:15px;
+             padding:14px;
+             border:20x;
+             border-color: #dcdcdc;"
+             slot="renderItem" slot-scope="item, index">
+              <a slot="actions" :href="`/addspace/${item.Entity.permalink}`">
+              <i class="fa fa-pencil" aria-hidden="true"></i>
+              </a>
               <a
                 v-if="item.Entity.status === 'approved'"
                 slot="actions"
                 :href="`/${item.Entity.permalink}`"
               >view</a>
-              <a slot="actions" @click="deleteListing(item.Entity.permalink)">delete</a>
-              <a-list-item-meta :description="item.Entity.description">
+              <a slot="actions" @click="deleteListing(item.Entity.permalink)">
+                <i class="fa fa-trash-o" style="color:red;" aria-hidden="true"></i>
+              </a>
+              <a-list-item-meta>
                 <a slot="title">{{item.Entity.name}}</a>
+                <a-avatar slot="avatar" :src="item.Entity.featured_image" />
+                 <b-badge v-if="item.Entity.status=='pending'" slot="description" variant="warning">{{item.Entity.status}}</b-badge>
+                 <b-badge v-else-if="item.Entity.status=='submitted'" slot="description" variant="primary">{{item.Entity.status}}</b-badge>
+                 <b-badge v-else-if="item.Entity.status=='approved'" slot="description" variant="success">{{item.Entity.status}}</b-badge>
+                 <p slot="description">{{item.Entity.description}}</p>
+                <a-progress slot="description" :percent="find_percentage(item.Entity)" size="small" /> 
               </a-list-item-meta>
             </a-list-item>
           </a-list>
@@ -43,13 +59,20 @@ export default {
     };
   },
   computed: {
-    ...mapGetters(["listings", "user"])
+    ...mapGetters(["listings", "user"]),
   },
   middleware: "auth",
   created() {
     this.fetch();
   },
   methods: {
+     find_percentage(item) {
+      let percentg=75
+      if(item.timings_conf.length>0) {
+        percentg=percentg+25
+      }
+      return percentg;
+    },
     async fetch() {
       this.isLoading = true;
       const { data } = await ListingRepository.getAll(this.user.company_id);
