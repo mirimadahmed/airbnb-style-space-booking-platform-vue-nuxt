@@ -85,7 +85,7 @@ export default {
       return height1 + height2;
     },
     itemsClass() {
-      return this.mapOn ? "col-md-6" : "col-md-4";
+      return this.mapOn ? "col-md-4" : "col-md-3";
     },
     outerClass() {
       return this.mapOn ? "col-md-7" : "col-md-12";
