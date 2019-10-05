@@ -1,5 +1,6 @@
 <template>
   <b-card
+    @click="viewDetails"
     :title="company.name"
     :img-src="company.featured_image"
     img-alt="Image"
@@ -10,11 +11,9 @@
     border-variant="light"
   >
     <b-card-text>
-      {{ company.address }}
+      {{ address }}
       <StarRating :value="3.5" :noOfRatings="40" />
     </b-card-text>
-
-    <b-button class="details-button" variant="primary" @click="viewDetails">VIEW DETAILS</b-button>
   </b-card>
 </template>
 
@@ -33,6 +32,14 @@ export default {
   methods: {
     viewDetails() {
       this.$router.push({ path: "/" + this.company.permalink });
+    }
+  },
+  computed: {
+    address() {
+      let addressWords = this.company.address.split(" ");
+      return addressWords.length > 5
+        ? addressWords.slice(0, 6).concat(" ") + "..."
+        : this.company.address;
     }
   }
 };
