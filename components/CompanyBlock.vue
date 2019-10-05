@@ -36,9 +36,10 @@ export default {
   },
   computed: {
     address() {
-      let addressWords = this.company.address.split(" ");
+      const withouCommaAddress = this.company.address.replace(/,/g, "");
+      let addressWords = withouCommaAddress.split(" ");
       return addressWords.length > 5
-        ? addressWords.slice(0, 6).concat(" ") + "..."
+        ? addressWords.slice(0, 4).join(" ") + " ..."
         : this.company.address;
     }
   }
