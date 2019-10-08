@@ -43,7 +43,6 @@ export default {
   border: none !important;
   font-weight: 500;
   padding-left: 10px;
-  
 }
 
 .button {
@@ -67,17 +66,17 @@ export default {
   position: absolute;
   padding-top: 300%;
   padding-left: 350%;
-  margin-left: -20px!important;
+  margin-left: -20px !important;
   margin-top: -120%;
   opacity: 0;
-  transition: all 0.8s
+  transition: all 0.8s;
 }
 
 .subscribe-button:active:after {
   padding: 0;
   margin: 0;
   opacity: 1;
-  transition: 0s
+  transition: 0s;
 }
 
 button:focus {
@@ -155,5 +154,9 @@ button:focus {
 }
 .bg-five:hover {
   background: #139ffd !important;
+}
+
+.lingallery {
+  margin: 0px auto;
 }
 </style>

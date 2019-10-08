@@ -20,6 +20,7 @@ import nuxt_plugin_datepicker_4a26849c from 'nuxt_plugin_datepicker_4a26849c' //
 import nuxt_plugin_vuefullcalendar_4a313802 from 'nuxt_plugin_vuefullcalendar_4a313802' // Source: ../plugins/vue-full-calendar (mode: 'client')
 import nuxt_plugin_runner_3db9ebb4 from 'nuxt_plugin_runner_3db9ebb4' // Source: ../plugins/runner (mode: 'client')
 import nuxt_plugin_ga_fb0a2534 from 'nuxt_plugin_ga_fb0a2534' // Source: ../plugins/ga.js (mode: 'client')
+import nuxt_plugin_lingallery_0076bf97 from 'nuxt_plugin_lingallery_0076bf97' // Source: ../plugins/lingallery (mode: 'client')
 
 // Component: <NoSsr>
 Vue.component(NoSsr.name, NoSsr)
@@ -189,6 +190,10 @@ async function createApp(ssrContext) {
 
   if (process.client && typeof nuxt_plugin_ga_fb0a2534 === 'function') {
     await nuxt_plugin_ga_fb0a2534(app.context, inject)
+  }
+
+  if (process.client && typeof nuxt_plugin_lingallery_0076bf97 === 'function') {
+    await nuxt_plugin_lingallery_0076bf97(app.context, inject)
   }
 
   // If server-side, wait for async component to be resolved first

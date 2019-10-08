@@ -5,42 +5,22 @@
       <rect x="220" y="10" rx="4" ry="4" width="70" height="100" />
     </vue-content-loading>
     <div v-else-if="entity">
-      <div class="row p-5 m-0 main-wrapper">
-        <div class="col-md-8">
-          <div class="row m-0 fields px-4">
-            <div class="col-md-12 shadow-sm mb-4">
-              <div class="row m-0">
-                <b-carousel
-                  id="carousel-1"
-                  :interval="4000"
-                  controls
-                  indicators
-                  background="#ababab"
-                  img-width="1024"
-                  img-height="480"
-                  style="text-shadow: 1px 1px 2px #333;"
-                >
-                  <!-- Text slides with image -->
-                  <b-carousel-slide v-for="(image, i) in entity.Entity.images" :key="i">
-                    <template v-slot:img>
-                      <img
-                        class="d-block img-fluid w-100"
-                        width="1024"
-                        height="480"
-                        :src="image"
-                        alt="image slot"
-                      />
-                    </template>
-                  </b-carousel-slide>
-                </b-carousel>
+      <div class="row p-2 m-0 main-wrapper">
+        <div class="col-md-8 p-2">
+          <div class="row m-0 fields">
+            <div class="col-md-12 mb-4 text-center">
+              <div class="row m-0 w-100 text-center">
+                <no-ssr>
+                  <lingallery class="w-100 text-center" :items="slides" />
+                </no-ssr>
               </div>
             </div>
-            <div class="col-md-12 shadow-sm mb-4 p-4 text-left">
+            <div class="col-md-12 mb-4 p-4 text-left">
               <h1 class="heading">{{ entity.Entity.name }}</h1>
               <p class="address">{{ entity.Entity.address }}</p>
               <p class="description">{{ entity.Entity.description }}</p>
             </div>
-            <div class="col-md-12 shadow-sm mb-4">
+            <div class="col-md-12 mb-4">
               <div class="row m-0">
                 <p
                   class="col-md-3 mb-0 py-4 feature"
@@ -50,7 +30,7 @@
                 >{{ amenity.name }}</p>
               </div>
             </div>
-            <div class="col-md-12 shadow-sm mb-4">
+            <div class="col-md-12 mb-4">
               <div class="row m-0">
                 <p
                   class="col-md-3 mb-0 py-4 feature"
@@ -66,8 +46,17 @@
               </div>
             </div>
 
-            <div class="col-md-12 shadow-sm p-0 map-field" v-if="entity.Entity.latitude">
+            <div class="col-md-12 p-0 map-field" v-if="entity.Entity.latitude">
               <GmapMap
+                :options="{
+                zoomControl: true,
+                mapTypeControl: false,
+                scaleControl: false,
+                streetViewControl: false,
+                rotateControl: false,
+                fullscreenControl: false,
+                disableDefaultUi: false
+              }"
                 :center="{lat:entity.Entity.latitude, lng:entity.Entity.longitude}"
                 :zoom="17"
                 map-type-id="terrain"
@@ -81,7 +70,7 @@
         <div class="col-md-4">
           <div class="sidebar-item">
             <div class="make-me-sticky text-left">
-              <div class="row shadow-sm m-0">
+              <div class="row m-0">
                 <div class="col-md-12 p-4">
                   <h1 class="heading">{{ msg }}</h1>
                 </div>
@@ -101,7 +90,7 @@
                     :disabled="isRequestLoading"
                   ></b-form-input>
                 </div>
-                <div class="col-md-12 shadow-sm px-0">
+                <div class="col-md-12 px-0">
                   <b-form-input
                     placeholder="Contact Name"
                     v-model="request.name"
@@ -128,7 +117,7 @@
                   <button class="request-booking" @click="send">SEND</button>
                 </div>
               </div>
-              <div class="row shadow-sm text-center py-3 mx-0 mt-3 px-4">
+              <div class="row text-center py-3 mx-0 mt-3 px-4">
                 <social-sharing
                   url="https://vuejs.org/"
                   title="The Progressive JavaScript Framework"
@@ -189,7 +178,8 @@ export default {
         email: null,
         status: "s"
       },
-      entity: null
+      entity: null,
+      slides: []
     };
   },
   created() {
@@ -204,6 +194,9 @@ export default {
       );
       this.isLoading = false;
       this.entity = data;
+      this.slides = this.entity.Entity.images.map((img, index) => {
+        return { id: index, src: img, thumbnail: img };
+      });
       this.request.entity_id = data.Entity.entity_id;
     },
     async send() {

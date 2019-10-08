@@ -36,7 +36,7 @@ export default {
     'ant-design-vue/dist/antd.css'
   ],
   /*
-  ** Plugins to load before mounting the App 
+  ** Plugins to load before mounting the App
   */
   plugins: [
     '~/plugins/fontawesome.js',
@@ -46,7 +46,8 @@ export default {
     { src: '~/plugins/datepicker', ssr: false },
     { src: '~/plugins/vue-full-calendar', ssr: false },
     { src: '~/plugins/runner', ssr: false },
-    { src: '~plugins/ga.js', ssr: false }
+    { src: '~plugins/ga.js', ssr: false },
+    { src: '~/plugins/lingallery', ssr: false }
 
   ],
   /*
