@@ -50,7 +50,7 @@ export default {
     return FileRepository.post('file_upload/', form);
   },
   createTimeSlots(timeslot) {
-    return Repository.post(`${resource}/${timeslot.entity_id}/timings_conf/`, timeslot)
+    return Repository.post(`${resource}${timeslot.entity_id}/timings_conf/`, timeslot)
   },
   getLocations(coordinates) {
     //my api AIzaSyCEDDvJ8f9sb6oSid0pahWvhQlGmdxlMTM
@@ -58,7 +58,7 @@ export default {
     return Repository.get(`https://maps.google.com/maps/api/geocode/json?latlng=${coordinates.lat},${coordinates.lng}&key=AIzaSyCUqW52AXRmuPzQghI877RFrjXHTxCjfkE`)
   },
   changeTimeSlots(timeslot) {
-    return Repository.put(`${resource}/${timeslot.entity_id}/timings_conf/`+timeslot.config_id)
+    return Repository.put(`${resource}${timeslot.entity_id}/timings_conf/`+timeslot.config_id)
   },
   newListing(new_entity) {
     return Repository.post(`${resource}`, new_entity)
