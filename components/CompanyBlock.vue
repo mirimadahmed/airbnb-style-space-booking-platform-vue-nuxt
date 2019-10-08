@@ -6,7 +6,7 @@
     img-top
     tag="article"
     style="max-width: 20rem;"
-    class="mb-2 text-left"
+    class="mb-2 text-left pointer-setup"
     border-variant="light"
   >
     <b-card-title class="title">{{company.name}}</b-card-title>
@@ -38,6 +38,9 @@ export default {
 </script>
 
 <style scoped>
+.pointer-setup {
+  cursor: pointer;
+}
 .title {
   overflow: hidden;
   white-space: nowrap;

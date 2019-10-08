@@ -35,9 +35,18 @@
           </div>
           <div v-if="mapOn" class="col-md-5 h-100 p-0">
             <GmapMap
+              :options="{
+                zoomControl: true,
+                mapTypeControl: false,
+                scaleControl: false,
+                streetViewControl: false,
+                rotateControl: false,
+                fullscreenControl: false,
+                disableDefaultUi: false
+              }"
               :center="{lat: companies[0].latitude, lng: companies[0].longitude}"
-              :zoom="20"
-              map-type-id="terrain"
+              :zoom="13"
+              map-type-id="roadmap"
               class="col-md-12 h-100 p-0"
               ref="mapRef"
             >
@@ -134,17 +143,6 @@ export default {
       const { data } = await SearchRepository.get(queryStr);
       this.isLoading = false;
       this.companies = data.results;
-      var bounds = new window.google.maps.LatLngBounds();
-      this.companies.map(company =>
-        bounds.extend({
-          lat: company.latitude,
-          lng: company.longitude
-        })
-      );
-      this.$refs.mapRef.$mapPromise.then(map => {
-        map.fitBounds(bounds);
-        map.setCenter(bounds.getCenter());
-      });
       this.nextLink = data.links.next;
       this.total = data.count;
     },
