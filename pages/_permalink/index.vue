@@ -5,22 +5,11 @@
       <rect x="220" y="10" rx="4" ry="4" width="70" height="100" />
     </vue-content-loading>
     <div v-else-if="entity">
-      <div class="row">
-        <div class="col-md-12"></div>
-      </div>
-
-      <div class="row p-5 mr-0 main-wrapper">
+      <div class="row p-5 m-0 main-wrapper">
         <div class="col-md-8">
-          <!-- <div class="row nav">
-            <div class="col-md-2">Photos</div>
-            <div class="col-md-2">Overview</div>
-            <div class="col-md-2">Amneties</div>
-            <div class="col-md-2">Features</div>
-            <div class="col-md-2" v-if="entity.Entity.latitude">Map</div>
-          </div>-->
-          <div class="row fields px-4">
+          <div class="row m-0 fields px-4">
             <div class="col-md-12 shadow-sm mb-4">
-              <div class="row">
+              <div class="row m-0">
                 <b-carousel
                   id="carousel-1"
                   :interval="4000"
@@ -52,7 +41,7 @@
               <p class="description">{{ entity.Entity.description }}</p>
             </div>
             <div class="col-md-12 shadow-sm mb-4">
-              <div class="row mb-0">
+              <div class="row m-0">
                 <p
                   class="col-md-3 mb-0 py-4 feature"
                   v-for="amenity in entity.CustomFields.Amenities"
@@ -62,7 +51,7 @@
               </div>
             </div>
             <div class="col-md-12 shadow-sm mb-4">
-              <div class="row mb-0">
+              <div class="row m-0">
                 <p
                   class="col-md-3 mb-0 py-4 feature"
                   v-for="feature in entity.CustomFields.Features"
@@ -92,7 +81,7 @@
         <div class="col-md-4">
           <div class="sidebar-item">
             <div class="make-me-sticky text-left">
-              <div class="row shadow-sm">
+              <div class="row shadow-sm m-0">
                 <div class="col-md-12 p-4">
                   <h1 class="heading">{{ msg }}</h1>
                 </div>
@@ -139,7 +128,7 @@
                   <button class="request-booking" @click="send">SEND</button>
                 </div>
               </div>
-              <div class="row shadow-sm text-center py-3 mt-3 px-4">
+              <div class="row shadow-sm text-center py-3 mx-0 mt-3 px-4">
                 <social-sharing
                   url="https://vuejs.org/"
                   title="The Progressive JavaScript Framework"
@@ -149,7 +138,7 @@
                   twitter-user="vuejs"
                   inline-template
                 >
-                  <div class="row">
+                  <div class="row m-0">
                     <div class="col-md-12 py-2 mb-2 font-weight-bold share-msg">Share on</div>
                     <network network="facebook" class="col-md-4">
                       <i class="fa fa-facebook"></i> Facebook
@@ -308,5 +297,10 @@ export default {
   padding: 10px 50px;
   font-size: 16px;
   color: white;
+}
+
+.carousel-inner > .item > img {
+  width: 100%;
+  height: 208px;
 }
 </style>

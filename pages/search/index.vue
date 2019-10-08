@@ -35,11 +35,18 @@
           </div>
           <div v-if="mapOn" class="col-md-5 h-100 p-0">
             <GmapMap
-              :center="{lat:33.684422, lng:73.047882}"
-              :zoom="17"
+              :center="{lat: companies[0].latitude, lng: companies[0].longitude}"
+              :zoom="20"
               map-type-id="terrain"
               class="col-md-12 h-100 p-0"
-            ></GmapMap>
+              ref="mapRef"
+            >
+              <GmapMarker
+                :key="index"
+                v-for="(m, index) in companies"
+                :position="{lat: m.latitude, lng: m.longitude}"
+              />
+            </GmapMap>
           </div>
         </div>
       </div>
@@ -85,7 +92,7 @@ export default {
       return height1 + height2;
     },
     itemsClass() {
-      return this.mapOn ? "col-md-4" : "col-md-3";
+      return this.mapOn ? "col-md-6" : "col-md-3";
     },
     outerClass() {
       return this.mapOn ? "col-md-7" : "col-md-12";
@@ -127,6 +134,17 @@ export default {
       const { data } = await SearchRepository.get(queryStr);
       this.isLoading = false;
       this.companies = data.results;
+      var bounds = new window.google.maps.LatLngBounds();
+      this.companies.map(company =>
+        bounds.extend({
+          lat: company.latitude,
+          lng: company.longitude
+        })
+      );
+      this.$refs.mapRef.$mapPromise.then(map => {
+        map.fitBounds(bounds);
+        map.setCenter(bounds.getCenter());
+      });
       this.nextLink = data.links.next;
       this.total = data.count;
     },

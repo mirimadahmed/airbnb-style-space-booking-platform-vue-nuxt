@@ -1,7 +1,6 @@
 <template>
   <b-card
     @click="viewDetails"
-    :title="company.name"
     :img-src="company.featured_image"
     img-alt="Image"
     img-top
@@ -10,8 +9,9 @@
     class="mb-2 text-left"
     border-variant="light"
   >
-    <b-card-text>
-      {{ address }}
+    <b-card-title class="title">{{company.name}}</b-card-title>
+    <b-card-text class="address">
+      {{ company.address }}
       <StarRating :value="3.5" :noOfRatings="40" />
     </b-card-text>
   </b-card>
@@ -33,50 +33,24 @@ export default {
     viewDetails() {
       this.$router.push({ path: "/" + this.company.permalink });
     }
-  },
-  computed: {
-    address() {
-      const withouCommaAddress = this.company.address.replace(/,/g, "");
-      let addressWords = withouCommaAddress.split(" ");
-      return addressWords.length > 5
-        ? addressWords.slice(0, 4).join(" ") + " ..."
-        : this.company.address;
-    }
   }
 };
 </script>
 
 <style scoped>
-.amount {
-  font-weight: 600;
-  font-size: 18px;
-  color: #54a0ff;
-}
-.per {
-  font-weight: 400;
-  font-size: 14px;
-}
-.image-area {
-  height: 60%;
-}
-.company {
-  width: 100%;
-  height: 400px;
-}
 .title {
-  font-weight: 500;
-  font-size: 20px;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  width: 100%;
+  font-size: 18px;
+  font-weight: 400;
+  font-family: Avenir-Heavy, "Helvetica Neue", Helvetica, Arial, sans-serif;
 }
 .address {
-  font-weight: 300;
-  font-size: 12px;
-}
-.details-button {
-  background: linear-gradient(#ff4d78, #fa7649);
-  border: 1px solid #ff4d78;
-  font-size: 12px;
-  padding: 10px 20px;
-  color: white;
-  font-weight: 600;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  width: 100%;
 }
 </style>

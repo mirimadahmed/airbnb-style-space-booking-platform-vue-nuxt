@@ -1,7 +1,6 @@
 <template>
   <div v-if="noOfRatings > 0">
     <a-rate v-model="value" disabled allowHalf />
-    <span class="ant-rate-text">({{ noOfRatings }})</span>
   </div>
 </template>
 
