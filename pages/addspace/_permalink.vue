@@ -505,50 +505,6 @@
                     </div>
                 </div>
             </a-modal>
-            <a-modal @ok="addMenu" @cancel="update=false" :width="620" okText="Save" title="New Menu" v-model="menu_visible">
-                <div class="row new-time">
-                    <div class="col-md-6">
-                        <h6>Menu Title</h6>
-                    </div>
-                    <div class="col-md-6">
-                        <a-input v-model="menu_title" placeholder="Buffet Storm" />
-                    </div>
-                </div>
-                <div class="row new-time">
-                    <div class="col-md-6">
-                        <h6>Provide Menu Items</h6>
-                    </div>
-                    <div class="col-md-6">
-                        <multiselect v-model="tags" tag-placeholder="Add this as new tag" placeholder="Search or add a tag" label="name" track-by="code" :options="options" :multiple="true" :taggable="true" @tag="addTag"></multiselect>
-                    </div>
-                </div>
-                <div class="row new-time">
-                    <div class="col-md-6">
-                        <h6>Price per Person</h6>
-                    </div>
-                    <div class="col-md-6">
-                        <a-input type="number" v-model="menu_price_pp" placeholder="200" />
-                    </div>
-                </div>
-                <div class="row new-time">
-                    <div class="col-md-6">
-                        <h6>Effective Date</h6>
-                    </div>
-                    <div class="col-md-6">
-                        <!-- <a-input  v-model="menu_effective_date" type="date" placeholder="200"/> -->
-                        <date-picker placeholder="mm/dd/yy" v-model="menu_effective_date" input-class="form-control h-100 border-0 rounded-0" class="form-control p-0" :lang="lang" :not-before="new Date()" />
-                    </div>
-                </div>
-                <div class="row new-time">
-                    <div class="col-md-6">
-                        <h6>Expiration Date</h6>
-                    </div>
-                    <div class="col-md-6">
-                        <!-- <a-input  v-model="menu_expiration_date" type="date" placeholder="200"/> -->
-                        <date-picker placeholder="mm/dd/yy" v-model="menu_expiration_date" input-class="form-control h-100 border-0 rounded-0" class="form-control p-0" :lang="lang" :not-before="new Date()" />
-                    </div>
-                </div>
-            </a-modal>
 
         </div>
     </div>
@@ -851,42 +807,47 @@ export default {
       this.$router.push({ path: "/myspaces"  });
     },
     async updateBasePrice() {
-      
-     let activated_timing=this.timings.find(timing_item=>timing_item.is_active==true)
-      this.pricing_obj.Pricing = [];
-      this.pricing_obj.name = "Base Price";
-      this.pricing_obj.product_type = "baseprice";
-      this.pricing_obj.entity_id = this.listing.entity_id;
-      this.pricing_obj.is_waivable = this.base_price.is_waivable;
-      this.pricing_obj.is_required = this.base_price.is_required;
-      this.pricing_obj.product_id=this.base_price.product_id
-      this.pricing_obj.applicable_on_less_than = this.base_price.waive_off_at;
+      if(this.base_price.base_rent!='' && this.base_price.effective_date!=null && this.base_price.expiration_date!=null){
+          let activated_timing=this.timings.find(timing_item=>timing_item.is_active==true)
+          this.pricing_obj.Pricing = [];
+          this.pricing_obj.name = "Base Price";
+          this.pricing_obj.product_type = "baseprice";
+          this.pricing_obj.entity_id = this.listing.entity_id;
+          this.pricing_obj.is_waivable = this.base_price.is_waivable;
+          this.pricing_obj.is_required = this.base_price.is_required;
+          this.pricing_obj.product_id=this.base_price.product_id
+          this.pricing_obj.applicable_on_less_than = this.base_price.waive_off_at;
 
-      let temp_price_obj = {
-        hours:1,
-        effective_date:moment(this.base_price.effective_date).format("YYYY/MM/DD"),
-        expiration_date:moment(this.base_price.expiration_date).format("YYYY/MM/DD"),
-        monday:this.base_price.base_rent,
-        tuesday:this.base_price.base_rent,
-        wednesday:this.base_price.base_rent,
-        thursday:this.base_price.base_rent,
-        product_id:this.base_price.product_id,
-        pricing_id:this.base_price.pricing_id,
-        friday:this.base_price.base_rent,
-        saturday:this.base_price.base_rent,
-        sunday:this.base_price.base_rent,
-        rate:this.base_price.base_rent,
-        rate_calculation:activated_timing.slot
-      };
-      this.pricing_obj.Pricing.push(temp_price_obj);
+          let temp_price_obj = {
+            hours:1,
+            effective_date:moment(this.base_price.effective_date).format("YYYY/MM/DD"),
+            expiration_date:moment(this.base_price.expiration_date).format("YYYY/MM/DD"),
+            monday:this.base_price.base_rent,
+            tuesday:this.base_price.base_rent,
+            wednesday:this.base_price.base_rent,
+            thursday:this.base_price.base_rent,
+            product_id:this.base_price.product_id,
+            pricing_id:this.base_price.pricing_id,
+            friday:this.base_price.base_rent,
+            saturday:this.base_price.base_rent,
+            sunday:this.base_price.base_rent,
+            rate:this.base_price.base_rent,
+            rate_calculation:activated_timing.slot
+          };
+          this.pricing_obj.Pricing.push(temp_price_obj);
 
-     let { data } = await ListingRepository.update_pricing(this.pricing_obj);
-      if (data.success == true) {
-          // this.openNotificationWithIcon('success',data.user_message)
-      } else {
-          this.openNotificationWithIcon('error',data.user_message)
+         let { data } = await ListingRepository.update_pricing(this.pricing_obj);
+          if (data.success == true) {
+            // this.openNotificationWithIcon('success',data.user_message)
+          } else {
+              this.openNotificationWithIcon('error',data.user_message)
+          }
+
       }
-
+      else{
+        this.openNotificationWithIcon('error','Make sure to fill in Space rent and respective Dates')
+      }
+    
     },
     setSelectedMenu (menu,doUpdate) {
       this.options=[]
@@ -901,7 +862,7 @@ export default {
       // this.menu_expiration_date=menu.Pricing[0].expiration_date
       // this.menu_product_id=menu.product_id
       // this.menu_pricing_id=menu.Pricing[0].pricing_id
-
+      console.log(menu)
       menu.list_items.forEach(item=>{
       this.tags.push({name: item.list_item,code: item.list_item.substring(0, 2) + Math.floor((Math.random() * 10000000))})
       })
@@ -1031,6 +992,7 @@ export default {
       this.isLoading = false;
     },
     async saveBasePrice () {
+    if(this.base_price.base_rent!='' && this.base_price.effective_date!=null && this.base_price.expiration_date!=null){
 
       let activated_timing=this.timings.find(timing_item=>timing_item.is_active==true)
       this.pricing_obj.Pricing = [];
@@ -1059,11 +1021,14 @@ export default {
 
       let { data } = await ListingRepository.add_new_pricing(this.pricing_obj);
       if (data.success == true) {
-          // this.openNotificationWithIcon('success',data.user_message)
           this.fetchPricings()
       } else {
           this.openNotificationWithIcon('error',data.user_message)
       }
+    }
+    else{
+        this.openNotificationWithIcon('error','Make sure to fill in Space rent and respective Dates')
+    }
 
     },
     async updateAddons () {
@@ -1139,6 +1104,7 @@ export default {
 
     },
     async UpdateMenu(menus){
+    if(menus.name!='' && this.tags.length>0 && menus.Pricing[0].rate!='' && menus.Pricing[0].effective_date!=null && menus.Pricing[0].expiration_date!=null){
      menus.list_items=[]
      menus.Pricing[0].effective_date=moment(menus.Pricing[0].effective_date).format("YYYY/MM/DD"),
      menus.Pricing[0].expiration_date=moment(menus.Pricing[0].expiration_date).format("YYYY/MM/DD")
@@ -1146,80 +1112,70 @@ export default {
             menus.list_items.push({ list_item: men_tag.name });
       }
 
-      console.log(menus)
       let { data } = await ListingRepository.update_pricing(menus);
       if (data.success == true) {
           this.fetchPricings()
       } else {
           this.openNotificationWithIcon('error',data.user_message)
       }
+    }
+    else{
+          this.openNotificationWithIcon('error','Make sure to fill in all fields before updating'+menus.name)
+    }
+
 
     },
     async addMenu() {
-      let activated_timing=this.timings.find(timing_item=>timing_item.is_active==true)
-      this.pricing_obj.Pricing = [];
-      this.pricing_obj.name = this.menu_title;
-      this.pricing_obj.product_type = "menu";
-      this.pricing_obj.entity_id = this.listing.entity_id;
-      this.pricing_obj.list_items=[]
-      this.pricing_obj.list_items_exist=true
-      this.pricing_obj.is_waivable = this.menu_is_waivable;
-      this.pricing_obj.is_required = this.menu_is_required;
-      this.pricing_obj.applicable_on_less_than = this.menu_waive_off_at;
+        if(this.menu_title!=null && this.menu_price_pp!=null && this.menu_effective_date!=null && this.menu_expiration_date!=null){
+            let activated_timing=this.timings.find(timing_item=>timing_item.is_active==true)
+            this.pricing_obj.Pricing = [];
+            this.pricing_obj.name = this.menu_title;
+            this.pricing_obj.product_type = "menu";
+            this.pricing_obj.entity_id = this.listing.entity_id;
+            this.pricing_obj.list_items=[]
+            this.pricing_obj.list_items_exist=true
+            this.pricing_obj.is_waivable = this.menu_is_waivable;
+            this.pricing_obj.is_required = this.menu_is_required;
+            this.pricing_obj.applicable_on_less_than = this.menu_waive_off_at;
 
-      let temp_price_obj = {
-        hours:1,
-        effective_date:moment(this.menu_effective_date).format("YYYY/MM/DD"),
-        expiration_date:moment(this.menu_expiration_date).format("YYYY/MM/DD"),
-        monday:this.menu_price_pp,
-        tuesday:this.menu_price_pp,
-        wednesday:this.menu_price_pp,
-        thursday:this.menu_price_pp,
-        friday:this.menu_price_pp,
-        saturday:this.menu_price_pp,
-        sunday:this.menu_price_pp,
-        rate:this.menu_price_pp,
-        rate_calculation:activated_timing.slot
-      };
-      this.pricing_obj.Pricing.push(temp_price_obj);
-      if(this.update){
-          for (let men_tag of this.tags) {
+            let temp_price_obj = {
+            hours:1,
+            effective_date:moment(this.menu_effective_date).format("YYYY/MM/DD"),
+            expiration_date:moment(this.menu_expiration_date).format("YYYY/MM/DD"),
+            monday:this.menu_price_pp,
+            tuesday:this.menu_price_pp,
+            wednesday:this.menu_price_pp,
+            thursday:this.menu_price_pp,
+            friday:this.menu_price_pp,
+            saturday:this.menu_price_pp,
+            sunday:this.menu_price_pp,
+            rate:this.menu_price_pp,
+            rate_calculation:activated_timing.slot
+            };
+            this.pricing_obj.Pricing.push(temp_price_obj);
+            for (let men_tag of this.menu_tags) {
             this.pricing_obj.list_items.push({ list_item: men_tag.name });
-          }
-        this.pricing_obj.Pricing[0].pricing_id=this.menu_pricing_id,
-        this.pricing_obj.Pricing[0].product_id=this.menu_product_id,
-        this.pricing_obj.product_id=this.menu_product_id
-        let { data } = await ListingRepository.update_pricing(this.pricing_obj);
+            }
+            let { data } = await ListingRepository.add_new_pricing(this.pricing_obj);
             if (data.success == true) {
-                // this.openNotificationWithIcon('success',data.user_message)
+                this.openNotificationWithIcon('success',data.user_message)
                 this.fetchPricings()
                 this.menu_visible=false
             } else {
                 this.openNotificationWithIcon('error',data.user_message)
                 this.menu_visible=false
             }
-      }
-      else{
-          for (let men_tag of this.menu_tags) {
-          this.pricing_obj.list_items.push({ list_item: men_tag.name });
-          }
-          let { data } = await ListingRepository.add_new_pricing(this.pricing_obj);
-            if (data.success == true) {
-                // this.openNotificationWithIcon('success',data.user_message)
-                this.fetchPricings()
-                this.menu_visible=false
-            } else {
-                this.openNotificationWithIcon('error',data.user_message)
-                this.menu_visible=false
-            }
-      }
-      this.update=false
-      this.menu_title = null;
-      this.tags = [];
-      this.menu_tags=[]
-      this.menu_effective_date=null,
-      this.menu_expiration_date=null;
-      this.menu_price_pp = null;
+            this.update=false
+            this.menu_title = null;
+            this.tags = [];
+            this.menu_tags=[]
+            this.menu_effective_date=null,
+            this.menu_expiration_date=null;
+            this.menu_price_pp = null;
+           }
+        else{
+        this.openNotificationWithIcon('error','Fill in all fields before creating menu')
+        }
     },
     async getCusotmFields() {
       // this.isLoading = true;
