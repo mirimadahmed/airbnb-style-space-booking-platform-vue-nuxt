@@ -21,7 +21,8 @@
               <p class="description">{{ entity.Entity.description }}</p>
             </div>
             <div class="col-md-12 mb-4">
-              <div class="row m-0">
+              <div class="row m-0 text-left">
+                <p class="col-md-12 font-weight-bold">Amenities</p>
                 <p
                   class="col-md-3 mb-0 py-4 feature"
                   v-for="amenity in entity.CustomFields.Amenities"
@@ -31,10 +32,11 @@
               </div>
             </div>
             <div class="col-md-12 mb-4">
-              <div class="row m-0">
+              <div class="row m-0 text-left">
+                <p class="col-md-12 font-weight-bold">Activities</p>
                 <p
                   class="col-md-3 mb-0 py-4 feature"
-                  v-for="feature in entity.CustomFields.Features"
+                  v-for="feature in entity.CustomFields.Activities"
                   :key="feature.cfd_id"
                   :class="feature.field_type === 'boolean' && feature.value === 'False' ? 'inactive-feature' : 'active-feature'"
                 >
