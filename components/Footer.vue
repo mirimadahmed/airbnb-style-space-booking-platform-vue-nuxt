@@ -28,18 +28,19 @@
           </li>
         </ul>
       </div>
-      <div class="col-md-3">
-        <a
-          target="_blank"
-          style="color:rgba(0, 0, 0, 0.85);"
-          href="http://www.serics.com"
-        >
-      Powered by Serics Global</a>
-      </div>
+      <div class="col-md-3"></div>
     </div>
     <div class="row" style="text-align:center;">
       <div class="col-md-12">
-       <p> Designed & Developed with  <i class="fa fa-heart" aria-hidden="true"></i>  by Serics Technologies </p>
+        <p>
+          Designed & Developed with
+          <i class="fa fa-heart" aria-hidden="true"></i> by
+          <a
+            target="_blank"
+            style="color:white;"
+            href="http://www.serics.com"
+          >Serics Technologies</a>
+        </p>
       </div>
     </div>
   </div>
@@ -69,14 +70,14 @@ export default {
 .wrapper {
   color: white;
   padding: 10px;
-    background: #343840;
-    margin-left: 0px !important;
-    margin-right: 0px !important;
-    background: #343840;
-    border-top: 0.5px solid rgba(189, 189, 189, 0.637);
-    margin-top: 200px;
-    /* margin-bottom: 0px; */
-    padding-top: 30px;
+  background: #343840;
+  margin-left: 0px !important;
+  margin-right: 0px !important;
+  background: #343840;
+  border-top: 0.5px solid rgba(189, 189, 189, 0.637);
+  margin-top: 200px;
+  /* margin-bottom: 0px; */
+  padding-top: 30px;
 }
 .contact,
 .copy,
