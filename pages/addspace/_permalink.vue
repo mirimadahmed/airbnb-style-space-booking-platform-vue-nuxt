@@ -163,7 +163,7 @@
                                                             </a-tooltip>
                                                         </legend>
                                                         <div tabindex="-1" role="group">
-                                                           <date-picker placeholder="mm/dd/yy" v-model="base_price.expiration_date" input-class="form-control h-100 border-0 rounded-0" class="form-control p-0" :lang="lang" :not-before="new Date()" />
+                                                           <date-picker placeholder="mm/dd/yy" v-model="base_price.expiration_date" input-class="form-control h-100 border-0 rounded-0" class="form-control p-0" :lang="lang" :not-before="base_price.effective_date!=null ? base_price.effective_date:new Date()" />
                                                         </div>
                                                   </fieldset>
                                                     <!-- <b-form-group label="Expiry Date"> -->
@@ -264,7 +264,7 @@
                                                             </a-tooltip>
                                                         </legend>
                                                         <div tabindex="-1" role="group">
-                                                          <date-picker placeholder="mm/dd/yy" v-model="addon_field_item.Pricing[0].expiration_date" input-class="form-control h-100 border-0 rounded-0" class="form-control p-0" :lang="lang" :not-before="new Date()" />
+                                                          <date-picker placeholder="mm/dd/yy" v-model="addon_field_item.Pricing[0].expiration_date" input-class="form-control h-100 border-0 rounded-0" class="form-control p-0" :lang="lang" :not-before="addon_field_item.Pricing[0].effective_date!=null ?addon_field_item.Pricing[0].effective_date : new Date()" />
                                                         </div>
                                                     </fieldset>
                                                 </div>
@@ -368,7 +368,7 @@
                                                 <div class="col-md-12">
                                                     <b-form-group label="Expiration Date">
                                                         <!-- <a-input  v-model="menu_expiration_date" type="date" placeholder="200"/> -->
-                                                        <date-picker placeholder="mm/dd/yy" v-model="menu_expiration_date" input-class="form-control h-100 border-0 rounded-0" class="form-control p-0" :lang="lang" :not-before="new Date()" />
+                                                        <date-picker placeholder="mm/dd/yy" v-model="menu_expiration_date" input-class="form-control h-100 border-0 rounded-0" class="form-control p-0" :lang="lang" :not-before="menu_effective_date !=null ? menu_effective_date : new Date()" />
                                                     </b-form-group>
                                                 </div>
                                             </div>
