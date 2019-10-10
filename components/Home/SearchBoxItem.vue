@@ -35,7 +35,6 @@
               </no-ssr>
             </div>
             <div class="col-md-3 item-wrapper">
-              <!-- <b-input id="search" placeholder="Where?" v-model="query.where" /> -->
               <gmap-autocomplete id="search" class="form-control" placeholder="Where?"></gmap-autocomplete>
             </div>
             <div class="col-md-2 item-wrapper last-tab">
@@ -133,7 +132,6 @@
               </no-ssr>
             </div>
             <div class="col-md-2 item-wrapper">
-              <!-- <b-input id="search" placeholder="Where?" v-model="query.where" /> -->
               <gmap-autocomplete id="search" class="form-control" placeholder="Where?"></gmap-autocomplete>
             </div>
             <div class="col-md-3 item-wrapper last-tab">
@@ -180,7 +178,6 @@
               </no-ssr>
             </div>
             <div class="col-md-3 item-wrapper">
-              <!-- <b-input id="search" placeholder="Where?" v-model="query.where" /> -->
               <gmap-autocomplete id="search" class="form-control" placeholder="Where?"></gmap-autocomplete>
             </div>
             <div class="col-md-2 item-wrapper last-tab">
@@ -218,7 +215,6 @@
               </no-ssr>
             </div>
             <div class="col-md-4 item-wrapper last-tab">
-              <!-- <b-input id="search" placeholder="Where?" v-model="query.where" /> -->
               <gmap-autocomplete id="search" class="form-control" placeholder="Where?"></gmap-autocomplete>
             </div>
             <div class="col-md-2 item-wrapper last-tab">
@@ -249,7 +245,6 @@
         </no-ssr>
       </div>
       <div class="col-sm-12 py-3 phone-item shadow-sm">
-        <!-- <b-input id="search" placeholder="Where?" v-model="query.where" /> -->
         <gmap-autocomplete id="search" class="form-control" placeholder="Where?"></gmap-autocomplete>
       </div>
       <div class="col-sm-12 py-3 phone-item shadow-sm">
@@ -360,7 +355,7 @@ export default {
           break;
       }
       this.query.type = type;
-      let path = "/search?type=" + this.query.type;
+      let path = "/search/type=" + this.query.type;
       if (this.query.what) path = path + "&activity=" + this.query.what;
       if (this.query.when) {
         this.query.when = moment(this.query.when).format("YYYY-MM-DD");

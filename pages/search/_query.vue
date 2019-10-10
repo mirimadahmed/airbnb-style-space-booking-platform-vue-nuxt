@@ -22,7 +22,7 @@
         <div class="row px-0 h-100 mx-0">
           <div :class="outerClass" class="h-100 overflow-auto">
             <div class="row">
-              <div class="col-md-12 text-left">
+              <div class="col-md-12 text-left pt-3 font-weight-bold">
                 <p>showing {{ currentTotal }} of total {{ total }} spaces</p>
               </div>
             </div>
@@ -64,8 +64,8 @@
 </template>
 <script>
 import VueContentLoading from "vue-content-loading";
-import SearchBar from "@/components/SearchBar.vue";
-import Filters from "@/components/Filters.vue";
+import SearchBar from "@/components/Search/SearchBar.vue";
+import Filters from "@/components/Search/Filters.vue";
 import CompanyBlock from "@/components/CompanyBlock.vue";
 import { RepositoryFactory } from "@/repository/RepositoryFactory";
 const SearchRepository = RepositoryFactory.get("search");
@@ -84,7 +84,7 @@ export default {
       companies: [],
       nextLink: "",
       mapOn: true,
-      query: null,
+      query: {},
       total: 0,
       window: {
         width: 0,
@@ -111,7 +111,11 @@ export default {
     }
   },
   created() {
-    this.query = this.$route.query;
+    let queryString = this.$route.params.query.split("&");
+    queryString.forEach(str => {
+      let keyVal = str.split("=");
+      this.query[keyVal[0]] = keyVal[1];
+    });
     this.fetch();
     this.scroll();
   },
@@ -152,7 +156,11 @@ export default {
   },
   watch: {
     $route(to) {
-      this.query = this.$route.query;
+      let queryString = this.$route.params.query.split("&");
+      queryString.forEach(str => {
+        let keyVal = str.split("=");
+        this.query[keyVal[0]] = keyVal[1];
+      });
       this.fetch();
     }
   }

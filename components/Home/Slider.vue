@@ -12,7 +12,7 @@
   </div>
 </template>
 <script>
-import SearchBoxItem from "@/components/SearchBoxItem.vue";
+import SearchBoxItem from "./SearchBoxItem.vue";
 export default {
   components: {
     SearchBoxItem

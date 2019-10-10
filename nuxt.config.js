@@ -6,7 +6,7 @@ export default {
   */
 
   head: {
-    title: 'Spacesly.com - Book spaces easily.',
+    title: 'Spacesly - Book spaces easily.',
     meta: [
       { charset: 'utf-8' },
       { name: 'viewport', content: 'width=device-width, initial-scale=1' },

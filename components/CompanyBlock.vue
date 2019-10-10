@@ -11,6 +11,7 @@
   >
     <b-card-title class="title">{{company.name}}</b-card-title>
     <b-card-text class="address">
+      <i class="fa fa-map-marker" />
       {{ company.address }}
       <StarRating :value="3.5" :noOfRatings="40" />
     </b-card-text>

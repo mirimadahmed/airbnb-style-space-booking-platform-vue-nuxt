@@ -1,39 +1,29 @@
 <template>
   <div>
     <Slider />
-    <TopVeneus />
+    <TopVenues />
     <WhyChooseUs />
     <Subscribe />
+    <Links />
   </div>
 </template>
 <script>
-import Slider from "../components/Slider";
-import TopVeneus from "../components/TopVeneus.vue";
-import WhyChooseUs from "../components/WhyChooseUs.vue";
-import Subscribe from "../components/Subscribe.vue";
+import Slider from "../components/Home/Slider";
+import TopVenues from "../components/Home/TopVenues.vue";
+import WhyChooseUs from "../components/Home/WhyChooseUs.vue";
+import Subscribe from "../components/Home/Subscribe.vue";
+import Links from "../components/Home/Links.vue";
 
 export default {
   components: {
     Slider,
     WhyChooseUs,
     Subscribe,
-    TopVeneus
+    Links,
+    TopVenues
   },
   data() {
     return {};
-  },
-  methods: {},
-  head() {
-    return {
-      title: "Spacesly - Book Spaces Easily",
-      meta: [
-        {
-          hid: "description",
-          name: "description",
-          content: "Spacesly - Book Spaces Easily"
-        }
-      ]
-    };
   }
 };
 </script>

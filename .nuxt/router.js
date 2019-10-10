@@ -6,18 +6,16 @@ const _4227bb6b = () => interopDefault(import('../pages/About.vue' /* webpackChu
 const _0363374c = () => interopDefault(import('../pages/Bookings.vue' /* webpackChunkName: "pages/Bookings" */))
 const _31fa33c8 = () => interopDefault(import('../pages/Calander.vue' /* webpackChunkName: "pages/Calander" */))
 const _727932d2 = () => interopDefault(import('../pages/ChangeLog.vue' /* webpackChunkName: "pages/ChangeLog" */))
-const _53168f3a = () => interopDefault(import('../pages/eventsia.vue' /* webpackChunkName: "pages/eventsia" */))
 const _642b14ea = () => interopDefault(import('../pages/MySpaces.vue' /* webpackChunkName: "pages/MySpaces" */))
 const _c8205f86 = () => interopDefault(import('../pages/Partners.vue' /* webpackChunkName: "pages/Partners" */))
 const _9e612734 = () => interopDefault(import('../pages/Privacy.vue' /* webpackChunkName: "pages/Privacy" */))
 const _61cada07 = () => interopDefault(import('../pages/Profile.vue' /* webpackChunkName: "pages/Profile" */))
 const _6e05e868 = () => interopDefault(import('../pages/ResetPassword.vue' /* webpackChunkName: "pages/ResetPassword" */))
 const _52f49d43 = () => interopDefault(import('../pages/ResultDetails.vue' /* webpackChunkName: "pages/ResultDetails" */))
-const _8ace0fc6 = () => interopDefault(import('../pages/search/index.vue' /* webpackChunkName: "pages/search/index" */))
-const _f45bed8c = () => interopDefault(import('../pages/Search.vue' /* webpackChunkName: "pages/Search" */))
-const _d2162640 = () => interopDefault(import('../pages/Signup_Verification.vue' /* webpackChunkName: "pages/Signup_Verification" */))
 const _0bdd5465 = () => interopDefault(import('../pages/Terms.vue' /* webpackChunkName: "pages/Terms" */))
 const _ba34c498 = () => interopDefault(import('../pages/addspace/_permalink.vue' /* webpackChunkName: "pages/addspace/_permalink" */))
+const _aba7fae4 = () => interopDefault(import('../pages/search/_query.vue' /* webpackChunkName: "pages/search/_query" */))
+const _350ed549 = () => interopDefault(import('../pages/verify/_hash.vue' /* webpackChunkName: "pages/verify/_hash" */))
 const _2b251360 = () => interopDefault(import('../pages/index.vue' /* webpackChunkName: "pages/index" */))
 const _5426e5e1 = () => interopDefault(import('../pages/_permalink/index.vue' /* webpackChunkName: "pages/_permalink/index" */))
 
@@ -112,10 +110,6 @@ export function createRouter() {
       component: _727932d2,
       name: "ChangeLog"
     }, {
-      path: "/eventsia",
-      component: _53168f3a,
-      name: "eventsia"
-    }, {
       path: "/MySpaces",
       component: _642b14ea,
       name: "MySpaces"
@@ -140,18 +134,6 @@ export function createRouter() {
       component: _52f49d43,
       name: "ResultDetails"
     }, {
-      path: "/search",
-      component: _8ace0fc6,
-      name: "search"
-    }, {
-      path: "/Search",
-      component: _f45bed8c,
-      name: "Search"
-    }, {
-      path: "/Signup_Verification",
-      component: _d2162640,
-      name: "Signup_Verification"
-    }, {
       path: "/Terms",
       component: _0bdd5465,
       name: "Terms"
@@ -159,6 +141,14 @@ export function createRouter() {
       path: "/addspace/:permalink?",
       component: _ba34c498,
       name: "addspace-permalink"
+    }, {
+      path: "/search/:query?",
+      component: _aba7fae4,
+      name: "search-query"
+    }, {
+      path: "/verify/:hash?",
+      component: _350ed549,
+      name: "verify-hash"
     }, {
       path: "/",
       component: _2b251360,

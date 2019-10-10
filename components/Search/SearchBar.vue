@@ -17,7 +17,7 @@
           class="border"
           list="my-list-id2"
           placeholder="What are you planning?"
-          v-model="query.what"
+          v-model="query.activity"
         ></b-form-input>
         <datalist id="my-list-id2">
           <option v-for="(what, i) in whats" :key="i">{{ what }}</option>
@@ -45,7 +45,7 @@
           placeholder="No. of Guests"
           type="number"
           min="0"
-          v-model="query.count"
+          v-model="query.capacity"
         />
       </div>
       <div class="col-md-2 m-auto">
@@ -98,10 +98,10 @@ export default {
       types: ["Wedding", "Party", "Corporate", "Sports", "Studio"],
       query: {
         type: null,
-        what: null,
+        activity: null,
         when: null,
         where: null,
-        count: null
+        capacity: null
       },
       list: []
     };
@@ -116,14 +116,14 @@ export default {
       this.list = data;
     },
     getSearchResults() {
-      let path = "/search?type=" + this.query.type;
-      if (this.query.what) path = path + "&activity=" + this.query.what;
+      let path = "/search/type=" + this.query.type;
+      if (this.query.activity) path = path + "&activity=" + this.query.activity;
       if (this.query.when) {
         this.query.when = moment(this.query.when).format("YYYY-MM-DD");
         path = path + "&when=" + this.query.when;
       }
       if (this.query.where) path = path + "&where=" + this.query.where;
-      if (this.query.count) path = path + "&capacity=" + this.query.count;
+      if (this.query.capacity) path = path + "&capacity=" + this.query.capacity;
       this.$router.push({ path: path });
     },
     getTypeId(type) {
@@ -141,22 +141,11 @@ export default {
       }
     },
     updateMyQuery() {
-      let options = this.$route.query;
-      if (options.type) {
-        this.query.type = options.type;
-      }
-      if (options.activity) {
-        this.query.what = options.activity;
-      }
-      if (options.when) {
-        this.query.when = options.when;
-      }
-      if (options.where) {
-        this.query.where = options.where;
-      }
-      if (options.capacity) {
-        this.query.count = options.capacity;
-      }
+      let queryString = this.$route.params.query.split("&");
+      queryString.forEach(str => {
+        let keyVal = str.split("=");
+        this.query[keyVal[0]] = keyVal[1];
+      });
     }
   },
   watch: {

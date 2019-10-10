@@ -1,7 +1,7 @@
 <template>
   <div id="app">
     <TopMenu />
-    <div class="content">
+    <div :class="showFooter ? 'content' : ''">
       <nuxt />
     </div>
     <Footer v-if="showFooter" />
@@ -17,7 +17,7 @@ export default {
   },
   computed: {
     showFooter() {
-      return this.$route.name !== "search";
+      return this.$route.name !== "search-query";
     }
   }
 };

@@ -17,7 +17,10 @@
             </div>
             <div class="col-md-12 mb-4 p-4 text-left">
               <h1 class="heading">{{ entity.Entity.name }}</h1>
-              <p class="address">{{ entity.Entity.address }}</p>
+              <p class="address">
+                <i class="fa fa-map-marker" />
+                {{ entity.Entity.address }}
+              </p>
               <p class="font-weight-bold">About space</p>
 
               <p class="description">{{ entity.Entity.description }}</p>
