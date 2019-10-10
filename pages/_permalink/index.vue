@@ -121,7 +121,7 @@
               </div>
               <div class="row text-center py-3 mx-0 mt-3 px-4">
                 <social-sharing
-                  :url="window.location.href"
+                  :url="url"
                   :title="entity.Entity.name"
                   :description="entity.Entity.description"
                   :quote="entity.Entity.description"
@@ -181,11 +181,14 @@ export default {
         status: "s"
       },
       entity: null,
-      slides: []
+      slides: [],
+      url: "",
+      products: [],
+      productsLoading: false
     };
   },
   created() {
-    console.log(this.$route);
+    this.url = window.location.href;
     this.fetch();
   },
   methods: {
@@ -199,7 +202,13 @@ export default {
       this.slides = this.entity.Entity.images.map((img, index) => {
         return { id: index, src: img, thumbnail: img };
       });
+      this.productsLoading = true;
       this.request.entity_id = data.Entity.entity_id;
+      const { productsData } = await ListingRepository.getProducts(
+        this.request.entity_id
+      );
+      this.productsLoading = false;
+      this.products = productsData;
     },
     async send() {
       this.isRequestLoading = true;
