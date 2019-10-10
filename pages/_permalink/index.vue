@@ -121,12 +121,12 @@
               </div>
               <div class="row text-center py-3 mx-0 mt-3 px-4">
                 <social-sharing
-                  url="https://vuejs.org/"
-                  title="The Progressive JavaScript Framework"
-                  description="Intuitive, Fast and Composable MVVM for building interactive interfaces."
-                  quote="Vue is a progressive framework for building user interfaces."
-                  hashtags="vuejs,javascript,framework"
-                  twitter-user="vuejs"
+                  :url="window.location.href"
+                  :title="entity.Entity.name"
+                  :description="entity.Entity.description"
+                  :quote="entity.Entity.description"
+                  hashtags="spacesly, space booking"
+                  twitter-user="spacesly"
                   inline-template
                 >
                   <div class="row m-0">
