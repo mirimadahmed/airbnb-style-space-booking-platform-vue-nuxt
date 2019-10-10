@@ -129,7 +129,7 @@
             </div>
             <div v-else-if="current === 2">
               <div
-                v-if="group!='SEO Metatags'"
+                v-if="group!=='SEO Metatags'"
                 v-for="(group, i) in Object.keys(customFields)"
                 :key="i"
                 class="row"
@@ -236,9 +236,6 @@
                                   />
                                 </div>
                               </fieldset>
-                              <!-- <b-form-group label="Effective Date"> -->
-                              <!-- <b-form-input  v-model="base_price.effective_date" type="date"  /> -->
-                              <!-- </b-form-group> -->
                             </div>
                             <div class="col-md-3">
                               <fieldset data-v-596672cd class="form-group" id="__BVID__1058">
@@ -266,15 +263,8 @@
                                   />
                                 </div>
                               </fieldset>
-                              <!-- <b-form-group label="Expiry Date"> -->
-                              <!-- <b-form-input  v-model="base_price.expiration_date" type="date"  /> -->
-                              <!-- <date-picker placeholder="mm/dd/yy" v-model="base_price.expiration_date" input-class="form-control h-100 border-0 rounded-0" class="form-control p-0" :lang="lang" :not-before="new Date()" />
-                              </b-form-group>-->
                             </div>
                             <div class="col-md-3">
-                              <!-- <b-form-group label="Is Required">
-                                                        <b-form-checkbox v-model="base_price.is_required" name="check-button" switch></b-form-checkbox>
-                              </b-form-group>-->
                               <fieldset data-v-596672cd class="form-group" id="__BVID__1058">
                                 <legend
                                   tabindex="-1"
@@ -434,9 +424,6 @@
                               </fieldset>
                             </div>
                             <div class="offset-md-1 col-md-2">
-                              <!-- <b-form-group label="Is Required">
-                                                        <b-form-checkbox v-model="addon_field_item.is_required" name="check-button" switch></b-form-checkbox>
-                              </b-form-group>-->
                               <fieldset data-v-596672cd class="form-group" id="__BVID__1058">
                                 <legend
                                   tabindex="-1"
@@ -525,12 +512,8 @@
                       </div>
                     </div>
                     <div class="row">
-                      <div class="col-md-12">
-                        <!-- @click="saveAddOns()" -->
-                        <!-- <b-button  style="margin-left:10px;" size="sm" variant="primary" class="mt-4 pull-right">Save Price</b-button> -->
-                      </div>
+                      <div class="col-md-12"></div>
                     </div>
-                    <!-- </b-card> -->
                   </b-card>
                 </div>
                 <div class="col-md-12">
@@ -572,7 +555,6 @@
                           <div class="row">
                             <div class="col-md-12">
                               <b-form-group label="Effective Date">
-                                <!-- <a-input  v-model="menu_effective_date" type="date" placeholder="200"/> -->
                                 <date-picker
                                   placeholder="mm/dd/yy"
                                   v-model="menu_effective_date"
@@ -587,7 +569,6 @@
                           <div class="row">
                             <div class="col-md-12">
                               <b-form-group label="Expiration Date">
-                                <!-- <a-input  v-model="menu_expiration_date" type="date" placeholder="200"/> -->
                                 <date-picker
                                   placeholder="mm/dd/yy"
                                   v-model="menu_expiration_date"
@@ -601,13 +582,11 @@
                           </div>
                           <div class="row">
                             <div class="col-md-12">
-                              <!-- <b-form-group label="Action"> -->
                               <b-button
                                 class="mb-2 button pull-right"
                                 size="sm"
                                 @click="addMenu"
                               >Create</b-button>
-                              <!-- </b-form-group> -->
                             </div>
                           </div>
                         </b-card>
@@ -648,7 +627,6 @@
                           <div v-if="menus.editable==true" class="row">
                             <div class="col-md-12">
                               <b-form-group label="Menu Title">
-                                <!-- <a-input v-model="menus.name" placeholder="Buffet Storm"/> -->
                                 <input type="text" class="ant-input" v-model="menus.name" />
                               </b-form-group>
                             </div>
@@ -717,7 +695,6 @@
                                   :lang="lang"
                                   :not-before="new Date()"
                                 />
-                                <!-- <b-form-input v-model="menus.Pricing[0].effective_date" type="date"></b-form-input > -->
                               </b-form-group>
                             </div>
                           </div>
@@ -734,7 +711,6 @@
                                   :lang="lang"
                                   :not-before="new Date()"
                                 />
-                                <!-- <b-form-input v-model="menus.Pricing[0].expiration_date" type="date"></b-form-input > -->
                               </b-form-group>
                             </div>
                           </div>
@@ -877,7 +853,6 @@
             <h6>Effective Date</h6>
           </div>
           <div class="col-md-6">
-            <!-- <a-input  v-model="menu_effective_date" type="date" placeholder="200"/> -->
             <date-picker
               placeholder="mm/dd/yy"
               v-model="menu_effective_date"
@@ -893,7 +868,6 @@
             <h6>Expiration Date</h6>
           </div>
           <div class="col-md-6">
-            <!-- <a-input  v-model="menu_expiration_date" type="date" placeholder="200"/> -->
             <date-picker
               placeholder="mm/dd/yy"
               v-model="menu_expiration_date"
@@ -1099,14 +1073,7 @@ export default {
       previewVisible: false,
       previewImage: "",
       featured_image: [],
-      fileList: [
-        //   {
-        //    uid: '-1',
-        //   name: 'xxx.png',
-        //   status: 'done',
-        //   url: 'https://zos.alipayobjects.com/rmsportal/jkjgkEfvpUPVyRjUImniVslZfWPnJuuZ.png',
-        // }
-      ],
+      fileList: [],
       current: 0,
       typeOptions: [
         {
@@ -1187,7 +1154,6 @@ export default {
   methods: {
     async deleteMenu() {
       console.log("yep");
-      // let {data}= await ListingRepository.deleteMenu({id:2});
     },
     addTag(newTag) {
       const tag = {
@@ -1207,9 +1173,6 @@ export default {
         lat: location.latLng.lat(),
         lng: location.latLng.lng()
       };
-      // const { data } = await ListingRepository.getLocations({lat:location.latLng.lat(),lng:location.latLng.lng()});
-      // console.log(data)
-      // this.listing.address=data.results[0].formatted_address
     },
     viewListings() {
       this.$router.push({ path: "/myspaces" });
@@ -1251,7 +1214,6 @@ export default {
 
       let { data } = await ListingRepository.update_pricing(this.pricing_obj);
       if (data.success == true) {
-        // this.openNotificationWithIcon('success',data.user_message)
       } else {
         this.openNotificationWithIcon("error", data.user_message);
       }
@@ -1262,13 +1224,6 @@ export default {
       if (doUpdate == true) {
         this.update = true;
       }
-      // this.menu_visible=true
-      // this.menu_title=menu.name
-      // this.menu_price_pp=menu.Pricing[0].rate
-      // this.menu_effective_date=menu.Pricing[0].effective_date
-      // this.menu_expiration_date=menu.Pricing[0].expiration_date
-      // this.menu_product_id=menu.product_id
-      // this.menu_pricing_id=menu.Pricing[0].pricing_id
 
       menu.list_items.forEach(item => {
         this.tags.push({
@@ -1310,22 +1265,22 @@ export default {
         } else if (this.newTime.slot == "per_day") {
           var res = moment(this.newTime.time_start)
             .format("HH:mm:ss")
-            .split(":", 2); //this.open_time_hour.split(":",2);
+            .split(":", 2);
           var start_hour = res[0];
           var res = moment(this.newTime.time_end)
             .format("HH:mm:ss")
-            .split(":", 2); //this.close_time_hour.split(":",2);
+            .split(":", 2);
           var end_hour = res[0];
           var workinghours = end_hour - start_hour;
           this.newTime.hours_per_shift = workinghours;
         } else if (this.newTime.slot == "per_shift") {
           var res = moment(this.newTime.time_start)
             .format("HH:mm:ss")
-            .split(":", 2); //this.open_time_hour.split(":",2);
+            .split(":", 2);
           var start_hour = res[0];
           var res = moment(this.newTime.time_end)
             .format("HH:mm:ss")
-            .split(":", 2); //this.close_time_hour.split(":",2);
+            .split(":", 2);
           var end_hour = res[0];
           var workinghours = end_hour - start_hour;
           var totalshifts = this.newTime.no_of_shift;
@@ -1342,11 +1297,9 @@ export default {
         console.log(obj);
         const { data } = await ListingRepository.createTimeSlots(obj);
         if (data.success) {
-          // this.openNotificationWithIcon('success',data.user_message)
           this.fetch();
         } else {
           this.openNotificationWithIcon("error", data.user_message);
-          // this.openNotificationWithIcon('success','slots created succesfully')
           this.fetch();
         }
         this.hideModal();
@@ -1447,7 +1400,6 @@ export default {
 
       let { data } = await ListingRepository.add_new_pricing(this.pricing_obj);
       if (data.success == true) {
-        // this.openNotificationWithIcon('success',data.user_message)
         this.fetchPricings();
       } else {
         this.openNotificationWithIcon("error", data.user_message);
@@ -1487,10 +1439,8 @@ export default {
         rate_calculation: activated_timing.slot
       };
       this.pricing_obj.Pricing.push(temp_price_obj);
-      // console.log(this.pricing_obj)
       let { data } = await ListingRepository.update_pricing(this.pricing_obj);
       if (data.success == true) {
-        // this.openNotificationWithIcon('success',data.user_message)
         this.fetchPricings();
       } else {
         this.openNotificationWithIcon("error", data.user_message);
@@ -1593,7 +1543,6 @@ export default {
           (this.pricing_obj.product_id = this.menu_product_id);
         let { data } = await ListingRepository.update_pricing(this.pricing_obj);
         if (data.success == true) {
-          // this.openNotificationWithIcon('success',data.user_message)
           this.fetchPricings();
           this.menu_visible = false;
         } else {
@@ -1608,7 +1557,6 @@ export default {
           this.pricing_obj
         );
         if (data.success == true) {
-          // this.openNotificationWithIcon('success',data.user_message)
           this.fetchPricings();
           this.menu_visible = false;
         } else {
@@ -1624,7 +1572,6 @@ export default {
       this.menu_price_pp = null;
     },
     async getCusotmFields() {
-      // this.isLoading = true;
       const { data } = await ListingRepository.getCustomFields(
         this.listing.type_id
       );
@@ -1666,8 +1613,6 @@ export default {
         this.base_price.expiration_date = new_exp_Date[0];
         this.base_price.pricing_id = base_price.Pricing[0].pricing_id;
 
-        // this.base_price.effective_date=new_eff_Date[0]+'-'+new_eff_Date[1]+'-'+new_eff_Date[2]
-        // this.base_price.expiration_date=new_exp_Date[0]+'-'+new_exp_Date[1]+'-'+new_exp_Date[2]
         this.base_price.is_waivable = base_price.is_waivable;
         this.base_price.is_required = base_price.is_required;
         this.base_price.waive_off_at = base_price.applicable_on_less_than;
@@ -1719,7 +1664,6 @@ export default {
         this.listing.entity_id = data.entity_id;
         this.permalink = data.permalink;
         if (data.success) {
-          //  this.openNotificationWithIcon('success',data.user_message)
           this.current++;
         } else {
           this.openNotificationWithIcon("error", data.user_message);
@@ -1735,8 +1679,6 @@ export default {
       } else {
         this.NewfeaturedImage = 0;
       }
-      // console.log("dsa")
-      // console.log(fileList)
       let fileList = [...info.fileList];
 
       // 1. Limit the number of uploaded files
@@ -1782,7 +1724,6 @@ export default {
           img_obj
         );
         if (data.success) {
-          // this.openNotificationWithIcon('success',data.user_message)
           this.current++;
         } else {
           this.openNotificationWithIcon("error", data.user_message);
@@ -1809,7 +1750,6 @@ export default {
         CustomFields: this.customFields
       });
       if (data.success) {
-        //  this.openNotificationWithIcon('success',data.user_message)
         this.current++;
       }
       this.isLoading = false;
@@ -1847,7 +1787,6 @@ export default {
         };
         const { data } = await ListingRepository.updateListing({ Entity: obj });
         if (data.success) {
-          //  this.openNotificationWithIcon('success',data.user_message)
           this.current++;
         } else {
           this.openNotificationWithIcon("error", data.user_message);
@@ -1895,8 +1834,6 @@ export default {
         lat: location.latLng.lat(),
         lng: location.latLng.lng()
       };
-      // const { data } = await ListingRepository.getLocations({lat:location.latLng.lat(),lng:location.latLng.lng()});
-      // this.listing.address=data.results[0].formatted_address
     },
     prev() {
       this.current--;
