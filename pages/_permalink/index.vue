@@ -71,7 +71,7 @@
         </div>
         <div class="col-md-4">
           <div class="sidebar-item">
-            <div class="make-me-sticky text-left">
+            <div class="make-me-sticky shadow-sm text-left">
               <div class="row m-0">
                 <div class="col-md-12 p-4">
                   <h1 class="heading">{{ msg }}</h1>
