@@ -49,7 +49,18 @@
                 </p>
               </div>
             </div>
-
+            <div class="col-md-12 mb-4 text-left">
+              <h2>Base Rent</h2>
+              <AddOn v-for="(price, i) in basePrice" :key="i" :addOn="price" />
+            </div>
+            <div class="col-md-12 mb-4 text-left">
+              <h2>AddOns offered by space</h2>
+              <AddOn v-for="(addOn, i) in addOns" :key="i" :addOn="addOn" />
+            </div>
+            <div class="col-md-12 mb-4 text-left">
+              <h2>Menus</h2>
+              <Menu v-for="(menu, i) in menus" :key="i" :menu="menu" />
+            </div>
             <div class="col-md-12 p-0 map-field" v-if="entity.Entity.latitude">
               <GmapMap
                 :options="{
@@ -75,7 +86,7 @@
           <div class="sidebar-item">
             <div class="make-me-sticky shadow-sm text-left">
               <div class="row m-0">
-                <div class="col-md-12 p-4">
+                <div class="col-md-12 py-4">
                   <h1 class="heading">{{ msg }}</h1>
                 </div>
                 <div class="col-md-12 px-0">
@@ -117,7 +128,6 @@
                   ></b-form-input>
                 </div>
                 <div class="col-md-12 text-center p-4">
-                  <p>Starting from 2000 per head</p>
                   <button class="request-booking" @click="send">SEND</button>
                 </div>
               </div>
@@ -155,6 +165,8 @@
 <script>
 import moment from "moment";
 import VueContentLoading from "vue-content-loading";
+import AddOn from "@/components/Listing/AddOn";
+import Menu from "@/components/Listing/Menu";
 import { RepositoryFactory } from "@/repository/RepositoryFactory";
 import SocialSharing from "vue-social-sharing";
 const ListingRepository = RepositoryFactory.get("listings");
@@ -162,6 +174,8 @@ const RequestRepository = RepositoryFactory.get("request");
 
 export default {
   components: {
+    AddOn,
+    Menu,
     VueContentLoading,
     SocialSharing
   },
@@ -189,6 +203,17 @@ export default {
       productsLoading: false
     };
   },
+  computed: {
+    addOns() {
+      return this.products.filter(item => item.product_type === "addons");
+    },
+    basePrice() {
+      return this.products.filter(item => item.product_type === "baseprice");
+    },
+    menus() {
+      return this.products.filter(item => item.product_type === "menu");
+    }
+  },
   created() {
     this.url = window.location.href;
     this.fetch();
@@ -204,13 +229,17 @@ export default {
       this.slides = this.entity.Entity.images.map((img, index) => {
         return { id: index, src: img, thumbnail: img };
       });
+      this.getProducts();
+    },
+    async getProducts() {
       this.productsLoading = true;
-      this.request.entity_id = data.Entity.entity_id;
-      const { productsData } = await ListingRepository.getProducts(
+      this.request.entity_id = this.entity.Entity.entity_id;
+      const { data } = await ListingRepository.getProducts(
         this.request.entity_id
       );
       this.productsLoading = false;
-      this.products = productsData;
+      this.products = data;
+      console.log(this.products);
     },
     async send() {
       this.isRequestLoading = true;
