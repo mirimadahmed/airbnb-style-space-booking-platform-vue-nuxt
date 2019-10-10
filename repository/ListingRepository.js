@@ -2,13 +2,12 @@ import Repository from './Repository';
 import FileRepository from './FileRepository';
 
 const resource = '/entities/';
-const products_resource ='products/'
-const top_venues_resource ='top_spaces/type/'
+const products_resource = 'products/'
+const top_venues_resource = 'top_spaces/type/'
 
 export default {
-  deleteMenu (payload_id) {
+  deleteMenu(payload_id) {
     return Repository.delete(`delete_entity_dnr/${payload_id}`)
-
   },
   getTopVenues(payload_id) {
     return Repository.get(`${top_venues_resource}${payload_id}`);
@@ -19,26 +18,26 @@ export default {
   getAll(company_id) {
     return Repository.get(`${resource}company/${company_id}`)
   },
-  update_entity (payload) {
-    return Repository.put(`${resource}`+payload.Entity.permalink+'/',payload);
+  update_entity(payload) {
+    return Repository.put(`${resource}` + payload.Entity.permalink + '/', payload);
   },
   getEntitySlots(payload) {
-    return Repository.get(`entity_slots/${payload.entity_id}?date_dnr=`+payload.selectedDate)
+    return Repository.get(`entity_slots/${payload.entity_id}?date_dnr=` + payload.selectedDate)
   },
   modifyEntitySlots(payload) {
-    if(payload.dnr){
-      return Repository.post(`entity_dnr/${payload.entity_id}/${payload.slot_id}?dnr_date=`+payload.selectedDate)
+    if (payload.dnr) {
+      return Repository.post(`entity_dnr/${payload.entity_id}/${payload.slot_id}?dnr_date=` + payload.selectedDate)
     }
-    else{
+    else {
       return Repository.delete(`delete_entity_dnr/${payload.dnr_id}`)
     }
   },
   uploadEntityGalleryImages(payload) {
     const form = new FormData();
-    payload.files.forEach(i=>{
+    payload.files.forEach(i => {
       form.append('files', i);
     })
-    payload.featured_image.forEach(i=>{
+    payload.featured_image.forEach(i => {
       console.log(i)
       form.append('featured_image', i);
     })
@@ -58,7 +57,7 @@ export default {
     return Repository.get(`https://maps.google.com/maps/api/geocode/json?latlng=${coordinates.lat},${coordinates.lng}&key=AIzaSyCUqW52AXRmuPzQghI877RFrjXHTxCjfkE`)
   },
   changeTimeSlots(timeslot) {
-    return Repository.put(`${resource}/${timeslot.entity_id}/timings_conf/`+timeslot.config_id)
+    return Repository.put(`${resource}/${timeslot.entity_id}/timings_conf/` + timeslot.config_id)
   },
   newListing(new_entity) {
     return Repository.post(`${resource}`, new_entity)
@@ -73,13 +72,17 @@ export default {
     return Repository.delete(`${resource}${permalink}/`)
   },
   //Pricings
-  add_new_pricing (payload) {
+  add_new_pricing(payload) {
     return Repository.post(`${products_resource}`, payload);
   },
-  get_entity_pricings (entity_id) {
-    return Repository.get(`${products_resource}`+entity_id);
+  get_entity_pricings(entity_id) {
+    return Repository.get(`${products_resource}` + entity_id);
   },
-  update_pricing (payload) {
-    return Repository.put(`${products_resource}`+payload.entity_id, payload);
+  update_pricing(payload) {
+    return Repository.put(`${products_resource}` + payload.entity_id, payload);
   },
+  // Products
+  getProducts(id) {
+    return Repository.get(`products/${id}`);
+  }
 };
