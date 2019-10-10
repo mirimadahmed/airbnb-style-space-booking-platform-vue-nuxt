@@ -1,6 +1,6 @@
 <template>
   <div>
-    <SearchBar :search="query" @map-changed="updateMap" />
+    <SearchBar @map-changed="updateMap" />
     <!-- <Filters @map-changed="updateMap" /> -->
     <vue-content-loading v-if="isLoading" :width="300" :height="120">
       <rect x="10" y="10" rx="4" ry="4" width="85" height="100" />
@@ -152,7 +152,7 @@ export default {
   },
   watch: {
     $route(to) {
-      this.query = to.params.query;
+      this.query = this.$route.query;
       this.fetch();
     }
   }
