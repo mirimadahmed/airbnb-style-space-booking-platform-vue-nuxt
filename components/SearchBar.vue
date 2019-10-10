@@ -2,7 +2,12 @@
   <div id="search-bar" class="border-bottom">
     <div class="form row p-2" inline>
       <div class="col-md-1.5">
-        <b-form-input class="border" list="my-list-id" placeholder="What are you planning?" v-model="query.type"></b-form-input>
+        <b-form-input
+          class="border"
+          list="my-list-id"
+          placeholder="What are you planning?"
+          v-model="query.type"
+        ></b-form-input>
         <datalist id="my-list-id">
           <option v-for="(type, i) in types" :key="i">{{ type }}</option>
         </datalist>
@@ -31,7 +36,7 @@
         </no-ssr>
       </div>
       <div class="col-md-1.5">
-        <b-input class="border" id="search" placeholder="Where?" v-model="query.where" />
+        <b-input class="border" placeholder="Where?" v-model="query.where" />
       </div>
       <div class="col-md-1.5">
         <b-input
@@ -58,12 +63,6 @@ import { RepositoryFactory } from "@/repository/RepositoryFactory";
 const SystemListRepository = RepositoryFactory.get("systemlist");
 
 export default {
-  props: {
-    search: {
-      type: Object,
-      required: true
-    }
-  },
   data() {
     return {
       mapOn: true,
@@ -109,7 +108,7 @@ export default {
     };
   },
   created() {
-    this.updateOptions();
+    this.updateMyQuery();
     this.fetch();
   },
   methods: {
@@ -128,8 +127,22 @@ export default {
       if (this.query.count) path = path + "&capacity=" + this.query.count;
       this.$router.push({ path: path });
     },
-    updateOptions() {
-      let options = this.search;
+    getTypeId(type) {
+      switch (type) {
+        case "Wedding":
+          return 1;
+        case "Party":
+          return 2;
+        case "Corporate":
+          return 3;
+        case "Sports":
+          return 4;
+        case "Studio":
+          return 5;
+      }
+    },
+    updateMyQuery() {
+      let options = this.$route.query;
       if (options.type) {
         this.query.type = options.type;
       }
@@ -145,25 +158,17 @@ export default {
       if (options.capacity) {
         this.query.count = options.capacity;
       }
-    },
-    getTypeId(type) {
-      switch (type) {
-        case "Wedding":
-          return 1;
-        case "Party":
-          return 2;
-        case "Corporate":
-          return 3;
-        case "Sports":
-          return 4;
-        case "Studio":
-          return 5;
-      }
     }
   },
   watch: {
     mapOn() {
       this.$emit("map-changed", this.mapOn);
+    },
+    query: {
+      deep: true,
+      handler(newValue) {
+        this.getSearchResults();
+      }
     }
   },
   computed: {
