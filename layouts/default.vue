@@ -1,7 +1,9 @@
 <template>
   <div id="app">
     <TopMenu />
-    <nuxt />
+    <div class="content">
+      <nuxt />
+    </div>
     <Footer v-if="showFooter" />
   </div>
 </template>
@@ -34,6 +36,9 @@ export default {
 .wrapper {
   margin-left: 15px;
   margin-right: 15px;
+}
+.content {
+  min-height: 100vh;
 }
 
 .custom-form-control {
