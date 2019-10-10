@@ -31,7 +31,10 @@ export default {
   },
   methods: {
     viewDetails() {
-      this.$router.push({ path: "/" + this.company.permalink });
+      let routeData = this.$router.resolve({
+        path: "/" + this.company.permalink
+      });
+      window.open(routeData.href, "_blank");
     }
   }
 };
