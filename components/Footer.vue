@@ -78,6 +78,9 @@ export default {
   margin-top: 200px;
   /* margin-bottom: 0px; */
   padding-top: 30px;
+  position: relative;
+  bottom: 0;
+  width: 100%;
 }
 .contact,
 .copy,
