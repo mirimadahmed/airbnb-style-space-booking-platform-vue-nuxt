@@ -22,7 +22,19 @@ export default {
   data() {
     return {};
   },
-  methods: {}
+  methods: {},
+  head() {
+    return {
+      title: "Spacesly - Book Spaces Easily",
+      meta: [
+        {
+          hid: "description",
+          name: "description",
+          content: "Spacesly - Book Spaces Easily"
+        }
+      ]
+    };
+  }
 };
 </script>
 <style scoped>
