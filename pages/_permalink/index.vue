@@ -18,11 +18,13 @@
             <div class="col-md-12 mb-4 p-4 text-left">
               <h1 class="heading">{{ entity.Entity.name }}</h1>
               <p class="address">{{ entity.Entity.address }}</p>
+              <p class="font-weight-bold">About space</p>
+
               <p class="description">{{ entity.Entity.description }}</p>
             </div>
             <div class="col-md-12 mb-4">
               <div class="row m-0 text-left">
-                <p class="col-md-12 font-weight-bold">Amenities</p>
+                <p class="col-md-12 font-weight-bold">Amenities offered</p>
                 <p
                   class="col-md-3 mb-0 py-4 feature"
                   v-for="amenity in entity.CustomFields.Amenities"
@@ -33,7 +35,7 @@
             </div>
             <div class="col-md-12 mb-4">
               <div class="row m-0 text-left">
-                <p class="col-md-12 font-weight-bold">Activities</p>
+                <p class="col-md-12 font-weight-bold">Activities allowed</p>
                 <p
                   class="col-md-3 mb-0 py-4 feature"
                   v-for="feature in entity.CustomFields.Activities"
