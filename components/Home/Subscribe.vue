@@ -42,11 +42,9 @@ export default {
       data = JSON.parse(data);
       this.isLoading = false;
       if (!data.success) {
-        this.msg = data.user_message;
-        this.classToApply = "message-error";
+        this.$message.error(data.user_message);
       } else {
-        this.msg = "Subscribed Successfully!";
-        this.classToApply = "message-success";
+        this.$message.success("Subscribed Successfully!");
       }
     }
   }
@@ -103,14 +101,13 @@ export default {
   font-weight: bolder;
   width: 100%;
   height: 100%;
-  color: #FFFFFF;
+  color: #ffffff;
   text-align: center;
   -webkit-transition-duration: 0.4s; /* Safari */
   transition-duration: 0.4s;
   text-decoration: none;
   overflow: hidden;
   cursor: pointer;
-  
 }
 .subscribe-button:after {
   content: "";
@@ -119,16 +116,16 @@ export default {
   position: absolute;
   padding-top: 300%;
   padding-left: 350%;
-  margin-left: -20px!important;
+  margin-left: -20px !important;
   margin-top: -120%;
   opacity: 0;
-  transition: all 0.8s
+  transition: all 0.8s;
 }
 
 .subscribe-button:active:after {
   padding: 0;
   margin: 0;
   opacity: 1;
-  transition: 0s
+  transition: 0s;
 }
 </style>
