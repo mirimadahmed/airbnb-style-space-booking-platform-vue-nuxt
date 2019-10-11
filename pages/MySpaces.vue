@@ -1,51 +1,57 @@
 <template>
-    <div class="m-5 p-4">
-      <div class="row">
-        <div class="col-md-2" style="padding-left: 0px;margin-left: -1.5rem;">
-          <h3>My Spaces</h3>
-        </div>
-        <div class="col-md-10 text-right">
-          <a-button type="primary" href="/addspace">Create New Space</a-button>
-        </div>
-        <div class="col-md-12 px-0">
-          <a-list
-            class="demo-loadmore-list text-left col-md-6 px-0"
-            :loading="isLoading"
-            itemLayout="horizontal"
-            :dataSource="listings"
-          >
-            <a-list-item 
-             class="shadow"
-             style="margin-top:15px;
-             padding:14px;
-             border:20x;
-             border-color: #dcdcdc;"
-             slot="renderItem" slot-scope="item, index">
-              <a slot="actions" :href="`/addspace/${item.Entity.permalink}`">
+  <div class="m-5 p-4">
+    <div class="row p-0">
+      <div class="col-md-2 text-left m-0 p-0">
+        <h3>My Spaces</h3>
+      </div>
+      <div class="col-md-10 text-right m-0 p-0">
+        <a-button type="primary" href="/addspace">Create New Space</a-button>
+      </div>
+      <div class="col-md-12 px-0">
+        <a-list
+          class="demo-loadmore-list text-left col-md-12 px-0"
+          :loading="isLoading"
+          itemLayout="horizontal"
+          :dataSource="listings"
+        >
+          <a-list-item class="border p-3 my-2" slot="renderItem" slot-scope="item, index">
+            <a slot="actions" :href="`/addspace/${item.Entity.permalink}`">
               <i class="fa fa-pencil" aria-hidden="true"></i>
-              </a>
-              <a
-                v-if="item.Entity.status === 'approved'"
-                slot="actions"
-                :href="`/${item.Entity.permalink}`"
-              >view</a>
-              <a slot="actions" @click="deleteListing(item.Entity.permalink)">
-                <i class="fa fa-trash-o" style="color:red;" aria-hidden="true"></i>
-              </a>
-              <a-list-item-meta>
-                <a slot="title">{{item.Entity.name}}</a>
-                <a-avatar slot="avatar" :src="item.Entity.featured_image" />
-                 <b-badge v-if="item.Entity.status=='pending'" slot="description" variant="warning">{{item.Entity.status}}</b-badge>
-                 <b-badge v-else-if="item.Entity.status=='submitted'" slot="description" variant="primary">{{item.Entity.status}}</b-badge>
-                 <b-badge v-else-if="item.Entity.status=='approved'" slot="description" variant="success">{{item.Entity.status}}</b-badge>
-                 <p slot="description">{{item.Entity.description}}</p>
-                <a-progress slot="description" :percent="find_percentage(item.Entity)" size="small" /> 
-              </a-list-item-meta>
-            </a-list-item>
-          </a-list>
-        </div>
+            </a>
+            <a
+              v-if="item.Entity.status === 'approved'"
+              slot="actions"
+              :href="`/${item.Entity.permalink}`"
+              target="_blank"
+            >view</a>
+            <a slot="actions" @click="deleteListing(item.Entity.permalink)">
+              <i class="fa fa-trash-o" style="color:red;" aria-hidden="true"></i>
+            </a>
+            <a-list-item-meta>
+              <a slot="title">{{item.Entity.name}}</a>
+              <b-badge
+                v-if="item.Entity.status=='pending'"
+                slot="description"
+                variant="warning"
+              >{{item.Entity.status}}</b-badge>
+              <b-badge
+                v-else-if="item.Entity.status=='submitted'"
+                slot="description"
+                variant="primary"
+              >{{item.Entity.status}}</b-badge>
+              <b-badge
+                v-else-if="item.Entity.status=='approved'"
+                slot="description"
+                variant="success"
+              >{{item.Entity.status}}</b-badge>
+              <p slot="description">{{item.Entity.description}}</p>
+              <a-progress slot="description" :percent="find_percentage(item.Entity)" size="small" />
+            </a-list-item-meta>
+          </a-list-item>
+        </a-list>
       </div>
     </div>
+  </div>
 </template>
 
 <script>
@@ -59,17 +65,17 @@ export default {
     };
   },
   computed: {
-    ...mapGetters(["listings", "user"]),
+    ...mapGetters(["listings", "user"])
   },
   middleware: "auth",
   created() {
     this.fetch();
   },
   methods: {
-     find_percentage(item) {
-      let percentg=75
-      if(item.timings_conf.length>0) {
-        percentg=percentg+25
+    find_percentage(item) {
+      let percentg = 75;
+      if (item.timings_conf.length > 0) {
+        percentg = percentg + 25;
       }
       return percentg;
     },
