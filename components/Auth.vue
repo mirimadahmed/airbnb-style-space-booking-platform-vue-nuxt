@@ -1,14 +1,16 @@
 <template>
   <div>
-    <b-modal  id="modal" size="sm" :hide-header="true" :hide-footer="true" @hidden="$emit('closed')">
+    <b-modal id="modal" size="sm" :hide-header="true" :hide-footer="true" @hidden="$emit('closed')">
       <div v-if="type === 'login'" class="p-3 text-center">
         <div class="row">
           <div class="col-md-12">
             <p class="heading">Welcome Back</p>
           </div>
-          <div class="col-md-12"> 
-            <b-form-group 
-              id="input-group-1" label-for="input-1">
+          <div class="col-md-12 my-2" v-if="error.length > 0">
+            <a-alert :description="error" type="error" closable @close="error = ''" />
+          </div>
+          <div class="col-md-12">
+            <b-form-group id="input-group-1" label-for="input-1">
               <b-form-input
                 id="input-1"
                 v-model="login.email"
@@ -39,7 +41,7 @@
             <b-spinner variant="danger" type="grow" label="Spinning"></b-spinner>
           </div>
           <div class="col-md-12 py-2">
-              <a-checkbox :checked="isRemember" @change="rememberMe" >Remember me</a-checkbox>
+            <a-checkbox :checked="isRemember" @change="rememberMe">Remember me</a-checkbox>
           </div>
           <div class="col-md-12 py-2">
             New here?
@@ -53,6 +55,9 @@
       </div>
       <div v-else-if="type == 'forget'" class="text-center">
         <div class="row forget-modal">
+          <div class="col-md-12 my-2" v-if="error.length > 0">
+            <a-alert :description="error" type="error" closable @close="error = ''" />
+          </div>
           <div class="col-md-12">
             <p class="heading">Forget Password</p>
           </div>
@@ -68,18 +73,24 @@
             </b-form-group>
           </div>
           <div class="col-md-12" v-if="!isLoading">
-            <button class="apply-button" >Send</button>
+            <button class="apply-button">Send</button>
           </div>
           <div class="col-md-12 py-4">
             Have an account?
             <a class="link" @click.prevent="type='login'">Login</a>
           </div>
         </div>
-      </div> 
+      </div>
       <div v-else class="text-center">
         <div class="row">
           <div class="col-md-12">
             <p class="heading">Signup at Spacesly.com</p>
+          </div>
+          <div class="col-md-12 my-2" v-if="error.length > 0">
+            <a-alert :description="error" type="error" closable @close="error = ''" />
+          </div>
+          <div class="col-md-12 my-2" v-if="success.length > 0">
+            <a-alert :description="success" type="success" closable @close="success = ''" />
           </div>
           <div class="col-md-12">
             <b-form-group>
@@ -106,7 +117,7 @@
             </b-form-group>
           </div>
           <div class="col-md-12">
-            <b-form-group >
+            <b-form-group>
               <b-form-input
                 v-model="signup.password"
                 type="password"
@@ -149,7 +160,7 @@ export default {
   },
   data() {
     return {
-      isRemember:false,
+      isRemember: false,
       type: "login",
       login: {
         email: "",
@@ -161,9 +172,11 @@ export default {
         password: ""
       },
       forget_password: {
-        email: "",
+        email: ""
       },
-      isLoading: false
+      isLoading: false,
+      error: "",
+      success: ""
     };
   },
   watch: {
@@ -177,8 +190,8 @@ export default {
     }
   },
   methods: {
-    rememberMe(e){
-      this.isRemember=e.target.checked
+    rememberMe(e) {
+      this.isRemember = e.target.checked;
     },
     async loginAction() {
       this.isLoading = true;
@@ -190,16 +203,15 @@ export default {
       if (data.success) {
         this.$bvModal.hide("modal");
         this.$store.dispatch("login", data);
-        this.login.email=""
-        this.login.password=""
-        if(this.isRemember==true){
-        localStorage.setItem('isremember',"true")
-        }
-        else{
-          localStorage.setItem('isremember',"false")
+        this.login.email = "";
+        this.login.password = "";
+        if (this.isRemember == true) {
+          localStorage.setItem("isremember", "true");
+        } else {
+          localStorage.setItem("isremember", "false");
         }
       } else {
-        this.openNotificationWithIcon('error',data.user_message)
+        this.error = data.user_message;
       }
     },
     async signupAction() {
@@ -207,26 +219,14 @@ export default {
       const { data } = await UserRepository.register(this.signup);
       this.isLoading = false;
       if (data.success) {
-        this.openNotificationWithIcon('success',data.user_message)
-        this.$bvModal.hide("modal");
-        this.signup.name=""
-        this.signup.email=""
-        this.signup.password=""
+        this.success = "Please check your email for verification.";
+        this.signup.name = "";
+        this.signup.email = "";
+        this.signup.password = "";
       } else {
-        this.openNotificationWithIcon('error',data.user_message)
-
+        this.error = data.user_message;
       }
-
-
-    },
-    openNotificationWithIcon (type,message) {
-      let headers = type.charAt(0).toUpperCase() + type.substring(1);
-      this.$notification[type]({
-        message: headers,
-        description: message,
-      });
     }
-    
   }
 };
 </script>
@@ -256,9 +256,8 @@ export default {
   cursor: pointer;
 }
 
-.forget-modal{
-    padding-bottom: 60px;
-    padding-top: 60px;
-
+.forget-modal {
+  padding-bottom: 60px;
+  padding-top: 60px;
 }
 </style>
