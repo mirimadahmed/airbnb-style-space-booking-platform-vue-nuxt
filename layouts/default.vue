@@ -41,6 +41,45 @@ export default {
   min-height: 100vh;
 }
 
+.heading {
+  font-weight: 500;
+  font-size: 22px;
+  color: black;
+}
+
+.sub-heading {
+  font-weight: 500;
+  font-size: 18px;
+  color: black;
+}
+
+.section-text {
+  font-weight: 400;
+  font-size: 16px;
+  color: black;
+  margin: auto;
+}
+
+.section-sub-text {
+  font-weight: 400;
+  font-size: 14px;
+  color: black;
+  margin: 10px 0px;
+}
+
+.address {
+  font-weight: 400;
+  font-size: 14px;
+  color: black;
+}
+
+.price {
+  font-weight: 300;
+  font-size: 14px;
+  color: black;
+  margin: auto;
+}
+
 .custom-form-control {
   height: 100% !important;
   padding: 0px !important;

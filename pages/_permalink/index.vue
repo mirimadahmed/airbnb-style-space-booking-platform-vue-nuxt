@@ -15,32 +15,43 @@
                 </no-ssr>
               </div>
             </div>
-            <div class="col-md-12 mb-4 p-4 text-left">
+            <div class="col-md-12 mb-2 py-2 px-4 text-left">
               <h1 class="heading">{{ entity.Entity.name }}</h1>
               <p class="address">
                 <i class="fa fa-map-marker" />
                 {{ entity.Entity.address }}
               </p>
-              <p class="font-weight-bold">About space</p>
-
+            </div>
+            <div class="col-md-12 p-4 text-left">
+              <h2 class="sub-heading">About space</h2>
               <p class="description">{{ entity.Entity.description }}</p>
             </div>
-            <div class="col-md-12 mb-4">
+            <div class="col-md-12">
+              <div class="col-md-10 m-auto">
+                <a-divider />
+              </div>
+            </div>
+            <div class="col-md-12">
               <div class="row m-0 text-left">
-                <p class="col-md-12 font-weight-bold">Amenities offered</p>
+                <h2 class="col-md-12 sub-heading">Amenities offered</h2>
                 <p
-                  class="col-md-3 mb-0 py-4 feature"
+                  class="col-md-4 mb-0 py-2 feature"
                   v-for="amenity in entity.CustomFields.Amenities"
                   :class="amenity.value === 'True' ? 'active-feature' : 'inactive-feature'"
                   :key="amenity.cfd_id"
                 >{{ amenity.name }}</p>
               </div>
             </div>
+            <div class="col-md-12">
+              <div class="col-md-10 m-auto">
+                <a-divider />
+              </div>
+            </div>
             <div class="col-md-12 mb-4">
               <div class="row m-0 text-left">
-                <p class="col-md-12 font-weight-bold">Activities allowed</p>
+                <h2 class="col-md-12 sub-heading">Activities allowed</h2>
                 <p
-                  class="col-md-3 mb-0 py-4 feature"
+                  class="col-md-4 mb-0 py-2 feature"
                   v-for="feature in entity.CustomFields.Activities"
                   :key="feature.cfd_id"
                   :class="feature.field_type === 'boolean' && feature.value === 'False' ? 'inactive-feature' : 'active-feature'"
@@ -52,17 +63,27 @@
                 </p>
               </div>
             </div>
-            <div class="col-md-12 mb-4 text-left">
-              <h2>Base Rent</h2>
-              <AddOn v-for="(price, i) in basePrice" :key="i" :addOn="price" />
+            <div class="col-md-12">
+              <div class="col-md-10 m-auto">
+                <a-divider />
+              </div>
             </div>
-            <div class="col-md-12 mb-4 text-left">
-              <h2>AddOns offered by space</h2>
-              <AddOn v-for="(addOn, i) in addOns" :key="i" :addOn="addOn" />
+
+            <div class="col-md-12 mb-4 text-left" v-if="addOns.length > 0">
+              <h3 class="sub-heading">Offerings by space</h3>
+              <div class="row m-0 p-0">
+                <div v-for="(addOn, i) in addOns" :key="i" class="col-md-4 pl-0 pr-2 pt-2 pb-2">
+                  <AddOn :addOn="addOn" />
+                </div>
+              </div>
             </div>
-            <div class="col-md-12 mb-4 text-left">
-              <h2>Menus</h2>
-              <Menu v-for="(menu, i) in menus" :key="i" :menu="menu" />
+            <div class="col-md-12 mb-4 text-left" v-if="menus.length > 0">
+              <h3 class="sub-heading">Food Menus</h3>
+              <div class="row m-0 p-0">
+                <div v-for="(menu, i) in menus" :key="i" class="col-md-4 pl-0 pr-2 pt-2 pb-2">
+                  <Menu :menu="menu" />
+                </div>
+              </div>
             </div>
             <div class="col-md-12 p-0 map-field" v-if="entity.Entity.latitude">
               <GmapMap
@@ -87,9 +108,15 @@
         </div>
         <div class="col-md-4">
           <div class="sidebar-item">
-            <div class="make-me-sticky shadow-sm text-left">
-              <div class="row m-0">
-                <div class="col-md-12 py-4">
+            <div class="make-me-sticky text-left">
+              <div class="row m-0 border">
+                <div class="col-md-12 pt-4 text-center">
+                  <p class="price" v-if="basePrice !== null">
+                    Starting from Rs. {{ basePrice }}
+                    <span class="per-hour">/hr</span>
+                  </p>
+                </div>
+                <div class="col-md-12 py-2 text-center">
                   <h1 class="heading">{{ msg }}</h1>
                 </div>
                 <div class="col-md-12 px-0">
@@ -101,40 +128,44 @@
                     :disabled="isRequestLoading"
                   />-->
                 </div>
-                <div class="col-md-12 px-0">
+                <div class="col-md-12 py-2">
                   <b-form-input
+                    class="border form-element"
                     placeholder="Event Type"
                     v-model="request.activity"
                     :disabled="isRequestLoading"
                   ></b-form-input>
                 </div>
-                <div class="col-md-12 px-0">
+                <div class="col-md-12 py-2">
                   <b-form-input
+                    class="border form-element"
                     placeholder="Contact Name"
                     v-model="request.name"
                     :disabled="isRequestLoading"
                   ></b-form-input>
                 </div>
-                <div class="col-md-12 px-0">
+                <div class="col-md-12 py-2">
                   <b-form-input
+                    class="border form-element"
                     placeholder="Email Address"
                     v-model="request.email"
                     :disabled="isRequestLoading"
                   ></b-form-input>
                 </div>
-                <div class="col-md-12 px-0">
+                <div class="col-md-12 py-2">
                   <b-form-input
-                    class
+                    class="border form-element"
                     placeholder="Phone Number"
                     v-model="request.phone"
                     :disabled="isRequestLoading"
                   ></b-form-input>
                 </div>
                 <div class="col-md-12 text-center p-4">
-                  <button class="request-booking" @click="send">SEND</button>
+                  <button class="request-booking" @click="send">Send Inquiry</button>
                 </div>
+                <div class="col-md-12 text-center pb-2">Typically response with-in 6 hours</div>
               </div>
-              <div class="row text-center py-3 mx-0 mt-3 px-4">
+              <div class="row text-center border py-3 mx-0 mt-3">
                 <social-sharing
                   :url="url"
                   :title="entity.Entity.name"
@@ -144,17 +175,19 @@
                   twitter-user="spacesly"
                   inline-template
                 >
-                  <div class="row m-0">
-                    <div class="col-md-12 py-2 mb-2 font-weight-bold share-msg">Share on</div>
-                    <network network="facebook" class="col-md-4">
-                      <i class="fa fa-facebook"></i> Facebook
-                    </network>
-                    <network network="twitter" class="col-md-4">
-                      <i class="fa fa-twitter"></i> Twitter
-                    </network>
-                    <network network="whatsapp" class="col-md-4">
-                      <i class="fa fa-whatsapp"></i> Whatsapp
-                    </network>
+                  <div class="row col-md-12 m-0 text-left p-0">
+                    <div class="col-md-6 sub-heading">Share on</div>
+                    <div class="col-md-6">
+                      <network network="facebook" class="px-2 py-1 m-auto border rounded-circle">
+                        <i class="fa fa-facebook"></i>
+                      </network>
+                      <network network="twitter" class="px-2 py-1 m-auto border rounded-circle">
+                        <i class="fa fa-twitter"></i>
+                      </network>
+                      <network network="whatsapp" class="px-2 py-1 m-auto border rounded-circle">
+                        <i class="fa fa-whatsapp"></i>
+                      </network>
+                    </div>
                   </div>
                 </social-sharing>
               </div>
@@ -211,7 +244,11 @@ export default {
       return this.products.filter(item => item.product_type === "addons");
     },
     basePrice() {
-      return this.products.filter(item => item.product_type === "baseprice");
+      let arr = this.products.filter(item => item.product_type === "baseprice");
+      if (arr.length > 0) {
+        return arr[0].Pricing[0].rate;
+      }
+      return null;
     },
     menus() {
       return this.products.filter(item => item.product_type === "menu");
@@ -278,19 +315,14 @@ export default {
 .share-msg {
   font-size: 16px;
 }
-.feature {
-  font-weight: bold;
-}
+
 .active-feature {
   color: black;
 }
 .inactive-feature {
   color: lightgray;
 }
-.heading {
-  font-weight: 600;
-  font-size: 22px;
-}
+
 .nav div {
   font-weight: 600;
 }
@@ -301,8 +333,7 @@ export default {
 .form-control {
   border: none;
   border-radius: 0px;
-  font-weight: 500;
-  height: 50px;
+  height: 35px;
 }
 .sidebar-item {
   position: absolute;
@@ -317,17 +348,9 @@ export default {
   position: sticky;
   top: 0;
   min-height: 400px;
-  padding: 0 15px;
+  padding: 0 50px;
 }
 
-.address {
-  font-weight: 400;
-  font-size: 12px;
-}
-.description {
-  font-weight: 500;
-  font-size: 14px;
-}
 .request-booking {
   background: linear-gradient(#ff4d78, #fa7649);
   font-weight: 600;
@@ -340,5 +363,21 @@ export default {
 .carousel-inner > .item > img {
   width: 100%;
   height: 208px;
+}
+.form-element {
+  font-weight: 400;
+  font-size: 14px;
+}
+
+.price {
+  font-weight: 600;
+  font-size: 22px;
+  color: #fa7649;
+}
+
+.per-hour {
+  font-size: 14px;
+  font-weight: 300;
+  color: black;
 }
 </style>

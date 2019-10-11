@@ -1,6 +1,6 @@
 <template>
   <carousel
-    :per-page="3"
+    :per-page="4"
     :mouse-drag="false"
     :autoplay="true"
     :loop="true"
