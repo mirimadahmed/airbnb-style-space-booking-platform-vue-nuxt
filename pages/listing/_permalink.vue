@@ -15,7 +15,7 @@
                 </no-ssr>
               </div>
             </div>
-            <div class="col-md-12 mb-2 py-2 px-4 text-left">
+            <div class="col-md-12 mb-2 text-left">
               <div class="col-md-6 p-0">
                 <h1 class="heading">{{ entity.Entity.name }}</h1>
                 <p class="address">
@@ -116,6 +116,10 @@
                 <GmapMarker :position="{lat:entity.Entity.latitude, lng:entity.Entity.longitude}" />
               </GmapMap>
             </div>
+            <div class="col-md-12" v-if="otherSpaces.length > 0">
+              <p class="sub-heading">Other spaces from this host</p>
+              <CompanyCarousel :listings="otherSpaces" />
+            </div>
           </div>
         </div>
         <div class="col-md-4">
@@ -215,6 +219,7 @@ import moment from "moment";
 import VueContentLoading from "vue-content-loading";
 import AddOn from "@/components/Listing/AddOn";
 import Menu from "@/components/Listing/Menu";
+import CompanyCarousel from "@/components/Home/CompanyCarousel";
 import { RepositoryFactory } from "@/repository/RepositoryFactory";
 import SocialSharing from "vue-social-sharing";
 const ListingRepository = RepositoryFactory.get("listings");
@@ -226,7 +231,8 @@ export default {
     AddOn,
     Menu,
     VueContentLoading,
-    SocialSharing
+    SocialSharing,
+    CompanyCarousel
   },
   data() {
     return {
@@ -251,7 +257,8 @@ export default {
       products: [],
       productsLoading: false,
       isLoadingCompany: false,
-      company: {}
+      company: {},
+      otherSpaces: []
     };
   },
   computed: {
@@ -285,6 +292,8 @@ export default {
         return { id: index, src: img, thumbnail: img };
       });
       this.getProducts();
+      this.getCompanyProfile();
+      this.getOtherSpaces();
     },
     async getProducts() {
       this.productsLoading = true;
@@ -294,7 +303,16 @@ export default {
       );
       this.productsLoading = false;
       this.products = data;
-      this.getCompanyProfile();
+    },
+    async getOtherSpaces() {
+      const { data } = await ListingRepository.getAll(
+        this.entity.Entity.company_id
+      );
+      this.otherSpaces = data.filter(
+        item =>
+          item.Entity.status === "approved" &&
+          item.Entity.bpl_id !== this.entity.Entity.bpl_id
+      );
     },
     async getCompanyProfile() {
       this.isLoadingCompany = true;
