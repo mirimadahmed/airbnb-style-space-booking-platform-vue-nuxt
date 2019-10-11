@@ -1,9 +1,7 @@
 <template>
-  <div id="app">
+  <div id="app" :class="showFooter ? 'content' : ''">
     <TopMenu />
-    <div :class="showFooter ? 'content' : ''">
-      <nuxt />
-    </div>
+    <nuxt />
     <Footer v-if="showFooter" />
   </div>
 </template>
