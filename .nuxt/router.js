@@ -14,6 +14,7 @@ const _6e05e868 = () => interopDefault(import('../pages/ResetPassword.vue' /* we
 const _52f49d43 = () => interopDefault(import('../pages/ResultDetails.vue' /* webpackChunkName: "pages/ResultDetails" */))
 const _0bdd5465 = () => interopDefault(import('../pages/Terms.vue' /* webpackChunkName: "pages/Terms" */))
 const _ba34c498 = () => interopDefault(import('../pages/addspace/_permalink.vue' /* webpackChunkName: "pages/addspace/_permalink" */))
+const _a6899a6e = () => interopDefault(import('../pages/listing/_permalink.vue' /* webpackChunkName: "pages/listing/_permalink" */))
 const _aba7fae4 = () => interopDefault(import('../pages/search/_query.vue' /* webpackChunkName: "pages/search/_query" */))
 const _350ed549 = () => interopDefault(import('../pages/verify/_hash.vue' /* webpackChunkName: "pages/verify/_hash" */))
 const _2b251360 = () => interopDefault(import('../pages/index.vue' /* webpackChunkName: "pages/index" */))
@@ -141,6 +142,10 @@ export function createRouter() {
       path: "/addspace/:permalink?",
       component: _ba34c498,
       name: "addspace-permalink"
+    }, {
+      path: "/listing/:permalink?",
+      component: _a6899a6e,
+      name: "listing-permalink"
     }, {
       path: "/search/:query?",
       component: _aba7fae4,

@@ -33,7 +33,7 @@ export default {
   methods: {
     viewDetails() {
       let routeData = this.$router.resolve({
-        path: "/" + this.company.permalink
+        path: "/listing/" + this.company.permalink
       });
       window.open(routeData.href, "_blank");
     }
