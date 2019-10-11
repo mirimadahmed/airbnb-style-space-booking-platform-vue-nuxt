@@ -2,7 +2,10 @@
   <div>
     <div class="middle-wrapper col-md-12">
       <div class="heading">
-        <h1 class="d-none d-md-block">Spacesly - Book Spaces Easily</h1>
+        <h1 class="d-none d-md-block" style="color: #E74C3C;">
+          Book Spaces
+          <span style="color: #54A0FF;">Easily</span>
+        </h1>
       </div>
       <b-tabs class="text-center search d-none d-md-block" v-model="tabIndex">
         <b-tab title="Wedding" :title-link-class="linkClass(0)" class="tab-item" active>
@@ -19,7 +22,7 @@
                 placeholder="What are you planning?"
               ></b-form-input>
               <datalist id="my-list-id">
-                <option v-for="item in items">{{ item }}</option>
+                <option v-for="(item, i) in items" :key="i">{{ item }}</option>
               </datalist>
             </div>
             <div class="col-md-2 item-wrapper">
@@ -69,7 +72,7 @@
                 v-model="query.what"
               ></b-form-input>
               <datalist id="my-list-id">
-                <option v-for="item in items">{{ item }}</option>
+                <option v-for="(item, i) in items" :key="i">{{ item }}</option>
               </datalist>
             </div>
             <div class="col-md-2 item-wrapper">
@@ -116,7 +119,7 @@
                 v-model="query.what"
               />
               <datalist id="my-list-id">
-                <option v-for="item in items">{{ item }}</option>
+                <option v-for="(item, i) in items" :key="i">{{ item }}</option>
               </datalist>
             </div>
             <div class="col-md-2 item-wrapper">
@@ -162,7 +165,7 @@
                 v-model="query.what"
               />
               <datalist id="my-list-id">
-                <option v-for="item in items">{{ item }}</option>
+                <option v-for="(item, i) in items" :key="i">{{ item }}</option>
               </datalist>
             </div>
             <div class="col-md-3 item-wrapper">
@@ -199,7 +202,7 @@
                 v-model="query.what"
               />
               <datalist id="my-list-id">
-                <option v-for="item in items">{{ item }}</option>
+                <option v-for="(item, i) in items" :key="i">{{ item }}</option>
               </datalist>
             </div>
             <div class="col-md-3 item-wrapper">
@@ -229,7 +232,7 @@
       <div class="col-sm-12 py-3 phone-item shadow-sm">
         <b-form-input list="my-list-id" v-model="query.what" placeholder="What are you planning?"></b-form-input>
         <datalist id="my-list-id">
-          <option v-for="item in items">{{ item }}</option>
+          <option v-for="(item, i) in items" :key="i">{{ item }}</option>
         </datalist>
       </div>
       <div class="col-sm-12 py-3 phone-item shadow-sm">
