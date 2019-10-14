@@ -117,7 +117,12 @@
               </GmapMap>
             </div>
             <div class="col-md-12" v-if="otherSpaces.length > 0">
-              <p class="sub-heading">Other spaces from this host</p>
+              <div class="col-md-10 m-auto">
+                <a-divider />
+              </div>
+            </div>
+            <div class="col-md-12 my-4" v-if="otherSpaces.length > 0">
+              <p class="sub-heading text-left">Other spaces from this host</p>
               <CompanyCarousel :listings="otherSpaces" />
             </div>
           </div>
@@ -311,7 +316,7 @@ export default {
       this.otherSpaces = data.filter(
         item =>
           item.Entity.status === "approved" &&
-          item.Entity.bpl_id !== this.entity.Entity.bpl_id
+          item.Entity.entity_id !== this.entity.Entity.entity_id
       );
     },
     async getCompanyProfile() {
