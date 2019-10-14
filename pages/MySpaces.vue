@@ -24,9 +24,18 @@
               :href="`/${item.Entity.permalink}`"
               target="_blank"
             >view</a>
-            <a slot="actions" @click="deleteListing(item.Entity.permalink)">
-              <i class="fa fa-trash-o" style="color:red;" aria-hidden="true"></i>
-            </a>
+            <a-popconfirm
+              title="Are you sure delete this listing?"
+              @confirm="deleteListing(item.Entity.permalink)"
+              okText="Yes"
+              cancelText="No"
+              slot="actions"
+            >
+              <a href="#">
+                <i class="fa fa-trash-o" style="color:red;" aria-hidden="true"></i>
+              </a>
+            </a-popconfirm>
+
             <a-list-item-meta>
               <a slot="title">{{item.Entity.name}}</a>
               <b-badge
