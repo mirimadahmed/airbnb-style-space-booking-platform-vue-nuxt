@@ -81,6 +81,9 @@ export default {
   update_pricing(payload) {
     return Repository.put(`${products_resource}` + payload.entity_id, payload);
   },
+  delete_product(payload) {
+    return Repository.delete(`product/` + payload);
+  },
   // Products
   getProducts(id) {
     return Repository.get(`products/${id}`);
