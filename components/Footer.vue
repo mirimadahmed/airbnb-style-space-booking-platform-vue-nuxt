@@ -1,6 +1,6 @@
 <template>
   <div class="wrapper text-left">
-    <div class="row">
+    <div class="row m-0">
       <div class="col-md-3">
         <div class="col-md-12 p-0">
           <img src="/logo.png" width="120px" alt="Spacesly" />
@@ -30,7 +30,7 @@
       </div>
       <div class="col-md-3"></div>
     </div>
-    <div class="row" style="text-align:center;">
+    <div class="row m-0" style="text-align:center;">
       <div class="col-md-12">
         <p>
           Designed & Developed with
