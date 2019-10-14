@@ -725,7 +725,7 @@
             </div>
           </div>
 
-          <div class="steps-action col-md-12 text-right">
+          <div class="steps-action col-md-12 text-right p-0">
             <button
               class="button"
               v-if="current == steps.length - 1"
