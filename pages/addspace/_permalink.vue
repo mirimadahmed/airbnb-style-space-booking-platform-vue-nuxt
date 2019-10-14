@@ -5,7 +5,7 @@
     </div>
     <div v-else>
       <div class="row m-0 p-0">
-        <div class="col-md-8 m-0 p-0">
+        <div class="col-md-9 m-0 p-0">
           <a-steps :current="current">
             <a-step v-for="item in steps" :key="item.title" :title="item.title" />
           </a-steps>
@@ -746,7 +746,7 @@
             >{{ current === 0 && isNew ? 'Next' : 'Next'}}</button>
           </div>
         </div>
-        <div class="col-md-4 m-0 p-2 text-right">
+        <div class="col-md-3 m-0 p-2 text-right">
           <h1>Need help?</h1>
           <p>Talk to one of our representatives.</p>
           <p>+92 336 555 6230</p>
@@ -1118,14 +1118,16 @@ export default {
   },
   methods: {
     async deleteMenu(id) {
-      this.isLoading = true
+      this.isLoading = true;
       let { data } = await ListingRepository.delete_product(id);
-      this.isLoading = false
-      if(data.success) {
-        const index = this.pricings.findIndex(pricing => pricing.product_id === id)
-        if(index > 0) {
-          this.pricings.splice(index, 1)
-          this.$message.success('Menu Deleted')
+      this.isLoading = false;
+      if (data.success) {
+        const index = this.pricings.findIndex(
+          pricing => pricing.product_id === id
+        );
+        if (index > 0) {
+          this.pricings.splice(index, 1);
+          this.$message.success("Menu Deleted");
         }
       }
     },
