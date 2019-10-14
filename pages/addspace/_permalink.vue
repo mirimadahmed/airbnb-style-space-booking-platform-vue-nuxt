@@ -172,31 +172,18 @@
                   <h1 class="heading">Timings</h1>
                 </div>
                 <div class="col-md-6">
-                  <button class="button pull-right" @click="showModal">Add</button>
+                  <button
+                    class="button pull-right"
+                    @click="showModal"
+                    v-if="timings.length === 0"
+                  >Add</button>
                 </div>
               </div>
               <div class="clearfix">
-                <a-table
-                  :columns="timing_options"
-                  :dataSource="timings"
-                  :locale="{emptyText:'No Timing Configuration found. Click add to configure'}"
-                >
-                  <a-time-picker
-                    slot="time_start"
-                    slot-scope="text"
-                    :minuteStep="15"
-                    v-model="text"
-                  />
-                  <a-time-picker slot="time_end" slot-scope="text" :minuteStep="15" v-model="text" />
-                  <a-radio-group slot="slot" slot-scope="text" v-model="text">
-                    <a-radio-button value="per_day">Per day</a-radio-button>
-                    <a-radio-button value="per_shift">Per shift</a-radio-button>
-                    <a-radio-button value="per_hour">Per hour</a-radio-button>
-                  </a-radio-group>
-                  <span slot="timings_conf_id" slot-scope="item,index" v-if="!index.is_active">
-                    <a href="javascript:;" @click="activateSlots(item)">Activate</a>
-                  </span>
-                </a-table>
+                <div class="row" v-for="(timing, index) in timings" :key="index">
+                  <div class="col-md-6 sub-heading">Start Time: {{timing.time_start}}</div>
+                  <div class="col-md-6 sub-heading">Closing Time: {{timing.time_end}}</div>
+                </div>
               </div>
               <div class="row" style="margin-top:10px;" v-if="timings.length>0">
                 <div class="col-md-12">
@@ -605,7 +592,7 @@
                             <div class="col-md-6">
                               <i
                                 class="fa fa-trash-o pull-right"
-                                @click="deleteMenu()"
+                                @click="deleteMenu(menus.product_id)"
                                 style="color:red;"
                                 aria-hidden="true"
                               ></i>
@@ -781,28 +768,6 @@
           </div>
           <div class="col-md-6">
             <a-time-picker v-model="newTime.time_end" format="HH:mm" />
-          </div>
-        </div>
-        <div class="row new-time">
-          <div class="col-md-3 .no-pad">
-            <h6>Space Allocation</h6>
-          </div>
-          <div class="col-md-7 .no-pad">
-            <a-radio-group v-model="newTime.slot" :disabled="timings.length>0">
-              <a-radio-button value="per_day">Per day</a-radio-button>
-              <a-radio-button value="per_shift">Per shift</a-radio-button>
-              <a-radio-button value="per_hour">Per hour</a-radio-button>
-            </a-radio-group>
-          </div>
-          <div class="col-md-2 no-pad">
-            <a-input-number
-              v-if="newTime.slot === 'per_shift'"
-              :min="2"
-              v-model="newTime.no_of_shift"
-              placeholder="No of Shifts"
-              :max="10"
-              :disabled="timings.length>0"
-            />
           </div>
         </div>
       </a-modal>
@@ -1152,8 +1117,17 @@ export default {
     }
   },
   methods: {
-    async deleteMenu() {
-      console.log("yep");
+    async deleteMenu(id) {
+      this.isLoading = true
+      let { data } = await ListingRepository.delete_product(id);
+      this.isLoading = false
+      if(data.success) {
+        const index = this.pricings.findIndex(pricing => pricing.product_id === id)
+        if(index > 0) {
+          this.pricings.splice(index, 1)
+          this.$message.success('Menu Deleted')
+        }
+      }
     },
     addTag(newTag) {
       const tag = {
