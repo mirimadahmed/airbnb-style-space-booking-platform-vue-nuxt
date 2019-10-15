@@ -21,6 +21,9 @@ export default {
 };
 </script>
 <style>
+.anticon {
+  vertical-align: 0 !important;
+}
 #app {
   font-family: "Nunito Sans", sans-serif;
 
