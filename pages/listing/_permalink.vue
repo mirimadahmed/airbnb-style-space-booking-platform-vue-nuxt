@@ -1,9 +1,15 @@
 <template>
   <div>
-    <vue-content-loading v-if="isLoading" :width="300" :height="120">
-      <rect x="0" y="10" rx="4" ry="4" width="200" height="100" />
-      <rect x="220" y="10" rx="4" ry="4" width="70" height="100" />
-    </vue-content-loading>
+    <div v-if="isLoading">
+      <div class="row p-4 m-0">
+        <div class="col-md-8">
+          <a-skeleton active :title="false" :paragraph="{rows: 10}" />
+        </div>
+        <div class="col-md-4">
+          <a-skeleton active :title="false" :paragraph="{rows: 4}" />
+        </div>
+      </div>
+    </div>
     <div v-else-if="entity">
       <div class="row p-2 m-0 main-wrapper">
         <div class="col-md-8 p-2">
@@ -237,7 +243,6 @@
 </template>
 <script>
 import moment from "moment";
-import VueContentLoading from "vue-content-loading";
 import AddOn from "@/components/Listing/AddOn";
 import Menu from "@/components/Listing/Menu";
 import CompanyCarousel from "@/components/Home/CompanyCarousel";
@@ -251,7 +256,6 @@ export default {
   components: {
     AddOn,
     Menu,
-    VueContentLoading,
     SocialSharing,
     CompanyCarousel
   },

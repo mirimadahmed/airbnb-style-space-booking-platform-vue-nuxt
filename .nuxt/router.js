@@ -11,7 +11,6 @@ const _c8205f86 = () => interopDefault(import('../pages/Partners.vue' /* webpack
 const _9e612734 = () => interopDefault(import('../pages/Privacy.vue' /* webpackChunkName: "pages/Privacy" */))
 const _61cada07 = () => interopDefault(import('../pages/Profile.vue' /* webpackChunkName: "pages/Profile" */))
 const _6e05e868 = () => interopDefault(import('../pages/ResetPassword.vue' /* webpackChunkName: "pages/ResetPassword" */))
-const _52f49d43 = () => interopDefault(import('../pages/ResultDetails.vue' /* webpackChunkName: "pages/ResultDetails" */))
 const _0bdd5465 = () => interopDefault(import('../pages/Terms.vue' /* webpackChunkName: "pages/Terms" */))
 const _ba34c498 = () => interopDefault(import('../pages/addspace/_permalink.vue' /* webpackChunkName: "pages/addspace/_permalink" */))
 const _a6899a6e = () => interopDefault(import('../pages/listing/_permalink.vue' /* webpackChunkName: "pages/listing/_permalink" */))
@@ -130,10 +129,6 @@ export function createRouter() {
       path: "/ResetPassword",
       component: _6e05e868,
       name: "ResetPassword"
-    }, {
-      path: "/ResultDetails",
-      component: _52f49d43,
-      name: "ResultDetails"
     }, {
       path: "/Terms",
       component: _0bdd5465,

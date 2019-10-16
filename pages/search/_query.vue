@@ -2,11 +2,17 @@
   <div>
     <SearchBar @map-changed="updateMap" />
     <!-- <Filters @map-changed="updateMap" /> -->
-    <vue-content-loading v-if="isLoading" :width="300" :height="120">
-      <rect x="10" y="10" rx="4" ry="4" width="85" height="100" />
-      <rect x="105" y="10" rx="4" ry="4" width="85" height="100" />
-      <rect x="195" y="10" rx="4" ry="4" width="85" height="100" />
-    </vue-content-loading>
+    <div class="row m-0 p-4" v-if="isLoading">
+      <div class="col-md-4">
+        <a-skeleton active :title="false" :paragraph="{rows: 10}" />
+      </div>
+      <div class="col-md-4">
+        <a-skeleton active :title="false" :paragraph="{rows: 10}" />
+      </div>
+      <div class="col-md-4">
+        <a-skeleton active :title="false" :paragraph="{rows: 10}" />
+      </div>
+    </div>
     <div
       id="main-wrapper"
       class="row m-0"
@@ -63,7 +69,6 @@
   </div>
 </template>
 <script>
-import VueContentLoading from "vue-content-loading";
 import SearchBar from "@/components/Search/SearchBar.vue";
 import Filters from "@/components/Search/Filters.vue";
 import CompanyBlock from "@/components/CompanyBlock.vue";
@@ -74,8 +79,7 @@ export default {
   components: {
     SearchBar,
     Filters,
-    CompanyBlock,
-    VueContentLoading
+    CompanyBlock
   },
   data() {
     return {
