@@ -562,7 +562,6 @@
             <button
               class="button pull-left"
               v-if="current>0 && current!=4"
-              style="margin-left: 8px"
               @click="prev"
             >Previous</button>
             <button
