@@ -43,7 +43,23 @@
                 <a-divider />
               </div>
             </div>
-            <div class="col-md-12">
+            <div class="col-md-12" v-if="entity.CustomFields.Capacity">
+              <div class="row m-0 text-left">
+                <h2 class="col-md-12 sub-heading">Capacity</h2>
+                <p
+                  class="col-md-4 mb-0 py-2 feature"
+                  v-for="capacity in entity.CustomFields.Capacity"
+                  :class="capacity.value > 0 ? 'active-feature' : 'inactive-feature'"
+                  :key="capacity.cfd_id"
+                >{{ capacity.name + ' ' + capacity.value }}</p>
+              </div>
+            </div>
+            <div class="col-md-12" v-if="entity.CustomFields.Capacity">
+              <div class="col-md-10 m-auto">
+                <a-divider />
+              </div>
+            </div>
+            <div class="col-md-12" v-if="entity.CustomFields.Amenities">
               <div class="row m-0 text-left">
                 <h2 class="col-md-12 sub-heading">Amenities offered</h2>
                 <p
@@ -54,12 +70,12 @@
                 >{{ amenity.name }}</p>
               </div>
             </div>
-            <div class="col-md-12">
+            <div class="col-md-12" v-if="entity.CustomFields.Amenities">
               <div class="col-md-10 m-auto">
                 <a-divider />
               </div>
             </div>
-            <div class="col-md-12 mb-4">
+            <div class="col-md-12 mb-4" v-if="entity.CustomFields.Activities">
               <div class="row m-0 text-left">
                 <h2 class="col-md-12 sub-heading">Activities allowed</h2>
                 <p
@@ -75,7 +91,7 @@
                 </p>
               </div>
             </div>
-            <div class="col-md-12">
+            <div class="col-md-12" v-if="entity.CustomFields.Activities">
               <div class="col-md-10 m-auto">
                 <a-divider />
               </div>
