@@ -21,7 +21,7 @@
                 </no-ssr>
               </div>
             </div>
-            <div class="col-md-12 mb-2 text-left">
+            <div class="col-md-12 mb-2 text-left row mx-0">
               <div class="col-md-6 p-0">
                 <h1 class="heading">{{ entity.Entity.name }}</h1>
                 <p class="address">
@@ -30,14 +30,19 @@
                 </p>
               </div>
               <div class="col-md-6 p-0 text-right" v-if="!isLoadingCompany">
-                <div class="row m-0 p-0">
-                  <div class="col-md-12">
-                    <a-avatar :size="150" :src="company.logo_image" />
+                <a :href="'/' + entity.Entity.company_permalink">
+                  <div class="row m-0 p-0">
+                    <div class="col-md-12">
+                      <h1 class="sub-heading">Host</h1>
+                    </div>
+                    <div class="col-md-12" v-if="company.logo_image">
+                      <a-avatar :size="70" :src="company.logo_image" />
+                    </div>
+                    <div class="col-md-12 mt-2">
+                      <h1 class="section-text">{{ company.name }}</h1>
+                    </div>
                   </div>
-                  <div class="col-md-12 mt-2">
-                    <h1 class="heading">{{ company.name }}</h1>
-                  </div>
-                </div>
+                </a>
               </div>
             </div>
             <div class="col-md-12 p-4 text-left">
@@ -342,7 +347,7 @@ export default {
     async getCompanyProfile() {
       this.isLoadingCompany = true;
       const { data } = await UserRepository.getCompanyProfile(
-        this.entity.Entity.company_id
+        this.entity.Entity.company_permalink
       );
       this.company = data;
       this.isLoadingCompany = false;
