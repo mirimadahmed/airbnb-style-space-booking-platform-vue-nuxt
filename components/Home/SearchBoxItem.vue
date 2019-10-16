@@ -2,10 +2,7 @@
   <div>
     <div class="middle-wrapper col-md-12">
       <div class="heading">
-        <h1 class="d-none d-md-block" style="color: #E74C3C;">
-          Book Spaces
-          <span style="color: #54A0FF;">Easily</span>
-        </h1>
+        <h1 class="d-none d-md-block">What do you want to host today?</h1>
       </div>
       <b-tabs class="text-center search d-none d-md-block" v-model="tabIndex">
         <b-tab title="Wedding" :title-link-class="linkClass(0)" class="tab-item" active>
