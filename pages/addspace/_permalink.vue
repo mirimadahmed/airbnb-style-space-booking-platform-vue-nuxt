@@ -171,19 +171,45 @@
                 <div class="col-md-6">
                   <h1 class="heading">Timings</h1>
                 </div>
-                <div class="col-md-6">
-                  <button
-                    class="button pull-right"
-                    @click="showModal"
-                    v-if="timings.length === 0"
-                  >Add</button>
-                </div>
               </div>
               <div class="clearfix">
-                <div class="row" v-for="(timing, index) in timings" :key="index">
-                  <div class="col-md-6 sub-heading">Start Time: {{timing.time_start}}</div>
-                  <div class="col-md-6 sub-heading">Closing Time: {{timing.time_end}}</div>
-                </div>
+                <b-card>
+                  <div class="row py-3" v-if="timings.length === 0">
+                    <div class="col-md-12 sub-heading py-2">Let's start by adding time configuration</div>
+
+                    <div class="col-md-5 section-heading">
+                      Start Time:
+                      <a-time-picker
+                        v-model="newTime.time_start"
+                        use12Hours
+                        format="h A"
+                        :defaultOpenValue="defaultValue"
+                        class="pull-right"
+                      />
+                    </div>
+                    <div class="col-md-5 section-heading">
+                      Closing Time:
+                      <a-time-picker
+                        v-model="newTime.time_end"
+                        use12Hours
+                        format="h A"
+                        :defaultOpenValue="defaultValue"
+                        class="pull-right"
+                      />
+                    </div>
+                    <div class="col-md-2 section-heading">
+                      <button class="button pull-right" @click="newTiming">Save</button>
+                    </div>
+                  </div>
+                  <div class="row" v-for="(timing, index) in timings" :key="index">
+                    <div
+                      class="col-md-6 sub-heading"
+                    >Start Time: {{getProperTime(timing.time_start)}}</div>
+                    <div
+                      class="col-md-6 sub-heading"
+                    >Closing Time: {{getProperTime(timing.time_end)}}</div>
+                  </div>
+                </b-card>
               </div>
               <div class="row" style="margin-top:10px;" v-if="timings.length>0">
                 <div class="col-md-12">
@@ -192,90 +218,12 @@
                       <div class="col-md-12">
                         <b-card class="mb-12" style="border:none;">
                           <div class="row">
-                            <div class="col-md-3">
+                            <div class="col-md-12">
                               <b-form-group label="Space Rent">
                                 <b-form-input v-model="base_price.base_rent" type="text" />
                               </b-form-group>
                             </div>
-                            <div class="col-md-3">
-                              <fieldset data-v-596672cd class="form-group" id="__BVID__1058">
-                                <legend
-                                  tabindex="-1"
-                                  class="col-form-label pt-0"
-                                  id="__BVID__1058__BV_label_"
-                                >
-                                  Effective Date
-                                  <a-tooltip placement="top">
-                                    <template slot="title">
-                                      <span>text here</span>
-                                    </template>
-                                    <i class="fa fa-info-circle" aria-hidden="true"></i>
-                                  </a-tooltip>
-                                </legend>
-                                <div tabindex="-1" role="group">
-                                  <date-picker
-                                    placeholder="mm/dd/yy"
-                                    v-model="base_price.effective_date"
-                                    input-class="form-control h-100 border-0 rounded-0"
-                                    class="form-control p-0"
-                                    :lang="lang"
-                                    :not-before="new Date()"
-                                  />
-                                </div>
-                              </fieldset>
-                            </div>
-                            <div class="col-md-3">
-                              <fieldset data-v-596672cd class="form-group" id="__BVID__1058">
-                                <legend
-                                  tabindex="-1"
-                                  class="col-form-label pt-0"
-                                  id="__BVID__1058__BV_label_"
-                                >
-                                  Expiry Date
-                                  <a-tooltip placement="top">
-                                    <template slot="title">
-                                      <span>text here</span>
-                                    </template>
-                                    <i class="fa fa-info-circle" aria-hidden="true"></i>
-                                  </a-tooltip>
-                                </legend>
-                                <div tabindex="-1" role="group">
-                                  <date-picker
-                                    placeholder="mm/dd/yy"
-                                    v-model="base_price.expiration_date"
-                                    input-class="form-control h-100 border-0 rounded-0"
-                                    class="form-control p-0"
-                                    :lang="lang"
-                                    :not-before="new Date()"
-                                  />
-                                </div>
-                              </fieldset>
-                            </div>
-                            <div class="col-md-3">
-                              <fieldset data-v-596672cd class="form-group" id="__BVID__1058">
-                                <legend
-                                  tabindex="-1"
-                                  class="col-form-label pt-0"
-                                  id="__BVID__1058__BV_label_"
-                                >
-                                  Is Required
-                                  <a-tooltip placement="top">
-                                    <template slot="title">
-                                      <span>text here</span>
-                                    </template>
-                                    <i class="fa fa-info-circle" aria-hidden="true"></i>
-                                  </a-tooltip>
-                                </legend>
-                                <div tabindex="-1" role="group">
-                                  <b-form-checkbox
-                                    v-model="base_price.is_required"
-                                    name="check-button"
-                                    switch
-                                  ></b-form-checkbox>
-                                </div>
-                              </fieldset>
-                            </div>
-                            <div class="col-md-5">
+                            <div class="col-md-6">
                               <b-form-group
                                 label="Is the rent amount waivable at certain number of people"
                               >
@@ -287,8 +235,8 @@
                                 ></b-form-checkbox>
                               </b-form-group>
                             </div>
-                            <div class="col-md-2" v-if="base_price.is_waivable==true">
-                              <b-form-group label="Waive of people at">
+                            <div class="col-md-6" v-if="base_price.is_waivable==true">
+                              <b-form-group label="Waive off if people are more than">
                                 <b-form-input v-model="base_price.waive_off_at" type="number" />
                               </b-form-group>
                             </div>
@@ -339,7 +287,7 @@
                       <div class="col-md-12">
                         <b-card class="mb-12" style="border:none;">
                           <div class="row">
-                            <div class="col-md-2">
+                            <div class="col-md-6">
                               <b-form-group label="AddOn Title">
                                 <b-form-input
                                   placeholder="e.g. Heating"
@@ -348,7 +296,7 @@
                                 />
                               </b-form-group>
                             </div>
-                            <div class="col-md-2">
+                            <div class="col-md-6">
                               <b-form-group label="Add-On Rent">
                                 <b-form-input
                                   v-model="addon_field_item.Pricing[0].rate"
@@ -356,87 +304,9 @@
                                 />
                               </b-form-group>
                             </div>
-                            <div class="col-md-2.5">
-                              <fieldset data-v-596672cd class="form-group" id="__BVID__1058">
-                                <legend
-                                  tabindex="-1"
-                                  class="col-form-label pt-0"
-                                  id="__BVID__1058__BV_label_"
-                                >
-                                  Effective Date
-                                  <a-tooltip placement="top">
-                                    <template slot="title">
-                                      <span>text here</span>
-                                    </template>
-                                    <i class="fa fa-info-circle" aria-hidden="true"></i>
-                                  </a-tooltip>
-                                </legend>
-                                <div tabindex="-1" role="group">
-                                  <date-picker
-                                    placeholder="mm/dd/yy"
-                                    v-model="addon_field_item.Pricing[0].effective_date"
-                                    input-class="form-control h-100 border-0 rounded-0"
-                                    class="form-control p-0"
-                                    :lang="lang"
-                                    :not-before="new Date()"
-                                  />
-                                </div>
-                              </fieldset>
-                            </div>
-                            <div class="col-md-2">
-                              <fieldset data-v-596672cd class="form-group" id="__BVID__1058">
-                                <legend
-                                  tabindex="-1"
-                                  class="col-form-label pt-0"
-                                  id="__BVID__1058__BV_label_"
-                                >
-                                  Expiry Date
-                                  <a-tooltip placement="top">
-                                    <template slot="title">
-                                      <span>text here</span>
-                                    </template>
-                                    <i class="fa fa-info-circle" aria-hidden="true"></i>
-                                  </a-tooltip>
-                                </legend>
-                                <div tabindex="-1" role="group">
-                                  <date-picker
-                                    placeholder="mm/dd/yy"
-                                    v-model="addon_field_item.Pricing[0].expiration_date"
-                                    input-class="form-control h-100 border-0 rounded-0"
-                                    class="form-control p-0"
-                                    :lang="lang"
-                                    :not-before="new Date()"
-                                  />
-                                </div>
-                              </fieldset>
-                            </div>
-                            <div class="offset-md-1 col-md-2">
-                              <fieldset data-v-596672cd class="form-group" id="__BVID__1058">
-                                <legend
-                                  tabindex="-1"
-                                  class="col-form-label pt-0"
-                                  id="__BVID__1058__BV_label_"
-                                >
-                                  Is Required
-                                  <a-tooltip placement="top">
-                                    <template slot="title">
-                                      <span>text here</span>
-                                    </template>
-                                    <i class="fa fa-info-circle" aria-hidden="true"></i>
-                                  </a-tooltip>
-                                </legend>
-                                <div tabindex="-1" role="group">
-                                  <b-form-checkbox
-                                    v-model="addon_field_item.is_required"
-                                    name="check-button"
-                                    switch
-                                  ></b-form-checkbox>
-                                </div>
-                              </fieldset>
-                            </div>
-                            <div class="col-md-5">
+                            <div class="col-md-6">
                               <b-form-group
-                                label="Is the rent amount waivable at certain number of people"
+                                label="Is this addon price waivable at certain number of people"
                               >
                                 <b-form-checkbox
                                   v-model="addon_field_item.is_waivable"
@@ -445,13 +315,29 @@
                                 ></b-form-checkbox>
                               </b-form-group>
                             </div>
-                            <div v-if="addon_field_item.is_waivable==true" class="col-md-2">
-                              <b-form-group label="Waive of people at">
+                            <div v-if="addon_field_item.is_waivable==true" class="col-md-6">
+                              <b-form-group label="Waive off if number of people more than">
                                 <b-form-input
                                   v-model="addon_field_item.applicable_on_less_than"
                                   type="number"
                                 />
                               </b-form-group>
+                            </div>
+                            <div class="col-md-12">
+                              <fieldset data-v-596672cd class="form-group" id="__BVID__1058">
+                                <legend
+                                  tabindex="-1"
+                                  class="col-form-label pt-0"
+                                  id="__BVID__1058__BV_label_"
+                                >Is this add on required for booking?</legend>
+                                <div tabindex="-1" role="group">
+                                  <b-form-checkbox
+                                    v-model="addon_field_item.is_required"
+                                    name="check-button"
+                                    switch
+                                  ></b-form-checkbox>
+                                </div>
+                              </fieldset>
                             </div>
                           </div>
                           <div class="row">
@@ -485,8 +371,8 @@
                           :columns="addon_options"
                           :dataSource="getAddons"
                         >
-                          <span slot="is_waivable" slot-scope="text">{{text=='true' ? 'Yes':'No'}}</span>
-                          <span slot="is_required" slot-scope="text">{{text=='true' ? 'Yes':'No'}}</span>
+                          <span slot="is_required" slot-scope="text">{{text ? 'Yes':'No'}}</span>
+                          <span slot="is_waivable" slot-scope="text">{{text ? 'Yes':'No'}}</span>
                           <span slot="applicable_on_less_than" slot-scope="text">{{text}}</span>
                           <span slot="Pricing" slot-scope="text">{{text[0].rate}}</span>
                           <span slot="action" slot-scope="item,index">
@@ -520,7 +406,7 @@
                               <b-form-group label="Menu Items">
                                 <multiselect
                                   v-model="menu_tags"
-                                  tag-placeholder="Add this as new tag"
+                                  tag-placeholder="Add this as new item"
                                   placeholder="Add Menu items"
                                   label="name"
                                   track-by="code"
@@ -536,34 +422,6 @@
                             <div class="col-md-12">
                               <b-form-group label="Menu Price">
                                 <a-input type="number" v-model="menu_price_pp" placeholder="200" />
-                              </b-form-group>
-                            </div>
-                          </div>
-                          <div class="row">
-                            <div class="col-md-12">
-                              <b-form-group label="Effective Date">
-                                <date-picker
-                                  placeholder="mm/dd/yy"
-                                  v-model="menu_effective_date"
-                                  input-class="form-control h-100 border-0 rounded-0"
-                                  class="form-control p-0"
-                                  :lang="lang"
-                                  :not-before="new Date()"
-                                />
-                              </b-form-group>
-                            </div>
-                          </div>
-                          <div class="row">
-                            <div class="col-md-12">
-                              <b-form-group label="Expiration Date">
-                                <date-picker
-                                  placeholder="mm/dd/yy"
-                                  v-model="menu_expiration_date"
-                                  input-class="form-control h-100 border-0 rounded-0"
-                                  class="form-control p-0"
-                                  :lang="lang"
-                                  :not-before="new Date()"
-                                />
                               </b-form-group>
                             </div>
                           </div>
@@ -669,39 +527,8 @@
                               </b-form-group>
                             </div>
                           </div>
-                          <div class="row">
-                            <div class="col-md-12">
-                              <b-form-group label="Effective Dates">
-                                <p v-if="menus.editable==false">{{menus.Pricing[0].effective_date}}</p>
-                                <date-picker
-                                  v-else
-                                  placeholder="mm/dd/yy"
-                                  v-model="menus.Pricing[0].effective_date"
-                                  input-class="form-control h-100 border-0 rounded-0"
-                                  class="form-control p-0"
-                                  :lang="lang"
-                                  :not-before="new Date()"
-                                />
-                              </b-form-group>
-                            </div>
-                          </div>
-                          <div class="row">
-                            <div class="col-md-12">
-                              <b-form-group label="Expiration Dates">
-                                <p v-if="menus.editable==false">{{menus.Pricing[0].expiration_date}}</p>
-                                <date-picker
-                                  v-else
-                                  placeholder="mm/dd/yy"
-                                  v-model="menus.Pricing[0].expiration_date"
-                                  input-class="form-control h-100 border-0 rounded-0"
-                                  class="form-control p-0"
-                                  :lang="lang"
-                                  :not-before="new Date()"
-                                />
-                              </b-form-group>
-                            </div>
-                          </div>
-                          <div class="row">
+
+                          <div class="row" v-if="menus.editable">
                             <div class="col-md-12">
                               <b-form-group>
                                 <b-button
@@ -934,28 +761,28 @@ export default {
           key: "name"
         },
         {
+          title: "Pricing",
+          scopedSlots: { customRender: "Pricing" },
+          dataIndex: "Pricing",
+          key: "Pricing"
+        },
+        {
+          title: "Required for booking",
+          scopedSlots: { customRender: "is_required" },
+          dataIndex: "is_required",
+          key: "is_required"
+        },
+        {
           title: "Waivable",
           scopedSlots: { customRender: "is_waivable" },
           dataIndex: "is_waivable",
           key: "is_waivable"
         },
         {
-          title: "Required",
-          scopedSlots: { customRender: "is_required" },
-          dataIndex: "is_required",
-          key: "is_required"
-        },
-        {
           title: "Waive Off At",
           scopedSlots: { customRender: "applicable_on_less_than" },
           dataIndex: "applicable_on_less_than",
           key: "applicable_on_less_than"
-        },
-        {
-          title: "Pricing",
-          scopedSlots: { customRender: "Pricing" },
-          dataIndex: "Pricing",
-          key: "Pricing"
         },
         {
           title: "Action",
@@ -1114,6 +941,9 @@ export default {
     ...mapGetters(["user"]),
     isNew() {
       return this.permalink === undefined;
+    },
+    defaultValue() {
+      return moment("00:00:00", "H a");
     }
   },
   methods: {
@@ -1168,12 +998,8 @@ export default {
 
       let temp_price_obj = {
         hours: 1,
-        effective_date: moment(this.base_price.effective_date).format(
-          "YYYY/MM/DD"
-        ),
-        expiration_date: moment(this.base_price.expiration_date).format(
-          "YYYY/MM/DD"
-        ),
+        effective_date: moment().format("YYYY/MM/DD"),
+        expiration_date: null,
         monday: this.base_price.base_rent,
         tuesday: this.base_price.base_rent,
         wednesday: this.base_price.base_rent,
@@ -1190,6 +1016,7 @@ export default {
 
       let { data } = await ListingRepository.update_pricing(this.pricing_obj);
       if (data.success == true) {
+        this.openNotificationWithIcon("success", "Updated successfully");
       } else {
         this.openNotificationWithIcon("error", data.user_message);
       }
@@ -1236,32 +1063,13 @@ export default {
     },
     async newTiming() {
       if (this.newTime.time_start != null && this.newTime.time_end != null) {
-        if (this.newTime.slot == "per_hour") {
-          this.newTime.hours_per_shift = 1;
-        } else if (this.newTime.slot == "per_day") {
-          var res = moment(this.newTime.time_start)
-            .format("HH:mm:ss")
-            .split(":", 2);
-          var start_hour = res[0];
-          var res = moment(this.newTime.time_end)
-            .format("HH:mm:ss")
-            .split(":", 2);
-          var end_hour = res[0];
-          var workinghours = end_hour - start_hour;
-          this.newTime.hours_per_shift = workinghours;
-        } else if (this.newTime.slot == "per_shift") {
-          var res = moment(this.newTime.time_start)
-            .format("HH:mm:ss")
-            .split(":", 2);
-          var start_hour = res[0];
-          var res = moment(this.newTime.time_end)
-            .format("HH:mm:ss")
-            .split(":", 2);
-          var end_hour = res[0];
-          var workinghours = end_hour - start_hour;
-          var totalshifts = this.newTime.no_of_shift;
-          this.newTime.hours_per_shift = workinghours / totalshifts;
+        let start = moment(this.newTime.time_start);
+        let end = moment(this.newTime.time_end);
+        if (end.isSameOrBefore(start)) {
+          this.$message.error("Close time must be after start time");
+          return;
         }
+        this.newTime.hours_per_shift = 1;
         let obj = {
           time_start:
             moment(this.newTime.time_start).format("HH:mm:ss") + ".00",
@@ -1351,17 +1159,13 @@ export default {
       this.pricing_obj.product_type = "baseprice";
       this.pricing_obj.entity_id = this.listing.entity_id;
       this.pricing_obj.is_waivable = this.base_price.is_waivable;
-      this.pricing_obj.is_required = this.base_price.is_required;
+      this.pricing_obj.is_required = true;
       this.pricing_obj.applicable_on_less_than = this.base_price.waive_off_at;
 
       let temp_price_obj = {
         hours: 1,
-        effective_date: moment(this.base_price.effective_date).format(
-          "YYYY/MM/DD"
-        ),
-        expiration_date: moment(this.base_price.expiration_date).format(
-          "YYYY/MM/DD"
-        ),
+        effective_date: moment().format("YYYY/MM/DD"),
+        expiration_date: null,
         monday: this.base_price.base_rent,
         tuesday: this.base_price.base_rent,
         wednesday: this.base_price.base_rent,
@@ -1376,6 +1180,7 @@ export default {
 
       let { data } = await ListingRepository.add_new_pricing(this.pricing_obj);
       if (data.success == true) {
+        this.openNotificationWithIcon("success", "Updated successfully");
         this.fetchPricings();
       } else {
         this.openNotificationWithIcon("error", data.user_message);
@@ -1396,12 +1201,8 @@ export default {
 
       let temp_price_obj = {
         hours: 1,
-        effective_date: moment(
-          this.addon_field_item.Pricing[0].effective_date
-        ).format("YYYY/MM/DD"),
-        expiration_date: moment(
-          this.addon_field_item.Pricing[0].expiration_date
-        ).format("YYYY/MM/DD"),
+        effective_date: moment().format("YYYY/MM/DD"),
+        expiration_date: null,
         monday: this.addon_field_item.Pricing[0].rate,
         tuesday: this.addon_field_item.Pricing[0].rate,
         wednesday: this.addon_field_item.Pricing[0].rate,
@@ -1436,12 +1237,8 @@ export default {
 
       let temp_price_obj = {
         hours: 1,
-        effective_date: moment(
-          this.addon_field_item.Pricing[0].effective_date
-        ).format("YYYY/MM/DD"),
-        expiration_date: moment(
-          this.addon_field_item.Pricing[0].expiration_date
-        ).format("YYYY/MM/DD"),
+        effective_date: moment().format("YYYY/MM/DD"),
+        expiration_date: null,
         monday: this.addon_field_item.Pricing[0].rate,
         tuesday: this.addon_field_item.Pricing[0].rate,
         wednesday: this.addon_field_item.Pricing[0].rate,
@@ -1463,12 +1260,8 @@ export default {
     },
     async UpdateMenu(menus) {
       menus.list_items = [];
-      (menus.Pricing[0].effective_date = moment(
-        menus.Pricing[0].effective_date
-      ).format("YYYY/MM/DD")),
-        (menus.Pricing[0].expiration_date = moment(
-          menus.Pricing[0].expiration_date
-        ).format("YYYY/MM/DD"));
+      menus.Pricing[0].effective_date = moment().format("YYYY/MM/DD");
+      menus.Pricing[0].expiration_date = null;
       for (let men_tag of this.tags) {
         menus.list_items.push({ list_item: men_tag.name });
       }
@@ -1497,8 +1290,8 @@ export default {
 
       let temp_price_obj = {
         hours: 1,
-        effective_date: moment(this.menu_effective_date).format("YYYY/MM/DD"),
-        expiration_date: moment(this.menu_expiration_date).format("YYYY/MM/DD"),
+        effective_date: moment().format("YYYY/MM/DD"),
+        expiration_date: null,
         monday: this.menu_price_pp,
         tuesday: this.menu_price_pp,
         wednesday: this.menu_price_pp,
@@ -1559,34 +1352,16 @@ export default {
         this.listing.entity_id
       );
       this.pricings = data;
-      if (this.pricings) {
-        for (var i = 0; i < this.pricings.length; i++) {
-          if (this.pricings[i].Pricing.length > 0) {
-            let eff_date = this.pricings[i].Pricing[0].effective_date.split(
-              "/"
-            );
-            this.pricings[i].Pricing[0].effective_date =
-              eff_date[0] + "-" + eff_date[1] + "-" + eff_date[2];
-            let exp_date = this.pricings[i].Pricing[0].expiration_date.split(
-              "/"
-            );
-            this.pricings[i].Pricing[0].expiration_date =
-              exp_date[0] + "-" + exp_date[1] + "-" + exp_date[2];
-          }
-        }
-      }
       const base_price = this.pricings.find(
         pricing_item => pricing_item.product_type == "baseprice"
       );
       if (base_price) {
         this.basePriceExists = true;
 
-        let new_eff_Date = base_price.Pricing[0].effective_date.split("T");
-        let new_exp_Date = base_price.Pricing[0].expiration_date.split("T");
+        let new_eff_Date = null;
+        let new_exp_Date = null;
 
         this.base_price.base_rent = base_price.Pricing[0].rate;
-        this.base_price.effective_date = new_eff_Date[0];
-        this.base_price.expiration_date = new_exp_Date[0];
         this.base_price.pricing_id = base_price.Pricing[0].pricing_id;
 
         this.base_price.is_waivable = base_price.is_waivable;
@@ -1841,6 +1616,9 @@ export default {
     handlePreview(file) {
       this.previewImage = file.url || file.thumbUrl;
       this.previewVisible = true;
+    },
+    getProperTime(time) {
+      return moment(time).format("H a");
     }
   },
   mounted() {
