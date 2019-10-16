@@ -47,7 +47,7 @@
                 v-else-if="item.Entity.status=='submitted'"
                 slot="description"
                 variant="primary"
-              >{{item.Entity.status}}</b-badge>
+              >waiting for approval</b-badge>
               <b-badge
                 v-else-if="item.Entity.status=='approved'"
                 slot="description"
