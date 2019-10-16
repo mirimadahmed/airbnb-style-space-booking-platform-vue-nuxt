@@ -10,10 +10,15 @@
     border-variant="light"
   >
     <b-card-title class="title">{{company.name}}</b-card-title>
-    <b-card-text class="address">
-      <i class="fa fa-map-marker" />
-      {{ company.address }}
+    <b-card-text>
+      <div class="address">
+        <i class="fa fa-map-marker" />
+        {{ company.address }}
+      </div>
+
       <!-- <StarRating :value="3.5" :noOfRatings="40" /> -->
+      <i class="fa fa-users mt-2" />
+      {{ company.capacity }}
     </b-card-text>
   </b-card>
 </template>
