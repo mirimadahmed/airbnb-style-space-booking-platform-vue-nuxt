@@ -1618,7 +1618,7 @@ export default {
       this.previewVisible = true;
     },
     getProperTime(time) {
-      return moment(time).format("H a");
+      return moment(time).format("h a");
     }
   },
   mounted() {
