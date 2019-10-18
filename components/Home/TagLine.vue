@@ -9,7 +9,7 @@
       <div class="col-md-12">
         <img :src="tag.icon" />
       </div>
-      <div class="col-md-12 heading">{{ tag.text }}</div>
+      <div class="col-md-12 heading font-weight-bolder mt-2">{{ tag.text }}</div>
     </div>
   </div>
 </template>
