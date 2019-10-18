@@ -18,9 +18,6 @@
             <router-link to="/partners">Partners</router-link>
           </li>
           <li>
-            <router-link to="/changelog">Change Log</router-link>
-          </li>
-          <li>
             <router-link to="/privacy">Privacy Policy</router-link>
           </li>
           <li>
