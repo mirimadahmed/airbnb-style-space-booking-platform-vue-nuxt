@@ -2,45 +2,53 @@
   <div class="main-wrapper">
     <div class="row m-0">
       <div class="col-md-12">
-        <h1 class="heading">Now earn with your diverse spaces</h1>
+        <h1 class="heading font-weight-bolder">Now earn with your diverse spaces</h1>
       </div>
-      <div
-        class="col-md-4 sub-heading p-5"
-        v-for="(space, index) in spaces"
-        :key="index"
-      >{{ space }}</div>
-    </div>
-    <div class="col-md-6 m-auto">
-      <a-divider />
-    </div>
-    <div class="row m-0 p-2 mt-2">
-      <div class="col-md-12">
-        <h1 class="heading">We help spaces succeed</h1>
+      <div class="col-md-4 p-5 row m-0" v-for="(space, index) in spaces" :key="index">
+        <div class="col-md-12">
+          <img :src="space.icon" alt />
+        </div>
+        <div class="col-md-12 sub-heading font-weight-bold mt-3">{{ space.text }}</div>
+      </div>
+      <div class="col-md-4 m-auto">
+        <b-button class="signin-button">Get Started</b-button>
       </div>
     </div>
     <div class="row m-0 main-box p-3">
       <div class="col-md-4 border-right p-4">
-        <h1 class="heading">Curated Marketplace</h1>
+        <h1 class="heading font-weight-bolder">FREE Marketplace</h1>
         <p
-          class="sub-heading"
-        >We aim to provide the most curated list of unique and beautiful venues in Pakistan to our 75,000+ monthly website visitors with more than 1,500 inquiries generated every month</p>
+          class="section-text mt-3"
+        >We aim to provide the most curated list of unique and beautiful venues in Pakistan.</p>
+        <p class="section-text mt-3">
+          We make money when you make money. We only charge
+          <span
+            class="font-weight-bolder"
+          >12% commission</span> on each booking otherwise the listing on this platform is free.
+        </p>
       </div>
       <div class="col-md-4 border-right p-4">
-        <h1 class="heading">Event Business Intelligence Tools</h1>
-        <p
-          class="sub-heading"
-        >Once you list on Spacesly, you are provided with a 24/7 access to the event inquiries management software that will help you analyze key metrics such as pageviews, conversion rate, call inquiries, and more.</p>
+        <h1 class="heading font-weight-bolder">Intelligence Tools</h1>
+        <p class="section-text mt-3">
+          Once you list on Spacesly, you are provided with a
+          <span
+            class="font-weight-bolder"
+          >24/7 access</span> to the event inquiries management software that will help you analyze key metrics such as pageviews, conversion rate, call inquiries, and more.
+        </p>
       </div>
       <div class="col-md-4 p-4">
-        <h1 class="heading">End-to-end Support</h1>
-        <p
-          class="sub-heading"
-        >You are not alone. With listing comes a dedicated account manager for your venue to ensure your venue's successful performance. We work together with you through the whole jurney.</p>
+        <h1 class="heading font-weight-bolder">End-to-end Support</h1>
+        <p class="section-text mt-3">
+          You are not alone. With listing comes a
+          <span
+            class="font-weight-bolder"
+          >dedicated account manager</span> for your venue to ensure your venue's successful performance. We work together with you through the whole journey.
+        </p>
       </div>
     </div>
     <div class="row m-0 p-5">
       <div class="col-md-6 m-auto">
-        <b-button class="signin-button">Get Started and List my space now</b-button>
+        <b-button class="signin-button">Get started and list my space now</b-button>
       </div>
     </div>
   </div>
@@ -50,7 +58,28 @@
 export default {
   data() {
     return {
-      spaces: ["Wedding", "Party", "Corporate", "Sports", "Production"]
+      spaces: [
+        {
+          icon: "/wedding.png",
+          text: "Wedding"
+        },
+        {
+          icon: "/party.png",
+          text: "Party"
+        },
+        {
+          icon: "/corporate.png",
+          text: "Corporate"
+        },
+        {
+          icon: "/sports.png",
+          text: "Sports"
+        },
+        {
+          icon: "/production.png",
+          text: "Production"
+        }
+      ]
     };
   }
 };
@@ -65,7 +94,6 @@ export default {
 .main-box {
   border: 1px solid chocolate;
 }
-
 .signin-button {
   border-radius: 0rem;
   border: 2px solid #ff4d78;
