@@ -76,7 +76,7 @@
                 <p
                   class="col-md-4 mb-0 py-2 feature"
                   v-for="amenity in entity.CustomFields.Amenities"
-                  :class="amenity.value === 'True' ? 'active-feature' : 'inactive-feature'"
+                  :class="amenity.value  === 'true' ? 'active-feature' : 'inactive-feature'"
                   :key="amenity.cfd_id"
                 >{{ amenity.name }}</p>
               </div>
@@ -93,13 +93,8 @@
                   class="col-md-4 mb-0 py-2 feature"
                   v-for="feature in entity.CustomFields.Activities"
                   :key="feature.cfd_id"
-                  :class="feature.field_type === 'boolean' && feature.value === 'False' ? 'inactive-feature' : 'active-feature'"
-                >
-                  {{ feature.name}}
-                  <span
-                    v-if="feature.field_type !== 'boolean'"
-                  >{{ ' ' + feature.value }}</span>
-                </p>
+                  :class="feature.value === 'true' ? 'active-feature' : 'inactive-feature'"
+                >{{ feature.name}}</p>
               </div>
             </div>
             <div class="col-md-12" v-if="entity.CustomFields.Activities">
