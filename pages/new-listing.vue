@@ -11,7 +11,7 @@
         <div class="col-md-12 sub-heading font-weight-bold mt-3">{{ space.text }}</div>
       </div>
       <div class="col-md-4 m-auto">
-        <b-button class="signin-button">Get Started</b-button>
+        <b-button class="signin-button" @click="newListing">Get Started</b-button>
       </div>
     </div>
     <div class="row m-0 main-box p-3">
@@ -48,7 +48,7 @@
     </div>
     <div class="row m-0 p-5">
       <div class="col-md-6 m-auto">
-        <b-button class="signin-button">Get started and list my space now</b-button>
+        <b-button class="signin-button" @click="newListing">Get started and list my space now</b-button>
       </div>
     </div>
   </div>
@@ -81,6 +81,11 @@ export default {
         }
       ]
     };
+  },
+  methods: {
+    newListing() {
+      this.$router.push("/addspace");
+    }
   }
 };
 </script>
