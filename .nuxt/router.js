@@ -10,10 +10,10 @@ const _383fb456 = () => interopDefault(import('../pages/new-listing.vue' /* webp
 const _c8205f86 = () => interopDefault(import('../pages/Partners.vue' /* webpackChunkName: "pages/Partners" */))
 const _9e612734 = () => interopDefault(import('../pages/Privacy.vue' /* webpackChunkName: "pages/Privacy" */))
 const _61cada07 = () => interopDefault(import('../pages/Profile.vue' /* webpackChunkName: "pages/Profile" */))
-const _6e05e868 = () => interopDefault(import('../pages/ResetPassword.vue' /* webpackChunkName: "pages/ResetPassword" */))
 const _0bdd5465 = () => interopDefault(import('../pages/Terms.vue' /* webpackChunkName: "pages/Terms" */))
 const _ba34c498 = () => interopDefault(import('../pages/addspace/_permalink.vue' /* webpackChunkName: "pages/addspace/_permalink" */))
 const _a6899a6e = () => interopDefault(import('../pages/listing/_permalink.vue' /* webpackChunkName: "pages/listing/_permalink" */))
+const _7c1d88ab = () => interopDefault(import('../pages/reset/_hash.vue' /* webpackChunkName: "pages/reset/_hash" */))
 const _aba7fae4 = () => interopDefault(import('../pages/search/_query.vue' /* webpackChunkName: "pages/search/_query" */))
 const _350ed549 = () => interopDefault(import('../pages/verify/_hash.vue' /* webpackChunkName: "pages/verify/_hash" */))
 const _2b251360 = () => interopDefault(import('../pages/index.vue' /* webpackChunkName: "pages/index" */))
@@ -126,10 +126,6 @@ export function createRouter() {
       component: _61cada07,
       name: "Profile"
     }, {
-      path: "/ResetPassword",
-      component: _6e05e868,
-      name: "ResetPassword"
-    }, {
       path: "/Terms",
       component: _0bdd5465,
       name: "Terms"
@@ -141,6 +137,10 @@ export function createRouter() {
       path: "/listing/:permalink?",
       component: _a6899a6e,
       name: "listing-permalink"
+    }, {
+      path: "/reset/:hash?",
+      component: _7c1d88ab,
+      name: "reset-hash"
     }, {
       path: "/search/:query?",
       component: _aba7fae4,

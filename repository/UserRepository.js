@@ -9,17 +9,23 @@ export default {
   register(request) {
     return Repository.post('/company_signup/', request)
   },
-  getCompanyProfile (permalink) {
-    return Repository.get(`${company_profile_resource}`+permalink);
+  forgot(request) {
+    return Repository.post('/forget_password/', request)
   },
-  authenticateUser (payload) {
-    return Repository.post(`${register_user_resource}?hash=`+payload);
+  reset(request, hash) {
+    return Repository.post(`/update_password/?hash=${hash}`, request)
   },
-  updateVendorProfile (payload) {
+  getCompanyProfile(permalink) {
+    return Repository.get(`${company_profile_resource}` + permalink);
+  },
+  authenticateUser(payload) {
+    return Repository.post(`${register_user_resource}?hash=` + payload);
+  },
+  updateVendorProfile(payload) {
     const form = new FormData()
     form.append('logo_image', payload.logo_image)
     form.append('address', payload.address)
     form.append('phone_no', payload.phone_no)
-      return Repository.put(`${company_profile_resource}`+payload.permalink, form);
-    }
+    return Repository.put(`${company_profile_resource}` + payload.permalink, form);
+  }
 };

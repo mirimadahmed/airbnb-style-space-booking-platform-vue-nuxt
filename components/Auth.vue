@@ -73,7 +73,7 @@
             </b-form-group>
           </div>
           <div class="col-md-12" v-if="!isLoading">
-            <button class="apply-button">Send</button>
+            <button class="apply-button" @click="forgotAction">Send</button>
           </div>
           <div class="col-md-12 py-4">
             Have an account?
@@ -192,6 +192,18 @@ export default {
   methods: {
     rememberMe(e) {
       this.isRemember = e.target.checked;
+    },
+    async forgotAction() {
+      this.isLoading = true;
+      const { data } = await UserRepository.forgot({
+        email: this.forget_password.email
+      });
+      this.isLoading = false;
+      if (data.success) {
+        this.error = "Check email for further action.";
+      } else {
+        this.error = data.user_message;
+      }
     },
     async loginAction() {
       this.isLoading = true;
