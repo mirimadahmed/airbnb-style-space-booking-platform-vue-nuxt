@@ -222,6 +222,7 @@ export default {
         } else {
           localStorage.setItem("isremember", "false");
         }
+        this.$router.push("/");
       } else {
         this.error = data.user_message;
       }
