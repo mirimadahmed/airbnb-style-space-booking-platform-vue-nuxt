@@ -73,12 +73,14 @@ export default {
       this.$router.push({ path: "/" });
     },
     ListSpaceAction() {
-      if (this.isLoggedIn) {
-        this.$router.push({ path: "/addspace" });
-      } else {
-        this.showAuth = true;
-        this.viewType = "login";
-      }
+      this.$router.push({ path: "/new-listing" });
+
+      // if (this.isLoggedIn) {
+      //   this.$router.push({ path: "/" });
+      // } else {
+      //   this.showAuth = true;
+      //   this.viewType = "login";
+      // }
     }
   }
 };

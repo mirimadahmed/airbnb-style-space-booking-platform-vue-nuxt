@@ -7,6 +7,7 @@ const _0363374c = () => interopDefault(import('../pages/Bookings.vue' /* webpack
 const _31fa33c8 = () => interopDefault(import('../pages/Calander.vue' /* webpackChunkName: "pages/Calander" */))
 const _727932d2 = () => interopDefault(import('../pages/ChangeLog.vue' /* webpackChunkName: "pages/ChangeLog" */))
 const _642b14ea = () => interopDefault(import('../pages/MySpaces.vue' /* webpackChunkName: "pages/MySpaces" */))
+const _383fb456 = () => interopDefault(import('../pages/new-listing.vue' /* webpackChunkName: "pages/new-listing" */))
 const _c8205f86 = () => interopDefault(import('../pages/Partners.vue' /* webpackChunkName: "pages/Partners" */))
 const _9e612734 = () => interopDefault(import('../pages/Privacy.vue' /* webpackChunkName: "pages/Privacy" */))
 const _61cada07 = () => interopDefault(import('../pages/Profile.vue' /* webpackChunkName: "pages/Profile" */))
@@ -113,6 +114,10 @@ export function createRouter() {
       path: "/MySpaces",
       component: _642b14ea,
       name: "MySpaces"
+    }, {
+      path: "/new-listing",
+      component: _383fb456,
+      name: "new-listing"
     }, {
       path: "/Partners",
       component: _c8205f86,
