@@ -2,7 +2,7 @@
   <div class="m-5 p-4 text-left">
     <div class="row">
       <div class="col-md-12 mb-4">
-        <h1>Calander</h1>
+        <h1>Calendar</h1>
       </div>
       <div class="col-md-12 mb-5">
         <div class="row">
@@ -12,7 +12,12 @@
                 <b-spinner variant="danger" type="grow" label="Spinning"></b-spinner>
               </div>
               <div class="col-md-12" v-else-if="spaces.length>0">
-                <b-form-select v-model="selectedSpace" :disabled="isLoading" @change="emptySlots()" :options="spaceOptions"></b-form-select>
+                <b-form-select
+                  v-model="selectedSpace"
+                  :disabled="isLoading"
+                  @change="emptySlots()"
+                  :options="spaceOptions"
+                ></b-form-select>
               </div>
               <div v-if="selectedSpace!=null" class="col-md-12 mt-5">
                 <no-ssr>
@@ -23,7 +28,9 @@
           </div>
           <div v-if="slotsGenerated.length>0 && isLoading==false" class="col-md-6 px-5">
             <div class="row header">
-              <div class="col-md-12 "><p>Change Availability for {{selectedDate}}</p></div>
+              <div class="col-md-12">
+                <p>Change Availability for {{selectedDate}}</p>
+              </div>
             </div>
             <div class="row header">
               <div class="col-md-6 text-left p-2">Timing</div>
@@ -46,9 +53,8 @@
             </div>
           </div>
           <div v-else-if="isLoading && selectedDate!=null" class="col-md-6 p-2 text-center">
-                <b-spinner variant="danger" type="grow" label="Spinning"></b-spinner>
+            <b-spinner variant="danger" type="grow" label="Spinning"></b-spinner>
           </div>
-                 
         </div>
       </div>
     </div>
@@ -56,17 +62,17 @@
 </template>
 
 <script>
-import { RepositoryFactory } from "~/repository/RepositoryFactory"
+import { RepositoryFactory } from "~/repository/RepositoryFactory";
 const ListingRepository = RepositoryFactory.get("listings");
 import moment from "moment";
 
-import {mapGetters} from 'vuex'
+import { mapGetters } from "vuex";
 export default {
-  middleware: 'auth',
+  middleware: "auth",
   data() {
     return {
-      vendor_entity_slots:[],
-      spaces:[],
+      vendor_entity_slots: [],
+      spaces: [],
       isLoading: false,
       selectedSpace: null,
       slotsGenerated: [],
@@ -79,76 +85,81 @@ export default {
     };
   },
   methods: {
-    emptySlots(){
-     this.slotsGenerated=[]
-     this.selectedDate=null
-
+    emptySlots() {
+      this.slotsGenerated = [];
+      this.selectedDate = null;
     },
-    async modifySlots (slot_id,dnr,dnr_id) {
-      this.isLoading=true
-      if(dnr) {
-      const { data } = await ListingRepository.modifyEntitySlots({dnr:dnr,entity_id:this.selectedSpace,slot_id:slot_id,selectedDate:this.selectedDate});
-      console.log(data)
-      if (data.success) {
-        this.openNotificationWithIcon('success',data.user_message)
-        this.$bvModal.hide("modal");
+    async modifySlots(slot_id, dnr, dnr_id) {
+      this.isLoading = true;
+      if (dnr) {
+        const { data } = await ListingRepository.modifyEntitySlots({
+          dnr: dnr,
+          entity_id: this.selectedSpace,
+          slot_id: slot_id,
+          selectedDate: this.selectedDate
+        });
+        console.log(data);
+        if (data.success) {
+          this.openNotificationWithIcon("success", data.user_message);
+          this.$bvModal.hide("modal");
+        } else {
+          this.openNotificationWithIcon("error", data.user_message);
+        }
+        this.fetchSlots();
       } else {
-        this.openNotificationWithIcon('error',data.user_message)
+        const { data } = await ListingRepository.modifyEntitySlots({
+          dnr_id: dnr_id
+        });
+        if (data.success) {
+          this.openNotificationWithIcon("success", data.user_message);
+          this.$bvModal.hide("modal");
+        } else {
+          this.openNotificationWithIcon("error", data.user_message);
+        }
+        this.fetchSlots();
       }
-      this.fetchSlots()
-      }
-      else {
-      const { data } = await ListingRepository.modifyEntitySlots({dnr_id:dnr_id});
-      if (data.success) {
-        this.openNotificationWithIcon('success',data.user_message)
-        this.$bvModal.hide("modal");
-      } else {
-        this.openNotificationWithIcon('error',data.user_message)
-
-      }
-      this.fetchSlots()
-
-      }
-      this.isLoading=false
+      this.isLoading = false;
     },
     dateSelected(date) {
-      this.selectedDate=moment(date).format("YYYY/MM/DD");
-      this.fetchSlots()
- 
+      this.selectedDate = moment(date).format("YYYY/MM/DD");
+      this.fetchSlots();
     },
     async fetchSlots() {
       this.isLoading = true;
-      const { data } = await ListingRepository.getEntitySlots({entity_id:this.selectedSpace,selectedDate:this.selectedDate});
-      this.slotsGenerated=data
+      const { data } = await ListingRepository.getEntitySlots({
+        entity_id: this.selectedSpace,
+        selectedDate: this.selectedDate
+      });
+      this.slotsGenerated = data;
       this.isLoading = false;
     },
     async fetchEntities() {
       this.isLoading = true;
       const { data } = await ListingRepository.getAll(this.user.company_id);
-      this.spaces=data
+      this.spaces = data;
       this.isLoading = false;
     },
-    openNotificationWithIcon (type,message) {
+    openNotificationWithIcon(type, message) {
       let headers = type.charAt(0).toUpperCase() + type.substring(1);
       this.$notification[type]({
         message: headers,
-        description: message,
+        description: message
       });
     }
   },
-  computed : {
-    ...mapGetters(['user']),
-    spaceOptions () {
-			return this.spaces.map(vendor_entity_item => {
-				return {
-					value: vendor_entity_item.Entity.entity_id,
-					text: vendor_entity_item.Entity.name
-				}
-			})
+  computed: {
+    ...mapGetters(["user"]),
+    spaceOptions() {
+      return this.spaces.map(vendor_entity_item => {
+        return {
+          value: vendor_entity_item.Entity.entity_id,
+          text: vendor_entity_item.Entity.name
+        };
+      });
     }
   },
-  created () {
-   this.fetchEntities()
+  created() {
+    this.fetchEntities();
   }
 };
 </script>
