@@ -4,7 +4,7 @@ import { interopDefault } from './utils'
 
 const _4227bb6b = () => interopDefault(import('../pages/About.vue' /* webpackChunkName: "pages/About" */))
 const _0363374c = () => interopDefault(import('../pages/Bookings.vue' /* webpackChunkName: "pages/Bookings" */))
-const _31fa33c8 = () => interopDefault(import('../pages/Calander.vue' /* webpackChunkName: "pages/Calander" */))
+const _7c388d50 = () => interopDefault(import('../pages/Calendar.vue' /* webpackChunkName: "pages/Calendar" */))
 const _642b14ea = () => interopDefault(import('../pages/MySpaces.vue' /* webpackChunkName: "pages/MySpaces" */))
 const _383fb456 = () => interopDefault(import('../pages/new-listing.vue' /* webpackChunkName: "pages/new-listing" */))
 const _c8205f86 = () => interopDefault(import('../pages/Partners.vue' /* webpackChunkName: "pages/Partners" */))
@@ -102,9 +102,9 @@ export function createRouter() {
       component: _0363374c,
       name: "Bookings"
     }, {
-      path: "/Calander",
-      component: _31fa33c8,
-      name: "Calander"
+      path: "/Calendar",
+      component: _7c388d50,
+      name: "Calendar"
     }, {
       path: "/MySpaces",
       component: _642b14ea,
