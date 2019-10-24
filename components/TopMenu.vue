@@ -29,7 +29,6 @@
           <b-nav-item href="/calendar" class="ml-3 mr-3" v-if="isLoggedIn">Calendar</b-nav-item>
           <b-nav-item href="/myspaces" class="ml-3 mr-3" v-if="isLoggedIn">My Spaces</b-nav-item>
           <b-nav-item href="/bookings" class="ml-3 mr-3" v-if="isLoggedIn">Bookings</b-nav-item>
-          <b-nav-item href="/myspaces" class="ml-3 mr-3" v-if="isLoggedIn">My Spaces</b-nav-item>
           <b-nav-item-dropdown
             id="my-nav-dropdown"
             v-if="isLoggedIn"
