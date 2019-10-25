@@ -4,7 +4,11 @@
     <div class="main-content">
       <Typer />
       <div class="search-bar"></div>
-      <div class="steps"></div>
+      <div class="steps row">
+        <div class="col-md-4">Search</div>
+        <div class="col-md-4">Compare</div>
+        <div class="col-md-4">Book</div>
+      </div>
     </div>
   </div>
 </template>
@@ -44,5 +48,10 @@ export default {
   margin: 2vh auto;
 }
 .steps {
+  width: 60%;
+  margin: 2vh auto;
+  font-weight: 400;
+  color: white;
+  font-size: 20px;
 }
 </style>
