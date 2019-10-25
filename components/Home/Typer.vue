@@ -67,6 +67,12 @@ export default {
 </script>
 
 <style scoped>
+@media only screen and (min-device-width: 320px) and (max-device-width: 480px) {
+  h1 {
+    color: black !important;
+    font-size: 2rem !important;
+  }
+}
 .container {
   width: 100%;
   display: flex;

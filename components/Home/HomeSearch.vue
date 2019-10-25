@@ -1,13 +1,18 @@
 <template>
   <div class="main-wrapper">
-    <img src="https://spacesly.s3.amazonaws.com/Webp.net-resizeimage.png" class="object-fit" />
+    <img
+      src="https://spacesly.s3.amazonaws.com/Webp.net-resizeimage.png"
+      class="object-fit d-none d-md-block"
+    />
     <div class="main-content">
       <Typer />
-      <div class="search-bar"></div>
+      <div class="search-bar">
+        <Search />
+      </div>
       <div class="steps row">
-        <div class="col-md-4">Search</div>
-        <div class="col-md-4">Compare</div>
-        <div class="col-md-4">Book</div>
+        <div class="step-item">Search</div>
+        <div class="step-item">Compare</div>
+        <div class="step-item">Book</div>
       </div>
     </div>
   </div>
@@ -15,15 +20,38 @@
 
 <script>
 import Typer from "./Typer";
+import Search from "./Search";
 
 export default {
   components: {
-    Typer
+    Typer,
+    Search
   }
 };
 </script>
 
 <style scoped>
+@media only screen and (min-device-width: 320px) and (max-device-width: 480px) {
+  .main-content {
+    position: unset !important;
+    margin-top: 5vh;
+  }
+  .search-bar {
+    padding: 10px !important;
+    width: 90% !important;
+  }
+  .steps {
+    width: 60% !important;
+    margin: 3vh auto !important;
+    font-size: 18px !important;
+    color: black !important;
+  }
+  .main-wrapper {
+    height: auto !important;
+    padding: 10px 0 !important;
+  }
+}
+
 .main-wrapper {
   height: 80vh;
   width: 100%;
@@ -42,16 +70,20 @@ export default {
   text-align: center;
 }
 .search-bar {
-  padding: 20px;
+  padding: 5px;
   background: rgba(0, 0, 0, 0.5);
   width: 60%;
   margin: 2vh auto;
 }
 .steps {
-  width: 60%;
+  width: 40%;
   margin: 2vh auto;
   font-weight: 400;
   color: white;
   font-size: 20px;
+  font-weight: 600;
+}
+.step-item {
+  width: 33%;
 }
 </style>
