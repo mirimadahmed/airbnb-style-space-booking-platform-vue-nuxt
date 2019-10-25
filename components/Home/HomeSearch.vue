@@ -32,18 +32,16 @@ export default {
 .main-content {
   position: absolute;
   left: 0;
-  top: 50%;
+  top: 30%;
   z-index: 10;
   width: 100%;
   text-align: center;
-}
-.typer {
 }
 .search-bar {
   padding: 20px;
   background: rgba(0, 0, 0, 0.5);
   width: 60%;
-  margin: auto;
+  margin: 2vh auto;
 }
 .steps {
 }
