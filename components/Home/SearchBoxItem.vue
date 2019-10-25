@@ -227,6 +227,12 @@
 
     <div class="row d-none d-block d-xl-none d-lg-none d-md-none p-2 m-2">
       <div class="col-sm-12 py-3 phone-item shadow-sm">
+        <b-form-input list="my-list-id" v-model="tabIndex" placeholder="Type of event?"></b-form-input>
+        <datalist id="my-list-id">
+          <option v-for="(item, i) in list" :key="i">{{ item }}</option>
+        </datalist>
+      </div>
+      <div class="col-sm-12 py-3 phone-item shadow-sm">
         <b-form-input list="my-list-id" v-model="query.what" placeholder="What are you planning?"></b-form-input>
         <datalist id="my-list-id">
           <option v-for="(item, i) in items" :key="i">{{ item }}</option>
