@@ -2,7 +2,7 @@
   <div class="main-wrapper">
     <img src="https://spacesly.s3.amazonaws.com/Webp.net-resizeimage.png" class="object-fit" />
     <div class="main-content">
-      <div class="typer"></div>
+      <Typer />
       <div class="search-bar"></div>
       <div class="steps"></div>
     </div>
@@ -10,7 +10,13 @@
 </template>
 
 <script>
-export default {};
+import Typer from "./Typer";
+
+export default {
+  components: {
+    Typer
+  }
+};
 </script>
 
 <style scoped>
