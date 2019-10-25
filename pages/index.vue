@@ -1,7 +1,7 @@
 <template>
   <div>
     <HomeSearch />
-    <TagLine />
+    <!-- <TagLine /> -->
     <TopVenues />
     <WhyChooseUs />
     <Subscribe />
@@ -9,7 +9,7 @@
 </template>
 <script>
 import HomeSearch from "../components/Home/HomeSearch";
-import TagLine from "../components/Home/TagLine";
+// import TagLine from "../components/Home/TagLine";
 import TopVenues from "../components/Home/TopVenues.vue";
 import WhyChooseUs from "../components/Home/WhyChooseUs.vue";
 import Subscribe from "../components/Home/Subscribe.vue";
@@ -17,7 +17,7 @@ import Subscribe from "../components/Home/Subscribe.vue";
 export default {
   components: {
     HomeSearch,
-    TagLine,
+    // TagLine,
     WhyChooseUs,
     Subscribe,
     TopVenues
