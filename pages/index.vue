@@ -1,6 +1,6 @@
 <template>
   <div>
-    <Slider />
+    <HomeSearch />
     <TagLine />
     <TopVenues />
     <WhyChooseUs />
@@ -8,7 +8,7 @@
   </div>
 </template>
 <script>
-import Slider from "../components/Home/Slider";
+import HomeSearch from "../components/Home/HomeSearch";
 import TagLine from "../components/Home/TagLine";
 import TopVenues from "../components/Home/TopVenues.vue";
 import WhyChooseUs from "../components/Home/WhyChooseUs.vue";
@@ -16,7 +16,7 @@ import Subscribe from "../components/Home/Subscribe.vue";
 
 export default {
   components: {
-    Slider,
+    HomeSearch,
     TagLine,
     WhyChooseUs,
     Subscribe,
