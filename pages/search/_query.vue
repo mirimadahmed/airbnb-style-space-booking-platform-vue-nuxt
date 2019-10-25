@@ -39,7 +39,7 @@
             </div>
             <div class="col-md-12 loading-more text-center" v-if="isLoadingMore">Loading More</div>
           </div>
-          <div v-if="mapOn" class="col-md-5 h-100 p-0">
+          <div v-if="mapOn" class="col-md-5 h-100 p-0 d-none d-md-block">
             <GmapMap
               :options="{
                 zoomControl: true,
