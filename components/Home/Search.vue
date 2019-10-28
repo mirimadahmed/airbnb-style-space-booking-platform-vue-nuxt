@@ -1,6 +1,6 @@
 <template>
   <div class="col-md-12 h-100 row m-0 p-0">
-    <div class="col-md-5 p-0 input-item">
+    <div class="col-md-4 p-0 input-item">
       <a-select size="large" class="col-md-12" placeholder="Type of Event" @change="saveType">
         <a-select-option v-for="(item, i) in list" :key="i">{{item}}</a-select-option>
       </a-select>
@@ -15,7 +15,7 @@
         placeholder="No. of guests"
       />
     </div>
-    <div class="col-md-3 p-0 input-item">
+    <div class="col-md-4 p-0 input-item">
       <a-button class="col-md-12" type="primary" size="large" @click="getSearchResults">Search</a-button>
     </div>
   </div>
