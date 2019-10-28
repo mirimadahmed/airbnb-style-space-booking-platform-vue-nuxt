@@ -106,10 +106,10 @@ export default {
       return height1;
     },
     itemsClass() {
-      return this.mapOn ? "col-md-6" : "col-md-3";
+      return this.mapOn && this.companies.length > 0 ? "col-md-6" : "col-md-3";
     },
     outerClass() {
-      return this.mapOn ? "col-md-7" : "col-md-12";
+      return this.mapOn && this.companies.length > 0 ? "col-md-7" : "col-md-12";
     },
     currentTotal() {
       return this.companies.length;
