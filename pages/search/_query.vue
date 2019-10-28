@@ -1,6 +1,5 @@
 <template>
   <div>
-    <SearchBar @map-changed="updateMap" />
     <!-- <Filters @map-changed="updateMap" /> -->
     <div class="row m-0 p-4" v-if="isLoading">
       <div class="col-md-4">
@@ -27,6 +26,7 @@
       <div v-else class="w-100 h-100">
         <div class="row px-0 h-100 mx-0">
           <div :class="outerClass" class="h-100 overflow-auto">
+            <SearchBar @map-changed="updateMap" />
             <div class="row">
               <div class="col-md-12 text-left pt-3 font-weight-bold">
                 <p>showing {{ currentTotal }} of total {{ total }} spaces</p>
@@ -99,10 +99,11 @@ export default {
   computed: {
     filterSectionHeight() {
       const filterSectionDOM = document.getElementById("top-menu");
-      const filterSectionDOM2 = document.getElementById("search-bar");
+      // const filterSectionDOM2 = document.getElementById("search-bar");
       const height1 = filterSectionDOM ? filterSectionDOM.clientHeight : 0;
-      const height2 = filterSectionDOM2 ? filterSectionDOM2.clientHeight : 0;
-      return height1 + height2;
+      // const height2 = filterSectionDOM2 ? filterSectionDOM2.clientHeight : 0;
+      // return height1 + height2;
+      return height1;
     },
     itemsClass() {
       return this.mapOn ? "col-md-6" : "col-md-3";
