@@ -1,9 +1,6 @@
 <template>
   <div class="main-wrapper">
-    <img
-      src="https://spacesly.s3.amazonaws.com/Webp.net-resizeimage.png"
-      class="object-fit d-none d-md-block"
-    />
+    <img src="https://spacesly.s3.amazonaws.com/Webp.png" class="object-fit d-none d-md-block" />
     <div class="main-content">
       <Typer />
       <div class="search-bar">
@@ -53,7 +50,7 @@ export default {
 }
 
 .main-wrapper {
-  height: 80vh;
+  height: 70vh;
   width: 100%;
 }
 .object-fit {
@@ -84,6 +81,7 @@ export default {
   font-weight: 600;
 }
 .step-item {
+  display: block;
   width: 33%;
 }
 </style>
