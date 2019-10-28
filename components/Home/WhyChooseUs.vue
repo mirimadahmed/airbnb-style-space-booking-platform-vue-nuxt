@@ -1,5 +1,5 @@
 <template>
-  <div class="m-5 p-4">
+  <div class="mx-5 p-4">
     <h1 class="heading">Why Choose us</h1>
     <div>
       <div class="row">
