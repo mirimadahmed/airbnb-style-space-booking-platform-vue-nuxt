@@ -81,3 +81,11 @@ sw.*
 
 # Mac OSX
 .DS_Store
+.nuxt/App.js
+.nuxt/client.js
+.nuxt/loading.html
+.nuxt/server.js
+.nuxt/store.js
+.nuxt/utils.js
+.nuxt/components/nuxt-error.vue
+.nuxt/views/error.html
