@@ -1,22 +1,22 @@
 <template>
-  <div class="m-5 p-4">
-    <div v-if="wedding_listings.length>0">
+  <div>
+    <div class="m-5 p-4" v-if="wedding_listings.length>0">
       <h1 class="heading">Top Wedding Venues</h1>
       <CompanyCarousel :listings="wedding_listings" />
     </div>
-    <div v-if="party_listings.length>0">
+    <div class="m-5 p-4" v-if="party_listings.length>0">
       <h1 class="heading">Top Party Venues</h1>
       <CompanyCarousel :listings="party_listings" />
     </div>
-    <div v-if="corporate_listings.length>0">
+    <div class="m-5 p-4" v-if="corporate_listings.length>0">
       <h1 class="heading">Top Corporate Venues</h1>
       <CompanyCarousel :listings="corporate_listings" />
     </div>
-    <div v-if="sports_listings.length>0">
+    <div class="m-5 p-4" v-if="sports_listings.length>0">
       <h1 class="heading">Top Sports Venues</h1>
       <CompanyCarousel :listings="sports_listings" />
     </div>
-    <div v-if="production_listings.length>0">
+    <div class="m-5 p-4" v-if="production_listings.length>0">
       <h1 class="heading">Top Production Venues</h1>
       <CompanyCarousel :listings="production_listings" />
     </div>
