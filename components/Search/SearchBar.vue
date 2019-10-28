@@ -1,18 +1,12 @@
 <template>
-  <div id="search-bar" class="border-bottom">
-    <div class="form row p-2" inline>
-      <div class="col-md-2 pl-2">
-        <b-form-input
-          class="border"
-          list="my-list-id"
-          placeholder="What are you planning?"
-          v-model="query.type"
-        ></b-form-input>
-        <datalist id="my-list-id">
-          <option v-for="(type, i) in types" :key="i">{{ type }}</option>
-        </datalist>
+  <div id="search-bar">
+    <div class="form row p-0 mb-5" inline>
+      <div class="col-md-6 p-0 my-2">
+        <a-select size="large" class="col-md-12" placeholder="Type of Event" @change="saveType">
+          <a-select-option v-for="(type, i) in types" :key="i">{{ type }}</a-select-option>
+        </a-select>
       </div>
-      <div class="col-md-2">
+      <!-- <div class="col-md-2">
         <b-form-input
           class="border"
           list="my-list-id2"
@@ -37,21 +31,21 @@
       </div>
       <div class="col-md-2">
         <b-input class="border" placeholder="Where?" v-model="query.where" />
-      </div>
-      <div class="col-md-2">
-        <b-input
-          id="capacity"
-          class="border"
-          placeholder="No. of Guests"
-          type="number"
-          min="0"
+      </div>-->
+      <div class="col-md-6 p-0 my-2">
+        <a-input-number
+          class="number-input-fix"
+          size="large"
+          :min="1"
+          :max="100000"
           v-model="query.capacity"
+          placeholder="No. of guests"
         />
       </div>
-      <div class="col-md-2 m-auto">
+      <!-- <div class="col-md-2 m-auto">
         Show Map
         <a-switch class="ml-3" defaultChecked v-model="mapOn" />
-      </div>
+      </div>-->
     </div>
   </div>
 </template>
@@ -95,7 +89,7 @@ export default {
       disabledDates: {
         to: new Date()
       },
-      types: ["Wedding", "Party", "Corporate", "Sports", "Studio"],
+      types: ["Wedding", "Party", "Corporate"],
       query: {
         type: null,
         activity: null,
@@ -111,6 +105,9 @@ export default {
     this.fetch();
   },
   methods: {
+    saveType(res) {
+      this.query.type = this.types[res];
+    },
     async fetch() {
       const { data } = await SystemListRepository.get();
       this.list = data;
@@ -203,5 +200,8 @@ export default {
   font-size: 14px;
   width: 100%;
   height: 100%;
+}
+.number-input-fix {
+  width: 100% !important;
 }
 </style>

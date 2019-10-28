@@ -20,26 +20,26 @@
             'height': `calc(100vh - ${filterSectionHeight}px)`
      }"
     >
-      <div class="col-md-12 mt-5" v-if="companies.length === 0">
-        <h4>No spaces found with this search criteria.</h4>
-      </div>
-      <div v-else class="w-100 h-100">
+      <div class="w-100 h-100">
         <div class="row px-0 h-100 mx-0">
           <div :class="outerClass" class="h-100 overflow-auto">
             <SearchBar @map-changed="updateMap" />
-            <div class="row">
+            <div class="col-md-12 mt-5 pt-4" v-if="companies.length === 0">
+              <h4>No spaces found with this search criteria.</h4>
+            </div>
+            <div v-else class="row">
               <div class="col-md-12 text-left pt-3 font-weight-bold">
                 <p>showing {{ currentTotal }} of total {{ total }} spaces</p>
               </div>
             </div>
-            <div class="row">
+            <div class="row" v-if="companies.length > 0">
               <div v-for="company in companies" :key="company.bpl_id" :class="itemsClass">
                 <CompanyBlock :company="company" />
               </div>
             </div>
             <div class="col-md-12 loading-more text-center" v-if="isLoadingMore">Loading More</div>
           </div>
-          <div v-if="mapOn" class="col-md-5 h-100 p-0 d-none d-md-block">
+          <div v-if="mapOn && companies.length > 0" class="col-md-5 h-100 p-0 d-none d-md-block">
             <GmapMap
               :options="{
                 zoomControl: true,
