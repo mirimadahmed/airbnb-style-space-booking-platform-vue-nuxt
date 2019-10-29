@@ -5,6 +5,7 @@
     <Footer v-if="showFooter" />
   </div>
 </template>
+
 <script>
 import TopMenu from "../components/TopMenu";
 import Footer from "../components/Footer";

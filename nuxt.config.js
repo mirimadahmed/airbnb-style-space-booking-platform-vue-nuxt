@@ -40,6 +40,7 @@ export default {
   */
   plugins: [
     '~/plugins/fontawesome.js',
+    '~/plugins/tawk.js',
     { src: '~/plugins/vue2-google-maps.js', ssr: false },
     '~/plugins/vue-multiselect.js',
     '~/plugins/antd.js',
