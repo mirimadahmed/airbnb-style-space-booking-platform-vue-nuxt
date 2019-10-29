@@ -40,7 +40,7 @@ export default {
   */
   plugins: [
     '~/plugins/fontawesome.js',
-    '~/plugins/tawk.js',
+    { src: '~/plugins/tawk.js', ssr: false },
     { src: '~/plugins/vue2-google-maps.js', ssr: false },
     '~/plugins/vue-multiselect.js',
     '~/plugins/antd.js',
@@ -56,7 +56,8 @@ export default {
   */
   modules: [
     // Doc: https://bootstrap-vue.js.org/docs/
-    'bootstrap-vue/nuxt'
+    'bootstrap-vue/nuxt',
+    '@nuxtjs/sitemap'
   ],
   /*
   ** Build configuration
