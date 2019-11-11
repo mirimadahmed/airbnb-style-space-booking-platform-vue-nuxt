@@ -1,6 +1,6 @@
 <template>
   <div class="row m-0 p-0">
-    <div class="col-lg-3 p-5 text-center" v-for="partner in partners" :key="partner">
+    <div class="col-lg-3 p-2 text-center" v-for="partner in partners" :key="partner">
       <img :src="partner" alt="partner logo here" height="50px" />
     </div>
   </div>

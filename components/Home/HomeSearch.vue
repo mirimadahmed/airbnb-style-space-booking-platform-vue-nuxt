@@ -50,7 +50,7 @@ export default {
 }
 
 .main-wrapper {
-  height: 70vh;
+  height: 80vh;
   width: 100%;
 }
 .object-fit {
@@ -74,7 +74,7 @@ export default {
 }
 .steps {
   width: 40%;
-  margin: 2vh auto;
+  margin: 8vh auto;
   font-weight: 400;
   color: white;
   font-size: 20px;
