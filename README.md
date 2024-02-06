@@ -1,6 +1,8 @@
-# spacesly
+# Spacesly was a Space booking platform
 
 > Scan and book your spaces easily.
+
+An AirBnb style booking platform for event space booking.
 
 ## Build Setup
 
